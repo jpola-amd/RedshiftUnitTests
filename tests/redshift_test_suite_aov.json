@@ -1,0 +1,12 @@
+{
+    "tests":[
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\AOV\\aovtest1.rs",
+            "test_name": "aovtest1"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\AOV\\aovtest_transpuzzlematte.rs",
+            "test_name": "aovtest_transpuzzlematte"
+        }
+    ]
+}

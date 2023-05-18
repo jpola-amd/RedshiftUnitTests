@@ -1,0 +1,32 @@
+{
+    "tests":[
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Volumetric\\AllowGlobalVolScattering.rs",
+            "test_name": "AllowGlobalVolScattering"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Volumetric\\cornellbunny.rs",
+            "test_name": "cornellbunny"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Volumetric\\cornellbunny_lightgrouptest.rs",
+            "test_name":"cornellbunny_lightgrouptest"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Volumetric\\cornellbunny_withGlobalFog_AndTransparency.rs",
+            "test_name":"cornellbunny_withGlobalFog_AndTransparency"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Volumetric\\motionblur.rs",
+            "test_name":"motionblur"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Volumetric\\overlapping.rs",
+            "test_name":"overlapping"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Volumetric\\test_vdb_lighting.rs",
+            "test_name":"test_vdb_lighting"
+        }
+    ]
+}

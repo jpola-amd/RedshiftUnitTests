@@ -1,0 +1,8 @@
+{
+    "tests":[
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\GI\\test_photon.rs",
+            "test_name": "test_photon"
+        }
+    ]
+}

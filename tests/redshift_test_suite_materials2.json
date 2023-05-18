@@ -1,0 +1,17 @@
+{
+    "tests":[
+       
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_UDIM_UVTILE.rs",
+            "test_name": "test_UDIM_UVTILE"
+        }
+    ]
+}
+
+
+
+
+
+
+
+

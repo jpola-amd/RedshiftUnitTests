@@ -1,0 +1,25 @@
+{
+    "tests":[
+        {
+            "path_to_scene": "redshift_test_suite\\emission\\test_emission_dl_ss_multisample_nounified.rs",
+            "test_name": "emission_dl_ss_multisample_nonunified"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\emission\\test_emission_dl_ss_multisample.rs",
+            "test_name": "emission_dl_ss_multisample"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\emission\\test_emission_dl_ss.rs",
+            "test_name": "emission_dl_ss"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\emission\\test_emission_simple.rs",
+            "test_name": "emission_simple"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\emission\\test_emission.rs",
+            "test_name": "emission"
+        }
+        
+    ]
+}

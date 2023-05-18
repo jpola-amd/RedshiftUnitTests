@@ -1,0 +1,16 @@
+{
+    "tests":[
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Displacement\\invisiblefaces.rs",
+            "test_name": "invisiblefaces"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Displacement\\multiMaterial.rs",
+            "test_name": "multiMaterial"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Displacement\\test_brownian_displacement.rs",
+            "test_name": "test_brownian_displacement"
+        }
+    ]
+}

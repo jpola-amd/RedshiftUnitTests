@@ -1,0 +1,8 @@
+{
+	"tests": [
+        {
+            "path_to_scene": "Scenes/UnitTests/Camera/ProjectionShifts.rs",
+            "test_name": "ProjectionShifts"
+        }
+    ]
+}

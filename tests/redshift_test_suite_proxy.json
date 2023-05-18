@@ -1,0 +1,12 @@
+{
+    "tests":[
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Proxy\\particleProxy.rs",
+            "test_name": "particleProxy"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Proxy\\polygonData2.rs",
+            "test_name": "polygonData2"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "tests":[
+        {
+            "path_to_scene":"redshift_test_suite\\Mc_Laren\\scenes\\Car.rs",
+            "test_name": "MCLarenCar"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\robot\\scenes\\robot.rs",
+            "test_name": "Robot"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\Vultures\\Vultures.rs",
+            "test_name": "Vultures"
+        }
+    ]
+}

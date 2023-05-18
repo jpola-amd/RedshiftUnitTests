@@ -1,0 +1,11 @@
+{ 
+	"required": {
+		"maya_project_root" : "/Users/redshift/redshiftP4/20/SourceData/Maya/UnitTests",
+		"redshift_project_root" : "/Users/redshift/redshiftP4/20/SourceData/RedshiftCmdLineUnitTests"
+	},
+	
+	"optional": {
+		"maya_batch" : "/Applications/Autodesk/maya2022/Maya.app/Contents/bin/Render",
+		"redshiftCmdLine" : "/Applications/redshift/bin/redshiftCmdLine"
+    }
+}

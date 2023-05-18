@@ -1,0 +1,105 @@
+{
+    "tests":[
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug11191_shaderswitchshadows.rs",
+            "test_name": "bug11191_shaderswitchshadows"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug1466_badprocbump_badprocdisplacementbump.rs",
+            "test_name": "bug1466_badprocbump_badprocdisplacementbump"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug1899_goborepeats_dropoff.rs",
+            "test_name": "bug1899_goborepeats_dropoff"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\Bug2896_BumpGainDrivenByProcNode.rs",
+            "test_name": "Bug2896_BumpGainDrivenByProcNode"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug3389_flippedNormalMap.rs",
+            "test_name": "bug3389_flippedNormalMap"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug3731_shadowsoftness.rs",
+            "test_name": "bug3731_shadowsoftness"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug4619_ignoredAnisotropicTangentMap.rs",
+            "test_name": "bug4619_ignoredAnisotropicTangentMap"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug5133_badRampNodeBump.rs",
+            "test_name": "bug5133_badRampNodeBump"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug5231_missingBlocksWithInstancing.rs",
+            "test_name": "bug5231_missingBlocksWithInstancing"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug5231_outOfPermanentMem.rs",
+            "test_name": "bug5231_outOfPermanentMem"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug5347_proxyCrash.rs",
+            "test_name": "bug5347_proxyCrash"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug5596_AOandhair.rs",
+            "test_name": "bug5596_AOandhair"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug5686_uvsmoothall.rs",
+            "test_name": "bug5686_uvsmoothall"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug5775_badProjectionAlpha.rs",
+            "test_name": "bug5775_badProjectionAlpha"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug5956_proxyCrash.rs",
+            "test_name": "bug5956_proxyCrash"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug6068_proxyCrash.rs",
+            "test_name": "bug6068_proxyCrash"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug_IES.rs",
+            "test_name": "bug_IES"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug_missingGIAOV.rs",
+            "test_name": "bug_missingGIAOV"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\bug_pointbasedtexturecrash.rs",
+            "test_name": "bug_pointbasedtexturecrash"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\BumpWithMathNodes.rs",
+            "test_name": "BumpWithMathNodes"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\globalscatteringshaders.rs",
+            "test_name": "globalscatteringshaders"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\mashCRash2.rs",
+            "test_name": "mashCRash2"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\matte_parameters_bug.rs",
+            "test_name": "matte_parameters_bug"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\pointbasedsss_refraction.rs",
+            "test_name": "pointbasedsss_refraction"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Bugs\\TexturedVolumeShadows.rs",
+            "test_name": "TexturedVolumeShadows"
+        }
+    ]
+}
+

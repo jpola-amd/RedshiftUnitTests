@@ -1,0 +1,129 @@
+{
+	"tests": [
+		{
+            "path_to_scene": "Scenes/UnitTests/Bugs/empty_scene.rs",
+            "test_name": "empty_scene"
+        },
+		{
+            "path_to_scene": "Scenes/UnitTests/Bugs/empty_scene2048Progressive.rs",
+            "test_name": "empty_scene2048Progressive"
+        },
+		{
+            "path_to_scene": "Scenes/UnitTests/Bugs/empty_sceneAutocrop.rs",
+            "test_name": "empty_sceneAutocrop"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/GITest_BF_Caustics_NoIPCRetrace.rs",
+            "test_name": "GITest_BF_Caustics_NoIPCRetrace"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/SSS_BF_IPC.rs",
+            "test_name": "SSS_BF_IPC"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug4887_AOInterference.rs",
+            "test_name": "Bug4887_AOInterference"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1353_BumpBlend.rs",
+            "test_name": "Bug1353_BumpBlend"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/ao_envmapping.rs",
+            "test_name": "ao_envmapping"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1273_BumpFiltering.rs",
+            "test_name": "Bug1273_BumpFiltering"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1192_ArchVolFog.rs",
+            "test_name": "Bug1192_ArchVolFog"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1454_BadBlendedAOVs.rs",
+            "test_name": "Bug1454_BadBlendedAOVs"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1458_1462.rs",
+            "test_name": "Bug1458_1462"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1469_RandomBumpCrash.rs",
+            "test_name": "Bug1469_RandomBumpCrash"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1495_BrokenSpriteNodeConnections.rs",
+            "test_name": "Bug1495_BrokenSpriteNodeConnections"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1498_BadPuzzleMatte.rs",
+            "test_name": "Bug1498_BadPuzzleMatte"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Noise.rs",
+            "test_name": "Noise"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1695_TextureTiles256MB.rs",
+            "test_name": "Bug1695_TextureTiles256MB"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1740_BlendedOpacityCutoutCrash.rs",
+            "test_name": "Bug1740_BlendedOpacityCutoutCrash"
+        },
+        {
+			"skippostfx": "true",
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1765_MissingSpecAOV.rs",
+            "test_name": "Bug1765_MissingSpecAOV"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug1939_BlendShadow.rs",
+            "test_name": "Bug1939_BlendShadow"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug2559_MultipleVtxFormatsBadGeo.rs",
+            "test_name": "Bug2559_MultipleVtxFormatsBadGeo"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug2876_BadMemoryLayoutForBlendedSSSAndBump.rs",
+            "test_name": "Bug2876_BadMemoryLayoutForBlendedSSSAndBump"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug3030_FogOpacityCutOut.rs",
+            "test_name": "Bug3030_FogOpacityCutOut"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug3073_3074_PortalAndDomeGlitches.rs",
+            "test_name": "Bug3073_3074_PortalAndDomeGlitches"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug_LightGradientTexture.rs",
+            "test_name": "Bug_LightGradientTexture"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug3668_ProxyLightDuplicates.rs",
+            "test_name": "Bug3668_ProxyLightDuplicates"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug3933_ExclusiveLightLinking.rs",
+            "test_name": "Bug3933_ExclusiveLightLinking"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug4147_BadMeshLightInsideVolume.rs",
+            "test_name": "Bug4147_BadMeshLightInsideVolume"
+        },
+	{
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug4850_ProxyLightInstancing.rs",
+            "test_name": "Bug4850_ProxyLightInstancing"
+        },
+	{
+            "path_to_scene": "Scenes/UnitTests/Bugs/Bug6711_BrokenBumpWithDisplacement.rs",
+            "test_name": "Bug6711_BrokenBumpWithDisplacement"
+        },
+	{
+            "path_to_scene": "Scenes/UnitTests/Bugs/BadIESCulling.rs",
+            "test_name": "BadIESCulling"
+        }
+    ]
+}

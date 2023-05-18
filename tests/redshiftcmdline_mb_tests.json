@@ -1,0 +1,25 @@
+{
+	"tests": [
+		{
+            "path_to_scene": "Scenes/UnitTests/MotionBlur/MBTest_Camera.rs",
+            "test_name": "MBTest_Camera",
+			"frames": "50,50"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/MotionBlur/MBTest_Deformation.rs",
+            "test_name": "MBTest_Deformation",
+			"frames": "50,50"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/MotionBlur/MBTest_Transformation.rs",
+            "test_name": "MBTest_Transformation",
+			"frames": "50,50"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/MotionBlur/MBTest_DeformationWithTransformationICP.rs",
+            "test_name": "MBTest_DeformationWithTransformationICP",
+			"frames": "50,50"
+        }
+    ]
+}
+

@@ -1,0 +1,8 @@
+{
+    "tests":[
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\Camera\\Stereo1.rs",
+            "test_name": "Stereo1"
+        }
+    ]
+}

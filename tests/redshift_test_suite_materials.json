@@ -1,0 +1,80 @@
+{
+    "tests":[
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test-switch.rs",
+            "test_name": "test-switch"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_causticsreceiver.rs",
+            "test_name": "test_causticsreceiver"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_dispersion.rs",
+            "test_name": "test_dispersion"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_envBall.rs",
+            "test_name": "test_envBall"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_gibounces.rs",
+            "test_name": "test_gibounces"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_layeredShader.rs",
+            "test_name": "test_layeredShader"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_layeredTexture_alpha.rs",
+            "test_name": "test_layeredTexture_alpha"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_lightShadowLinking.rs",
+            "test_name": "test_lightShadowLinking"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_matte_cutout.rs",
+            "test_name": "test_matte_cutout"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_projection.rs",
+            "test_name": "test_projection"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_ramp_remapvalue.rs",
+            "test_name": "test_ramp_remapvalue"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_roundcorners.rs",
+            "test_name": "test_roundcorners"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_shaderSwitch.rs",
+            "test_name": "test_shaderSwitch"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_sss.rs",
+            "test_name": "test_sss"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_texture-reference-object.rs",
+            "test_name": "test_texture-reference-object"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_UDIM_UVTILE.rs",
+            "test_name": "test_UDIM_UVTILE"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\Materials\\test_vertexColor.rs",
+            "test_name": "test_vertexColor"
+        }
+    ]
+}
+
+
+
+
+
+
+
+

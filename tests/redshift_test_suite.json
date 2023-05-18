@@ -1,0 +1,58 @@
+{
+    "tests":[
+        {
+            "include": "redshift_test_suite_aov.json"
+        },
+        {
+            "include": "redshift_test_suite_bugs.json"
+        },
+        {
+            "include": "redshift_test_suite_camera.json"
+        },
+        {
+            "include": "redshift_test_suite_displacement.json"
+        },
+        {
+            "include": "redshift_test_suite_GI.json"
+        },
+        {
+            "include": "redshift_test_suite_materials.json"
+        },
+        {
+            "include": "redshift_test_suite_proxy.json"
+        },
+        {
+            "include": "redshift_test_suite_volumetric.json"
+        },
+        {
+            "include": "redshift_test_suite_proxies.json"
+        },
+        {
+            "include": "redshift_test_suite_xgen.json"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\AridTerrain.rs",
+            "test_name": "AridTerrain"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\scenes\\polygondata.rs",
+            "test_name": "polygondata"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\RockC.rs",
+            "test_name":"RockC"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\simpletest.rs",
+            "test_name":"simpletest"
+        },
+        {
+            "path_to_scene":"redshift_test_suite\\scenes\\sphereproxycrash.rs",
+            "test_name":"sphereproxycrash"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\panos.rs",
+            "test_name": "panos"
+        }
+    ]
+}

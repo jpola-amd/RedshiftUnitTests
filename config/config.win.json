@@ -1,0 +1,8 @@
+{ 
+	"required": {
+		"xsi_batch" : "C:/Program Files/Autodesk/Softimage 2013 SP1/Application/bin/xsibatch.bat",
+		"maya_batch" : "C:/Program Files/Autodesk/Maya2015/bin/render.exe",
+		"redshiftBenchmark":"C:/ProgramData/Redshift/bin/redshiftBenchmark.exe",
+		"redshiftCmdLine" : "C:/ProgramData/Redshift/bin/redshiftCmdLine.exe"
+	}
+}

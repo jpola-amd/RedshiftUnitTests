@@ -1,0 +1,12 @@
+{
+    "tests":[
+        {
+            "path_to_scene": "redshift_test_suite\\proxies\\bring_up.rs",
+            "test_name": "bring_up"
+        },
+        {
+            "path_to_scene": "redshift_test_suite\\proxies\\simplebench.rs",
+            "test_name": "simplebench"
+        }
+    ]
+}

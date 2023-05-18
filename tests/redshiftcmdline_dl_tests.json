@@ -1,0 +1,51 @@
+{
+	"tests": [
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest1.rs",
+            "test_name": "DLTest1",
+			"frames": "50,50"
+        },
+        {
+			"skippostfx": "true",
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_Dome1.rs",
+            "test_name": "DLTest_Dome1"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_LMA_MIS.rs",
+            "test_name": "DLTest_LMA_MIS"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_LMA_MIS_Dome.rs",
+            "test_name": "DLTest_LMA_MIS_Dome"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_MeshLights.rs",
+            "test_name": "DLTest_MeshLights"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_MeshLight_Textured.rs",
+            "test_name": "DLTest_MeshLight_Textured"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_PhysicalUnits.rs",
+            "test_name": "DLTest_PhysicalUnits"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_Portal.rs",
+            "test_name": "DLTest_Portal"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_Temperature.rs",
+            "test_name": "DLTest_Temperature"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_Indirect_vs_Direct.rs",
+            "test_name": "DLTest_Indirect_vs_Direct"
+        },
+        {
+            "path_to_scene": "Scenes/UnitTests/DirectLighting/DLTest_MeshLight_MIS.rs",
+            "test_name": "DLTest_MeshLight_MIS"
+        }
+
+    ]
+}
