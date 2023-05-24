@@ -694,6 +694,9 @@ class ImageAnalyzer:
                 info = f'\t{Fore.YELLOW}{f}{Style.RESET_ALL}'
                 print(info)
 
+        if not found:
+            print("There is nothing to compare")
+            return
         
         analyzed_items = []    
         if USE_MULTIPROCESSING:
@@ -717,10 +720,11 @@ class ImageAnalyzer:
         self.analysis_items = analyzed_items
                 
         mismatch_images = [ item for item in self.analysis_items if item.mse > item.treshold]
-        msg = f"\n{Fore.YELLOW}There are {Fore.BLUE}{len(mismatch_images)}{Fore.YELLOW} that requires inspection"
+        mismatch_images.sort(key=lambda x: x.mse, reverse=True)
+        msg = f"\n{Fore.YELLOW}There are {Fore.BLUE}{len(mismatch_images)}{Fore.YELLOW} that requires inspection{Style.RESET_ALL}"
         print(msg)
         for item in mismatch_images:
-            print(f"\t{Fore.GREEN}{item.name}{Style.RESET_ALL}")
+            print(f"\tmse={Fore.BLUE}{item.mse:.3f}{Style.RESET_ALL} [{Fore.GREEN}{item.name}{Style.RESET_ALL}]")
 
     def save_data(self, file: Path, data):
         json_data = json.dumps(data, indent=2)
@@ -818,7 +822,7 @@ if __name__ == "__main__":
         analyzer.save_mismatch(task.results_path / mismatch_log)
 
 
-    print(f"{Fore.BLUE}Redshift Unit Tests Finished{Style.RESET_ALL}")
+    print(f"\n{Fore.BLUE}Redshift Unit Tests Finished{Style.RESET_ALL}")
 
 
    
