@@ -20,7 +20,7 @@ Subsequent runs can omit step 1 and usually step 2 if no additional tests have b
 You will need to install Python 3. 
 Then install pip and and scikit-learn matplotlib colorama
 - python -m pip install --upgrade pip
-- pip3 install scikit-learn matplotlib colorama
+- pip3 install scikit-learn matplotlib colorama json
 
 
 ## Creating `config.<os>.user.json`

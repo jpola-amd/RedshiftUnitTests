@@ -16,7 +16,21 @@
         },
         
         {
-            "name": "Test 2 short",
+            "name": "Test AOV",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--test",
+                "./tests/redshift_test_suite_aov.json",
+                "--gpu", "0" //gpu 1 W6800
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Test emission",
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
@@ -24,6 +38,22 @@
                 "--program", "redshiftCmdLine",
                 "--test",
                 "./tests/redshift_test_suite_emission.json",
+                "--gpu", "0" //gpu 1 W6800
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Test Reference no_delete",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--reference",
+                "--no-delete",
+                "--test",
+                "./tests/redshift_test_suite_aov.json",
                 "--gpu", "0" //gpu 1 W6800
             ],
             "console": "integratedTerminal",
