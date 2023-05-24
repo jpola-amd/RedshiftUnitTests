@@ -21,7 +21,7 @@ import matplotlib
 from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import mean_squared_error
 
-USE_MULTIPROCESSING = False
+USE_MULTIPROCESSING = True
 try:
     from multiprocessing import Pool, Process
 except ImportError:
@@ -267,7 +267,8 @@ class Task(ABC):
         self.params = params
         self.scenes = load_test_files(params.tests)
         self.env = os.environ.copy()
-        self.reference_results_path = params.root_path / 'reference'
+        self.reference_path = params.root_path / 'references'
+        self.results_path = Path()
 
     @abstractmethod
     def execute(self):
@@ -342,7 +343,7 @@ class RedshiftCmdLineTask(Task):
 
         json_log = datetime.now().strftime(
             f'{self.params.program}_TEST_%Y-%m-%d_%H%M%S.json')
-        self.execution_results.save(self.params.root_path / json_log)
+        self.execution_results.save(self.results_path / json_log)
         self.clear_temp()
 
     def prepare_command_line_params(self, scene: Scene) -> list:
@@ -466,7 +467,7 @@ class RedshiftCmdLineReferenceTask(Task):
 
         json_log = datetime.now().strftime(
             f'{self.params.program}_REFERENCE_%Y-%m-%d_%H%M%S.json')
-        self.execution_results.save(self.params.root_path / json_log)
+        self.execution_results.save(self.results_path / json_log)
 
         self.clear_temp()
 
@@ -562,7 +563,6 @@ class TaskFactory:
 
 
 
-
 @dataclass
 class AnalysisItem:
     def __init__(self, reference_image: Path, result_image: Path, name: str, plot_path: Path, treshold: float = 0.95, crop:bool=False):
@@ -575,7 +575,6 @@ class AnalysisItem:
         self.mse = 0.0
         self.ssi = 0.0
 
-        
     # cuts the bottom part of the image description generatedby the benchmark    
     def _trim(self, imdata):
         known_heights = {
@@ -652,7 +651,6 @@ class AnalysisItem:
         plt.savefig(str(plot_file_path), dpi=300)
         plt.close()
 
-
 def Analyze(item: AnalysisItem):
     try:
         item.compute_mse_and_ssi()
@@ -664,9 +662,6 @@ def Analyze(item: AnalysisItem):
     except ValueError as ve:
         print_error(f"Analysis of {item.name} failed: {repr(ve)}")
     return item
-    
-
-        
     
 
 class ImageAnalyzer:
@@ -683,9 +678,11 @@ class ImageAnalyzer:
         self.treshold = treshold
         self.crop = crop
         self.analysis_items = []
+        self.mismatch_items = []
 
 
     def analyze(self):
+        print(f'{Fore.MAGENTA}Analyzing results {Style.RESET_ALL}')
         all, found, missing = self.match_results_with_references()
         if missing:
             warn_msg = f'{Fore.YELLOW}Warning: Not all references found.\n{Style.RESET_ALL}' \
@@ -701,6 +698,7 @@ class ImageAnalyzer:
         analyzed_items = []    
         if USE_MULTIPROCESSING:
             with Pool() as pool:
+                # Meh... the analysisItem is not the best one
                 results = pool.imap_unordered(Analyze, self.analysis_items)
                 for item in results:
                     msg = f"Analysis of {Fore.GREEN}{item.name}{Style.RESET_ALL}: " \
@@ -724,7 +722,23 @@ class ImageAnalyzer:
         for item in mismatch_images:
             print(f"\t{Fore.GREEN}{item.name}{Style.RESET_ALL}")
 
+    def save_data(self, file: Path, data):
+        json_data = json.dumps(data, indent=2)
+        try:
+            with open(file, 'w') as json_file:
+                json_file.write(json_data)
+        except IOError as io_err:
+            print_error(
+                f"Could not save analysis info to {file} [{repr(io_err)}]")
 
+    def save(self, file:Path):
+        results = {item.name: {"mse": item.mse, "ssi": item.ssi} for item in self.analysis_items}
+        self.save_data(file, results)
+    
+    def save_mismatch(self, file:Path):
+        results = {item.name: {"mse": item.mse, "ssi": item.ssi} for item in self.mismatch_items}
+        self.save_data(file, results)
+        
     #returns total number of image to analyze and number of matches found
     def match_results_with_references(self) -> Tuple[int, int, list]:
         # scan the results path and collect all images
@@ -753,12 +767,6 @@ class ImageAnalyzer:
         number_of_all_items = len(result_image_paths)
         number_of_matcehd_items = len(self.analysis_items)
         return number_of_all_items, number_of_matcehd_items, missing_items
-        
-
-            
-
-            
-        
 
     def _validate_path(self, path:Path):
         if not path.exists():
@@ -793,11 +801,25 @@ if __name__ == "__main__":
         print_error(repr(val_error))
         exit(EXIT_FAILURE)
 
-    # factory = TaskFactory()
-    # task = factory.create_task(execution_parameters)
-    # task.execute()
+    factory = TaskFactory()
+    task = factory.create_task(execution_parameters)
+    task.execute()
 
-    anal = ImageAnalyzer(Path("E:/Redshift/RUT/RedshiftUnitTests/references/redshiftCmdLine"),
-                         Path("E:/Redshift/RUT/RedshiftUnitTests/results/2023-05-24_112225"))
-    anal.analyze()
+    # schedule results analysis for the task that was not a reference generation
+    if not task.params.reference:
+        crop = task.params.program == "redshiftBenchmark"
+        analyzer = ImageAnalyzer(task.reference_path / task.params.program, task.results_path, task.params.treshold, crop)
+        analyzer.analyze()
+        analysis_log = datetime.now().strftime(
+            f'{task.params.program}_ANALYSIS_%Y-%m-%d_%H%M%S.json')
+        mismatch_log = datetime.now().strftime(
+            f'{task.params.program}_ANALYSIS_%Y-%m-%d_%H%M%S.json')
+        analyzer.save(task.results_path / analysis_log)
+        analyzer.save_mismatch(task.results_path / mismatch_log)
+
+
+    print(f"{Fore.BLUE}Redshift Unit Tests Finished{Style.RESET_ALL}")
+
+
+   
     
