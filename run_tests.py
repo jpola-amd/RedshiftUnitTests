@@ -995,7 +995,10 @@ class ImageAnalyzer:
     
     def save_mismatch(self, file:Path):
         results = {item.name: {"mse": item.mse, "ssi": item.ssi} for item in self.mismatch_items}
-        self.save_data(file, results)
+        if results:
+            self.save_data(file, results)
+        else:
+            print("No mismatch image information found to save.")
         
     #returns total number of image to analyze and number of matches found
     def match_results_with_references(self) -> Tuple[int, int, list]:
@@ -1071,7 +1074,7 @@ if __name__ == "__main__":
         analysis_log = datetime.now().strftime(
             f'{task.params.program}_ANALYSIS_%Y-%m-%d_%H%M%S.json')
         mismatch_log = datetime.now().strftime(
-            f'{task.params.program}_ANALYSIS_%Y-%m-%d_%H%M%S.json')
+            f'{task.params.program}_ANALYSIS_MISMACH_%Y-%m-%d_%H%M%S.json')
         analyzer.save(task.results_path / analysis_log)
         analyzer.save_mismatch(task.results_path / mismatch_log)
 

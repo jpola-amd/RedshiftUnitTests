@@ -13,6 +13,9 @@
             "include": "redshift_test_suite_displacement.json"
         },
         {
+            "include": "redshift_test_suite_emission.json"
+        },
+        {
             "include": "redshift_test_suite_GI.json"
         },
         {
@@ -29,6 +32,9 @@
         },
         {
             "include": "redshift_test_suite_xgen.json"
+        },
+        {
+            "include": "redshift_test_suite_bigscenes.json"
         },
         {
             "path_to_scene": "redshift_test_suite\\scenes\\AridTerrain.rs",
