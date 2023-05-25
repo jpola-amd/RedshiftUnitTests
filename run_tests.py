@@ -633,15 +633,17 @@ class RedshiftBenchmarkTask(Task):
         # change output image name to test_name
         if len(png_file.suffixes) > 1:
             name_parts = [test_name] + \
-                png_file.suffixes[:-1] + [".reference.png"]
+                png_file.suffixes[:-1] + [".result.png"]
         else:
-            name_parts = [test_name] + [".reference.png"]
+            name_parts = [test_name] + [".result.png"]
         name = "".join(name_parts)
         dest_file = png_file.with_name(name)
         if dest_file.exists():
             os.remove(dest_file)
         png_file.rename(dest_file)
         png_file = dest_file
+        if Path.exists(self.images_path / name):
+            os.remove(self.images_path / name)
         shutil.move(str(png_file), self.images_path)
         return True, "Success"
 
@@ -662,7 +664,6 @@ class RedshiftBenchmarkTask(Task):
     def clear_temp(self):
         shutil.rmtree(self.temp_output_path)
         Path.mkdir(self.temp_output_path, parents=True)
-
 
 
 class RedshiftBenchmarkReferenceTask(Task):
@@ -771,6 +772,8 @@ class RedshiftBenchmarkReferenceTask(Task):
             os.remove(dest_file)
         png_file.rename(dest_file)
         png_file = dest_file
+        if Path.exists(self.images_path / name):
+            os.remove(self.images_path / name)
         shutil.move(str(png_file), self.images_path)
         return True, "Success"
                     
