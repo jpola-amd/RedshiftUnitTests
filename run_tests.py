@@ -203,15 +203,15 @@ def parse_command_line_args() -> ExecutionParameters:
 
     parser = argparse.ArgumentParser(description='Run Redshift unit tests.')
     parser.register('action', 'extend', ExtendAction)
-    parser.add_argument('--reference', action='store_true')
-    parser.add_argument('--config', default=DEFAULT_CONFIG_FILE)
-    parser.add_argument('--user-config', default=DEFAULT_USER_CONFIG_FILE)
-    parser.add_argument('--test', action='append', required=True)
-    parser.add_argument('--no-delete', action='store_true')
-    parser.add_argument('--gpu', nargs='+', action='extend')
-    parser.add_argument("--treshold", type=float, default=0.95)
+    parser.add_argument('--reference', action='store_true', help='Use to generate reference images for given "program"')
+    parser.add_argument('--config', default=DEFAULT_CONFIG_FILE, help='Main configuration file to use')
+    parser.add_argument('--user-config', default=DEFAULT_USER_CONFIG_FILE, help='User config to use')
+    parser.add_argument('--test', action='append', required=True, help='Test to execute')
+    parser.add_argument('--no-delete', action='store_true', help='deprecated')
+    parser.add_argument('--gpu', nargs='+', required=True, action='extend', help='GPU to execute the program. For multi-GPU separete with comma --gpu 1,2,3')
+    parser.add_argument("--treshold", type=float, default=0.95, help="Mean Square Root [mse] value above which the image is considered incorrect")
     parser.add_argument("--program", choices=['redshiftCmdLine',
-                        'redshiftBenchmark', 'maya'], help='Choose program to execute the tests')
+                        'redshiftBenchmark', 'maya'], required=True, help='Choose program to execute the tests')
 
     args = parser.parse_args()
     parameters = ExecutionParameters(args)
@@ -979,6 +979,7 @@ class ImageAnalyzer:
         print(msg)
         for item in mismatch_images:
             print(f"\tmse={Fore.BLUE}{item.mse:.3f}{Style.RESET_ALL} [{Fore.GREEN}{item.name}{Style.RESET_ALL}]")
+        self.mismatch_items = mismatch_images
 
     def save_data(self, file: Path, data):
         json_data = json.dumps(data, indent=2)
