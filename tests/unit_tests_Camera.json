@@ -1,0 +1,32 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Camera/camera_cylindrical.rs",
+      "test_name": "camera_cylindrical"
+    },
+    {
+      "path_to_scene": "unit_tests/Camera/camera_fisheye.rs",
+      "test_name": "camera_fisheye"
+    },
+    {
+      "path_to_scene": "unit_tests/Camera/camera_shutter_blades.rs",
+      "test_name": "camera_shutter_blades"
+    },
+    {
+      "path_to_scene": "unit_tests/Camera/camera_spherical.rs",
+      "test_name": "camera_spherical"
+    },
+    {
+      "path_to_scene": "unit_tests/Camera/camera_standard.rs",
+      "test_name": "camera_standard"
+    },
+    {
+      "path_to_scene": "unit_tests/Camera/camera_stereo_spherical.rs",
+      "test_name": "camera_stereo_spherical"
+    },
+    {
+      "path_to_scene": "unit_tests/Camera/ProjectionShifts.rs",
+      "test_name": "ProjectionShifts"
+    }
+  ]
+}

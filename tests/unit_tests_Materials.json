@@ -1,0 +1,60 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Materials/ALSurface_Trans_GI.rs",
+      "test_name": "ALSurface_Trans_GI"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/AOV.rs",
+      "test_name": "AOV"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/BlendedSkinShader.rs",
+      "test_name": "BlendedSkinShader"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/CameraMap.rs",
+      "test_name": "CameraMap"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/MatBlend.rs",
+      "test_name": "MatBlend"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/MatBlend_TextureAsLayerAlphaAsBlend.rs",
+      "test_name": "MatBlend_TextureAsLayerAlphaAsBlend"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/MatteObject.rs",
+      "test_name": "MatteObject"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/MatteShadow.rs",
+      "test_name": "MatteShadow"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/MatteShadow_PhysLight.rs",
+      "test_name": "MatteShadow_PhysLight"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/MatteShadow_Reflect.rs",
+      "test_name": "MatteShadow_Reflect"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/RaySwitch.rs",
+      "test_name": "RaySwitch"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/RussianRouletteAndRaySwitch.rs",
+      "test_name": "RussianRouletteAndRaySwitch"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/SkinShader.rs",
+      "test_name": "SkinShader"
+    },
+    {
+      "path_to_scene": "unit_tests/Materials/test_singlescatter.rs",
+      "test_name": "test_singlescatter"
+    }
+  ]
+}

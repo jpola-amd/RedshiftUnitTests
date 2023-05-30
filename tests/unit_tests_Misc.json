@@ -1,0 +1,52 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Misc/alpha_opacity_emitter.rs",
+      "test_name": "alpha_opacity_emitter"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/DirectIndirect.rs",
+      "test_name": "DirectIndirect"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/displacementcrash.rs",
+      "test_name": "displacementcrash"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/dl_test_dof.rs",
+      "test_name": "dl_test_dof"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/emission_material_GI.rs",
+      "test_name": "emission_material_GI"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/emission_material_point_lights_GI.rs",
+      "test_name": "emission_material_point_lights_GI"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/empty_scene.rs",
+      "test_name": "empty_scene"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/multi_light_plastic_GI.rs",
+      "test_name": "multi_light_plastic_GI"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/sampling_test.rs",
+      "test_name": "sampling_test"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/shader-switch.rs",
+      "test_name": "shader-switch"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/user_data_float.rs",
+      "test_name": "user_data_float"
+    },
+    {
+      "path_to_scene": "unit_tests/Misc/3carMatsNoise/Untitled 6.rs",
+      "test_name": "Untitled 6"
+    }
+  ]
+}

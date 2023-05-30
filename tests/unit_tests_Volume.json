@@ -1,0 +1,8 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Volume/fog_and_exclude.rs",
+      "test_name": "fog_and_exclude"
+    }
+  ]
+}

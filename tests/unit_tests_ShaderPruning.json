@@ -1,0 +1,8 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/ShaderPruning/Switch.rs",
+      "test_name": "Switch"
+    }
+  ]
+}

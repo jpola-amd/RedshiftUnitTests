@@ -1,0 +1,8 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/VisibilityFlags/VisibilityFlagsTest1.rs",
+      "test_name": "VisibilityFlagsTest1"
+    }
+  ]
+}

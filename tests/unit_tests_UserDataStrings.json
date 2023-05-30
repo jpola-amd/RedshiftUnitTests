@@ -1,0 +1,8 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/UserDataStrings/string-basic.rs",
+      "test_name": "string-basic"
+    }
+  ]
+}

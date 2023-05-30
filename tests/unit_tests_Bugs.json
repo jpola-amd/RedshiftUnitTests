@@ -1,0 +1,272 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Bugs/ao_envmapping.rs",
+      "test_name": "ao_envmapping"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/area_light_diffuse_GI_new.rs",
+      "test_name": "area_light_diffuse_GI_new"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/BadIESCulling.rs",
+      "test_name": "BadIESCulling"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1192_ArchVolFog.rs",
+      "test_name": "Bug1192_ArchVolFog"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1273_BumpFiltering.rs",
+      "test_name": "Bug1273_BumpFiltering"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1353_BumpBlend.rs",
+      "test_name": "Bug1353_BumpBlend"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1454_BadBlendedAOVs.rs",
+      "test_name": "Bug1454_BadBlendedAOVs"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1458_1462.rs",
+      "test_name": "Bug1458_1462"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1469_RandomBumpCrash.rs",
+      "test_name": "Bug1469_RandomBumpCrash"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1495_BrokenSpriteNodeConnections.rs",
+      "test_name": "Bug1495_BrokenSpriteNodeConnections"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1498_BadPuzzleMatte.rs",
+      "test_name": "Bug1498_BadPuzzleMatte"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1695_TextureTiles256MB.rs",
+      "test_name": "Bug1695_TextureTiles256MB"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1740_BlendedOpacityCutoutCrash.rs",
+      "test_name": "Bug1740_BlendedOpacityCutoutCrash"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1765_MissingSpecAOV.rs",
+      "test_name": "Bug1765_MissingSpecAOV"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug1939_BlendShadow.rs",
+      "test_name": "Bug1939_BlendShadow"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug2559_MultipleVtxFormatsBadGeo.rs",
+      "test_name": "Bug2559_MultipleVtxFormatsBadGeo"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug2876_BadMemoryLayoutForBlendedSSSAndBump.rs",
+      "test_name": "Bug2876_BadMemoryLayoutForBlendedSSSAndBump"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug3030_FogOpacityCutOut.rs",
+      "test_name": "Bug3030_FogOpacityCutOut"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug3073_3074_PortalAndDomeGlitches.rs",
+      "test_name": "Bug3073_3074_PortalAndDomeGlitches"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug3933_ExclusiveLightLinking.rs",
+      "test_name": "Bug3933_ExclusiveLightLinking"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug4147_BadMeshLightInsideVolume.rs",
+      "test_name": "Bug4147_BadMeshLightInsideVolume"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug4887_AOInterference.rs",
+      "test_name": "Bug4887_AOInterference"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug6711_BrokenBumpWithDisplacement.rs",
+      "test_name": "Bug6711_BrokenBumpWithDisplacement"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Bug_LightGradientTexture.rs",
+      "test_name": "Bug_LightGradientTexture"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/CLI36859.rs",
+      "test_name": "CLI36859"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/DirectIndirect_03_asmeasured.rs",
+      "test_name": "DirectIndirect_03_asmeasured"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/empty_scene.rs",
+      "test_name": "empty_scene"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/empty_scene2048Progressive.rs",
+      "test_name": "empty_scene2048Progressive"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/empty_sceneAutocrop.rs",
+      "test_name": "empty_sceneAutocrop"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/GITest_BF_Caustics_NoIPCRetrace.rs",
+      "test_name": "GITest_BF_Caustics_NoIPCRetrace"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/hair.rs",
+      "test_name": "hair"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/instance.rs",
+      "test_name": "instance"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/irradiance_cache_bug.rs",
+      "test_name": "irradiance_cache_bug"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/Noise.rs",
+      "test_name": "Noise"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/normals.rs",
+      "test_name": "normals"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001.rs",
+      "test_name": "OvernightRender_v001"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth.rs",
+      "test_name": "OvernightRender_v001_reduced_depth"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v10.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v10"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v11.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v11"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v2.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v2"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v3.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v3"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v4.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v4"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v5.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v5"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v6.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v6"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v7.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v7"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v8.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v8"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v9.rs",
+      "test_name": "OvernightRender_v001_reduced_depth_v9"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/rslight.rs",
+      "test_name": "rslight"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/SSS_BF_IPC.rs",
+      "test_name": "SSS_BF_IPC"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/dim-block-bug/cpuRenderBug_v2.rs",
+      "test_name": "cpuRenderBug_v2"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/DisplaceBugB/DisplaceBugB_Subd6.rs",
+      "test_name": "DisplaceBugB_Subd6"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/DisplaceBugB/DisplaceBugB_Subd7.rs",
+      "test_name": "DisplaceBugB_Subd7"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/distortion/distortion.rs",
+      "test_name": "distortion"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/eliteScene_Proxy/AO_LEITE.rs",
+      "test_name": "AO_LEITE"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/HelmetCItyTex/helmetCity-lightc4d_0003.rs",
+      "test_name": "helmetCity-lightc4d_0003"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/HelmetCItyTex/HelmetCItyTex.rs",
+      "test_name": "HelmetCItyTex"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/HelmetCItyTex/HelmetCItyTex_Reduced1.rs",
+      "test_name": "HelmetCItyTex_Reduced1"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/HelmetCItyTex/HelmetCItyTex_Reduced1b_v2.rs",
+      "test_name": "HelmetCItyTex_Reduced1b_v2"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/HelmetCItyTex/HelmetCItyTex_Reduced2.rs",
+      "test_name": "HelmetCItyTex_Reduced2"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/LFOdesign-SurfaceGenerator_02/LFOdesign-SurfaceGenerator_02-4.rs",
+      "test_name": "LFOdesign-SurfaceGenerator_02-4"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/LFOdesign-SurfaceGenerator_02/LFOdesign-SurfaceGenerator_02.rs",
+      "test_name": "LFOdesign-SurfaceGenerator_02"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/ReflRough+Metalness/ReflRough+Metalness Reduced.rs",
+      "test_name": "ReflRough+Metalness Reduced"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/RS-1428/test.rs",
+      "test_name": "test"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/RS-1451/Emission_Inconsistency.rs",
+      "test_name": "Emission_Inconsistency"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/RS-1451/Emission_Inconsistency_2.rs",
+      "test_name": "Emission_Inconsistency_2"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/RS-1471/StackProjection.rs",
+      "test_name": "StackProjection"
+    },
+    {
+      "path_to_scene": "unit_tests/Bugs/SandTex/SandTex.rs",
+      "test_name": "SandTex"
+    }
+  ]
+}

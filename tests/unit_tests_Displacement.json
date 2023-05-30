@@ -1,0 +1,44 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement.rs",
+      "test_name": "Displacement"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement_badautobumpwithtranslation.rs",
+      "test_name": "Displacement_badautobumpwithtranslation"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement_blender.rs",
+      "test_name": "Displacement_blender"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement_deform.rs",
+      "test_name": "Displacement_deform"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement_deform_tangent.rs",
+      "test_name": "Displacement_deform_tangent"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement_DroppedDisplacementBugWithManyVerts.rs",
+      "test_name": "Displacement_DroppedDisplacementBugWithManyVerts"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement_instancedAutoBump.rs",
+      "test_name": "Displacement_instancedAutoBump"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement_motionblur.rs",
+      "test_name": "Displacement_motionblur"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/Displacement_proctexture.rs",
+      "test_name": "Displacement_proctexture"
+    },
+    {
+      "path_to_scene": "unit_tests/Displacement/displacement_vertex_attributes.rs",
+      "test_name": "displacement_vertex_attributes"
+    }
+  ]
+}

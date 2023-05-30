@@ -1,0 +1,56 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "large_scenes\\AmbientOcclusion\\AmbientOcclusion_02.rs",
+      "test_name": "AmbientOcclusion_02"
+    },
+    {
+      "path_to_scene": "large_scenes\\Attic_NVIDIA_RS\\Nvidia_Attic_RS_Nodes.rs",
+      "test_name": "Nvidia_Attic_RS_Nodes"
+    },
+    {
+      "path_to_scene": "large_scenes\\Cinebench V5\\benchmark v5 complete.rs",
+      "test_name": "benchmark v5 complete"
+    },
+    {
+      "path_to_scene": "large_scenes\\Cinebench V5\\benchmark v5 complete_modified_ggx.rs",
+      "test_name": "benchmark v5 complete_modified_ggx"
+    },
+    {
+      "path_to_scene": "large_scenes\\Cinebench_Nov_23_2022\\Cinebench_Nov_23_2022\\Cinebench_Nov_23_2022.rs",
+      "test_name": "Cinebench_Nov_23_2022"
+    },
+    {
+      "path_to_scene": "large_scenes\\DirectIndirect_03\\DirectIndirect_03.rs",
+      "test_name": "DirectIndirect_03"
+    },
+    {
+      "path_to_scene": "large_scenes\\Displacement\\Displacement_DisplaceOnly.rs",
+      "test_name": "Displacement_DisplaceOnly"
+    },
+    {
+      "path_to_scene": "large_scenes\\Displacement\\Displacement_fullScene.rs",
+      "test_name": "Displacement_fullScene"
+    },
+    {
+      "path_to_scene": "large_scenes\\DodgeViper_RS\\DodgeViper_RS.rs",
+      "test_name": "DodgeViper_RS"
+    },
+    {
+      "path_to_scene": "large_scenes\\Hair\\Hair_02.rs",
+      "test_name": "Hair_02"
+    },
+    {
+      "path_to_scene": "large_scenes\\Laferarri_redshift\\LAF_Redshift_HQ.rs",
+      "test_name": "LAF_Redshift_HQ"
+    },
+    {
+      "path_to_scene": "large_scenes\\Laferarri_redshift\\LAF_Redshift_LQ.rs",
+      "test_name": "LAF_Redshift_LQ"
+    },
+    {
+      "path_to_scene": "large_scenes\\Materials\\Materials_03.rs",
+      "test_name": "Materials_03"
+    }
+  ]
+}

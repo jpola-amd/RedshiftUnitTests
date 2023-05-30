@@ -1,0 +1,8 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/UnifiedSampling/UnifiedSamplingTest1.rs",
+      "test_name": "UnifiedSamplingTest1"
+    }
+  ]
+}

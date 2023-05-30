@@ -21,12 +21,14 @@ import matplotlib
 from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import mean_squared_error
 
-USE_MULTIPROCESSING = True
+PYDEVD_DISABLE_FILE_VALIDATION=1
+
+USE_MULTIPROCESSING_ANALYSIS = True
 try:
     from multiprocessing import Pool, Process
 except ImportError:
     print('multiprocessing module was not found. Will use single threaded version')
-    USE_MULTIPROCESSING = False
+    USE_MULTIPROCESSING_ANALYSIS = False
 
 
 matplotlib.use('Agg')
@@ -364,12 +366,11 @@ class RedshiftCmdLineTask(Task):
 
         # handle errors
         if return_code != 0:
+            result, msg = analyze_latest_log(log_file)
+            if not result:
+                return result, msg
             return False, "Process did not ended successfully!"
-
-        result, msg = analyze_latest_log(log_file)
-        if not result:
-            return result, msg
-
+       
         # handle output imgaes
         png_files = [Path(file_path)
                      for file_path in self.temp_output_path.glob('**/*.png')]
@@ -614,13 +615,11 @@ class RedshiftBenchmarkTask(Task):
         shutil.copy2(log_file, self.logs_path / f'{test_name}.result.html')
 
         if return_code != 0:
+            result, msg = analyze_latest_log(log_file)
+            if not result:
+                return result, msg
             return False, "Process did not ended successfully!"
-
-        log_file = get_latest_log_path() / "log.html"
-        result, msg = analyze_latest_log(log_file)
-        if not result:
-            return result, msg
-
+        
         # handle output imgaes
         if get_os_tag() == "win":
             png_file = self.params.root_path / 'redshiftBenchmarkOutput.png'
@@ -848,17 +847,25 @@ class AnalysisItem:
                 729 : 637,
                 800: 708,
                 900: 808,
+                917: 814,
                 1024: 932,
                 1075: 983,
                 1080: 988,
                 1125: 1032,
+                1200: 1097,
+                1440: 1336,
                 1500: 1408,
                 1800: 1708,
                 2048: 1956,
+                2160: 2057,
                 4500: 4408
         }
-        w, h, n = imdata.shape
-        return imdata[0: known_heights[w], :, :]
+        h, w, n = imdata.shape
+        try:
+            return imdata[0: known_heights[h], :, :]
+        except KeyError as e:
+            print(f'{Fore.YELLOW}Warning:{ Style.RESET_ALL} Could not find crop size for height {h}')
+            return imdata
 
     def compute_mse_and_ssi(self) -> None:
         if self.crop:
@@ -953,7 +960,7 @@ class ImageAnalyzer:
             return
         
         analyzed_items = []    
-        if USE_MULTIPROCESSING:
+        if USE_MULTIPROCESSING_ANALYSIS:
             with Pool() as pool:
                 # Meh... the analysisItem is not the best one
                 results = pool.imap_unordered(Analyze, self.analysis_items)
@@ -1047,6 +1054,22 @@ class ImageAnalyzer:
 if __name__ == "__main__":
     color_terminal.init()
     print(f"{Fore.BLUE}Redshift Unit Tests{Style.RESET_ALL}")
+
+    # Add -- analysis task in a similar way as the --references
+    # Then if --benchmark - then redshiftBenchmark items will be used to analyse the images
+    # 
+    # crop = True
+    # references_path = Path("F:/projects/RUT/RedshiftUnitTests/references/redshiftBenchmark")
+    # results_path = Path("F:/projects/RUT/RedshiftUnitTests/results/") / "2023-05-30_105129"
+    # analyzer = ImageAnalyzer(references_path, results_path, 0.95, crop)
+    # analyzer.analyze()
+    # analysis_log = datetime.now().strftime(
+    #     f'custom_ANALYSIS_%Y-%m-%d_%H%M%S.json')
+    # mismatch_log = datetime.now().strftime(
+    #     f'custom_ANALYSIS_MISMACH_%Y-%m-%d_%H%M%S.json')
+    # analyzer.save(results_path / analysis_log)
+    # analyzer.save_mismatch(results_path / mismatch_log)
+    # exit()
 
     try:
         execution_parameters = parse_command_line_args()
