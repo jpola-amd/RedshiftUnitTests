@@ -203,15 +203,15 @@ def parse_command_line_args() -> ExecutionParameters:
 
     parser = argparse.ArgumentParser(description='Run Redshift unit tests.')
     parser.register('action', 'extend', ExtendAction)
-    parser.add_argument('--reference', action='store_true')
-    parser.add_argument('--config', default=DEFAULT_CONFIG_FILE)
-    parser.add_argument('--user-config', default=DEFAULT_USER_CONFIG_FILE)
-    parser.add_argument('--test', action='append', required=True)
-    parser.add_argument('--no-delete', action='store_true')
-    parser.add_argument('--gpu', nargs='+', action='extend')
-    parser.add_argument("--treshold", type=float, default=0.95)
+    parser.add_argument('--reference', action='store_true', help='Use to generate reference images for given "program"')
+    parser.add_argument('--config', default=DEFAULT_CONFIG_FILE, help='Main configuration file to use')
+    parser.add_argument('--user-config', default=DEFAULT_USER_CONFIG_FILE, help='User config to use')
+    parser.add_argument('--test', action='append', required=True, help='Test to execute')
+    parser.add_argument('--no-delete', action='store_true', help='deprecated')
+    parser.add_argument('--gpu', nargs='+', required=True, action='extend', help='GPU to execute the program. For multi-GPU separete with comma --gpu 1,2,3')
+    parser.add_argument("--treshold", type=float, default=0.95, help="Mean Square Root [mse] value above which the image is considered incorrect")
     parser.add_argument("--program", choices=['redshiftCmdLine',
-                        'redshiftBenchmark', 'maya'], help='Choose program to execute the tests')
+                        'redshiftBenchmark', 'maya'], required=True, help='Choose program to execute the tests')
 
     args = parser.parse_args()
     parameters = ExecutionParameters(args)
@@ -381,9 +381,9 @@ class RedshiftCmdLineTask(Task):
             else:
                 name_parts = [test_name] + [".result.png"]
             name = "".join(name_parts)
-            new_name = file_handler.with_name(name)
-            file_handler.rename(new_name)
-            file_handler = new_name
+            dest_file = file_handler.with_name(name)
+            file_handler.rename(dest_file)
+            file_handler = dest_file
             shutil.copy2(file_handler, self.images_path)
 
         return True, "Success"
@@ -506,9 +506,9 @@ class RedshiftCmdLineReferenceTask(Task):
             else:
                 name_parts = [test_name] + [".reference.png"]
             name = "".join(name_parts)
-            new_name = file_handler.with_name(name)
-            file_handler.rename(new_name)
-            file_handler = new_name
+            dest_file = file_handler.with_name(name)
+            file_handler.rename(dest_file)
+            file_handler = dest_file
             shutil.copy2(file_handler, self.images_path)
         return True, "Success"
 
@@ -537,11 +537,265 @@ class RedshiftCmdLineReferenceTask(Task):
 
 
 class RedshiftBenchmarkTask(Task):
-    pass
+    def __init__(self, params: ExecutionParameters):
+        super().__init__(params)
+        self.init_folders()
+        self.execution_results = ExecutionResults()
+        self.env['REDSHIFT_PATHOVERRIDE_STRING'] = self.params.user_config['required']['redshift_project_root']
+        msg = f'{Fore.MAGENTA}Executing test for'\
+              f'{Fore.GREEN} {params.program}{Style.RESET_ALL}'
+        print(msg)
+    
+    def execute(self):
+        count = len(self.scenes)
+        success = 0
+        skipped = 0
+        errors = 0
+        index = 0
+        for scene_params in self.scenes:
+            index += 1
+            scene = Scene(scene_params, self.params.root_path)
+            if not scene.path.exists():
+                err_msg = f"{scene.path} do not exists"
+                print_error(err_msg)
+                self.execution_results.add_result("failed", scene, err_msg)
+                errors += 1
+                continue
+            if not scene.type == ".rs":
+                warn_msg = f'{Fore.YELLOW}Warning: {Fore.GREEN}{scene.path}{Style.RESET_ALL} is not redshift scene'
+                print(warn_msg)
+                self.execution_results.add_result('skipped', scene, warn_msg)
+                skipped += 1
+                continue
+
+            run_msg = f"\tRunning test " \
+                f"{Fore.BLUE}{index}{Style.RESET_ALL}/"\
+                f"{Fore.BLUE}{count}{Style.RESET_ALL} "\
+                f"[{scene.name}]"
+            print(run_msg, end=": ")
+
+            self.clear_temp()
+            cmd_params = self.prepare_command_line_params(scene)
+            return_code = execute_process(cmd_params, self.env)
+            result, msg = self.handle_result(return_code, scene.name)
+            if not result:
+                print(f"{Fore.RED}Failed!{Style.RESET_ALL}")
+                print_error(f"\t{msg}")
+                self.execution_results.add_result('failed', scene, msg)
+                errors += 1
+                continue
+            success += 1
+            print(f"{Fore.GREEN}Success{Style.RESET_ALL}")
+            self.execution_results.add_result('success', scene, "success")
+
+        end_msg = f'{Fore.MAGENTA}Generation completed{Style.RESET_ALL}:\n'\
+            f'\tSucces: {Fore.GREEN}{success}{Style.RESET_ALL}/{count}\n'\
+            f'\tFailed: {Fore.RED}{errors}{Style.RESET_ALL}/{count}\n'\
+            f'\tSkipped:{Fore.YELLOW}{skipped}{Style.RESET_ALL}/{count}'
+        print(end_msg)
+
+        json_log = datetime.now().strftime(
+            f'{self.params.program}_RESULT_%Y-%m-%d_%H%M%S.json')
+        self.execution_results.save(self.results_path / json_log)
+
+        self.clear_temp()
+
+    def prepare_command_line_params(self, scene: Scene) -> list:
+        gpus = []
+        for gpu_id in self.params.gpu[0].split(","):
+            gpus.append("-gpu")
+            gpus.append(gpu_id)
+
+        cmd_params = [self.params.get_executable(), scene.path] + gpus
+        return cmd_params
+
+    def handle_result(self, return_code: int, test_name: str) -> Tuple[bool, str]:
+        log_file = get_latest_log_path() / "log.html"
+        shutil.copy2(log_file, self.logs_path / f'{test_name}.result.html')
+
+        if return_code != 0:
+            return False, "Process did not ended successfully!"
+
+        log_file = get_latest_log_path() / "log.html"
+        result, msg = analyze_latest_log(log_file)
+        if not result:
+            return result, msg
+
+        # handle output imgaes
+        if get_os_tag() == "win":
+            png_file = self.params.root_path / 'redshiftBenchmarkOutput.png'
+        else:
+            png_file = Path.home() / 'redshiftBenchmarkOutput.png'
+        
+        if not png_file.exists():
+            return False, f"{png_file} does bit exists"
+
+        # change output image name to test_name
+        if len(png_file.suffixes) > 1:
+            name_parts = [test_name] + \
+                png_file.suffixes[:-1] + [".result.png"]
+        else:
+            name_parts = [test_name] + [".result.png"]
+        name = "".join(name_parts)
+        dest_file = png_file.with_name(name)
+        if dest_file.exists():
+            os.remove(dest_file)
+        png_file.rename(dest_file)
+        png_file = dest_file
+        if Path.exists(self.images_path / name):
+            os.remove(self.images_path / name)
+        shutil.move(str(png_file), self.images_path)
+        return True, "Success"
+
+    def init_folders(self):
+        results_folder_name = datetime.now().strftime('%Y-%m-%d_%H%M%S')
+        self.results_path = self.params.root_path / 'results' / results_folder_name
+
+        self.temp_output_path = self.results_path / 'tmp'
+        self.images_path = self.results_path/'images'
+        self.logs_path = self.results_path/'logs'
+        self.commons_path = self.results_path/'common'
+
+        self.temp_output_path.mkdir(parents=True, exist_ok=True)
+        self.images_path.mkdir(parents=True)
+        self.logs_path.mkdir(parents=True)
+        self.commons_path.mkdir(parents=True)
+
+    def clear_temp(self):
+        shutil.rmtree(self.temp_output_path)
+        Path.mkdir(self.temp_output_path, parents=True)
 
 
 class RedshiftBenchmarkReferenceTask(Task):
-    pass
+    def __init__(self, params: ExecutionParameters):
+        super().__init__(params)
+        self.init_folders()
+        self.execution_results = ExecutionResults()
+        self.env['REDSHIFT_PATHOVERRIDE_STRING'] = self.params.user_config['required']['redshift_project_root']
+        msg = f'{Fore.MAGENTA}Generating references for'\
+              f'{Fore.GREEN} {params.program}{Style.RESET_ALL}'
+        print(msg)
+    
+    def execute(self):
+        count = len(self.scenes)
+        success = 0
+        skipped = 0
+        errors = 0
+        index = 0
+        for scene_params in self.scenes:
+            index += 1
+            scene = Scene(scene_params, self.params.root_path)
+            if not scene.path.exists():
+                err_msg = f"{scene.path} do not exists"
+                print_error(err_msg)
+                self.execution_results.add_result("failed", scene, err_msg)
+                errors += 1
+                continue
+            if not scene.type == ".rs":
+                warn_msg = f'{Fore.YELLOW}Warning: {Fore.GREEN}{scene.path}{Style.RESET_ALL} is not redshift scene'
+                print(warn_msg)
+                self.execution_results.add_result('skipped', scene, warn_msg)
+                skipped += 1
+                continue
+
+            run_msg = f"\tRunning test " \
+                f"{Fore.BLUE}{index}{Style.RESET_ALL}/"\
+                f"{Fore.BLUE}{count}{Style.RESET_ALL} "\
+                f"[{scene.name}]"
+            print(run_msg, end=": ")
+
+            self.clear_temp()
+            cmd_params = self.prepare_command_line_params(scene)
+            return_code = execute_process(cmd_params, self.env)
+            result, msg = self.handle_result(return_code, scene.name)
+            if not result:
+                print(f"{Fore.RED}Failed!{Style.RESET_ALL}")
+                print_error(f"\t{msg}")
+                self.execution_results.add_result('failed', scene, msg)
+                errors += 1
+                continue
+            success += 1
+            print(f"{Fore.GREEN}Success{Style.RESET_ALL}")
+            self.execution_results.add_result('success', scene, "success")
+
+        end_msg = f'{Fore.MAGENTA}Generation completed{Style.RESET_ALL}:\n'\
+            f'\tSucces: {Fore.GREEN}{success}{Style.RESET_ALL}/{count}\n'\
+            f'\tFailed: {Fore.RED}{errors}{Style.RESET_ALL}/{count}\n'\
+            f'\tSkipped:{Fore.YELLOW}{skipped}{Style.RESET_ALL}/{count}'
+        print(end_msg)
+
+        json_log = datetime.now().strftime(
+            f'{self.params.program}_REFERENCE_%Y-%m-%d_%H%M%S.json')
+        self.execution_results.save(self.results_path / json_log)
+
+        self.clear_temp()
+
+    def prepare_command_line_params(self, scene: Scene) -> list:
+        gpus = []
+        for gpu_id in self.params.gpu[0].split(","):
+            gpus.append("-gpu")
+            gpus.append(gpu_id)
+
+        cmd_params = [self.params.get_executable(), scene.path] + gpus
+        return cmd_params
+
+    def handle_result(self, return_code: int, test_name: str) -> Tuple[bool, str]:
+        log_file = get_latest_log_path() / "log.html"
+        shutil.copy2(log_file, self.logs_path / f'{test_name}.reference.html')
+
+        if return_code != 0:
+            return False, "Process did not ended successfully!"
+
+        log_file = get_latest_log_path() / "log.html"
+        result, msg = analyze_latest_log(log_file)
+        if not result:
+            return result, msg
+
+        # handle output imgaes
+        if get_os_tag() == "win":
+            png_file = self.params.root_path / 'redshiftBenchmarkOutput.png'
+        else:
+            png_file = Path.home() / 'redshiftBenchmarkOutput.png'
+        
+        if not png_file.exists():
+            return False, f"{png_file} does bit exists"
+
+        # change output image name to test_name
+        if len(png_file.suffixes) > 1:
+            name_parts = [test_name] + \
+                png_file.suffixes[:-1] + [".reference.png"]
+        else:
+            name_parts = [test_name] + [".reference.png"]
+        name = "".join(name_parts)
+        dest_file = png_file.with_name(name)
+        if dest_file.exists():
+            os.remove(dest_file)
+        png_file.rename(dest_file)
+        png_file = dest_file
+        if Path.exists(self.images_path / name):
+            os.remove(self.images_path / name)
+        shutil.move(str(png_file), self.images_path)
+        return True, "Success"
+                    
+        return True, "Success"
+
+    def init_folders(self):
+        results_folder_name = datetime.now().strftime('%Y-%m-%d_%H%M%S')
+        self.results_path = self.params.root_path / 'references' / 'redshiftBenchmark'
+
+        self.temp_output_path = self.results_path / 'tmp'
+        self.images_path = self.results_path/'images'
+        self.logs_path = self.results_path/'logs'
+        self.commons_path = self.results_path/'common'
+
+        self.temp_output_path.mkdir(parents=True, exist_ok=True)
+        self.images_path.mkdir(parents=True, exist_ok=True)
+        self.logs_path.mkdir(parents=True,exist_ok=True)
+        self.commons_path.mkdir(parents=True,exist_ok=True)
+
+    def clear_temp(self):
+        shutil.rmtree(self.temp_output_path)
+        Path.mkdir(self.temp_output_path, parents=True)
 
 
 class TaskFactory:
@@ -725,6 +979,7 @@ class ImageAnalyzer:
         print(msg)
         for item in mismatch_images:
             print(f"\tmse={Fore.BLUE}{item.mse:.3f}{Style.RESET_ALL} [{Fore.GREEN}{item.name}{Style.RESET_ALL}]")
+        self.mismatch_items = mismatch_images
 
     def save_data(self, file: Path, data):
         json_data = json.dumps(data, indent=2)
@@ -741,7 +996,10 @@ class ImageAnalyzer:
     
     def save_mismatch(self, file:Path):
         results = {item.name: {"mse": item.mse, "ssi": item.ssi} for item in self.mismatch_items}
-        self.save_data(file, results)
+        if results:
+            self.save_data(file, results)
+        else:
+            print("No mismatch image information found to save.")
         
     #returns total number of image to analyze and number of matches found
     def match_results_with_references(self) -> Tuple[int, int, list]:
@@ -817,7 +1075,7 @@ if __name__ == "__main__":
         analysis_log = datetime.now().strftime(
             f'{task.params.program}_ANALYSIS_%Y-%m-%d_%H%M%S.json')
         mismatch_log = datetime.now().strftime(
-            f'{task.params.program}_ANALYSIS_%Y-%m-%d_%H%M%S.json')
+            f'{task.params.program}_ANALYSIS_MISMACH_%Y-%m-%d_%H%M%S.json')
         analyzer.save(task.results_path / analysis_log)
         analyzer.save_mismatch(task.results_path / mismatch_log)
 

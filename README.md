@@ -28,24 +28,124 @@ Then install pip and and scikit-learn matplotlib colorama
 `<os>` - can be win or linux depends on the operating system you are running the tests
 Open `config.<os>.user.json` and edit the `*project_root` paths to point to the scenes folder 
 
+## Program options
+```
+usage: run_tests.py [-h] [--reference] [--config CONFIG]
+                    [--user-config USER_CONFIG] --test TEST [--no-delete]   
+                    [--gpu GPU [GPU ...]] [--treshold TRESHOLD] --program   
+                    {redshiftCmdLine,redshiftBenchmark,maya}
+
+Run Redshift unit tests.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --reference           Use to generate reference images for given "program"
+  --config CONFIG       main configuration file to use
+  --user-config USER_CONFIG
+                        User config to use
+  --test TEST           Test to execute
+  --no-delete           deprecated
+  --gpu GPU [GPU ...]   GPU to execute the program. For multi-GPU separete
+                        with comma --gpu 1,2,3
+  --treshold TRESHOLD   Mean Square Root [mse] value above which the image is
+                        considered incorrect
+  --program {redshiftCmdLine,redshiftBenchmark,maya}
+                        Choose program to execute the tests
+
+```
 
 ## Generating the reference images and logs
 
 From the command-line
-`python run_tests.py --reference --test tests\_alltests.json`
+`python run_tests.py --program redshiftBenchmark --reference --test tests\redshift_test_suite_emission.json`
 
+```bash
+Redshift Unit Tests
+{ 'config': { 'required': { 'maya_batch': 'C:/Program '
+                                          'Files/Autodesk/Maya2015/bin/render.exe',
+                            'redshiftBenchmark': 'C:/ProgramData/Redshift/bin/redshiftBenchmark.exe',
+                            'redshiftCmdLine': 'C:/ProgramData/Redshift/bin/redshiftCmdLine.exe',    
+                            'xsi_batch': 'C:/Program Files/Autodesk/Softimage '
+                                         '2013 '
+                                         'SP1/Application/bin/xsibatch.bat'}},
+  'gpu': ['0'],
+  'no_delete': False,
+  'program': 'redshiftBenchmark',
+  'reference': True,
+  'root_path': WindowsPath('E:/Redshift/RUT/RedshiftUnitTests'),
+  'tests': ['./tests/redshift_test_suite_emission.json'],
+  'treshold': 0.95,
+  'user_config': { 'required': { 'maya_project_root': 'E:/Redshift/RUT/RedshiftUnitTests/scenes/',
+                                 'redshift_project_root': 'E:/Redshift/RUT/RedshiftUnitTests/scenes/',
+                                 'xsi_project_root': 'E:/Redshift/tests/UnitTests/XSI'}}}
+Processing files from: ['./tests/redshift_test_suite_emission.json']: 5 tests were found
+Generating references for redshiftBenchmark
+        Running test 1/5 [emission_dl_ss_multisample_nonunified]: Success
+        Running test 2/5 [emission_dl_ss_multisample]: Success
+        Running test 3/5 [emission_dl_ss]: Success
+        Running test 4/5 [emission_simple]: Success
+        Running test 5/5 [emission]: Success
+Generation completed:
+        Succes: 5/5
+        Failed: 0/5
+        Skipped:0/5
+
+Redshift Unit Tests Finished
+```
 
 ## Running the unit tests
 
 From the command-line run
-`python run_tests.py --test tests\_alltests.json`
+`python run_tests.py --program redshiftBenchmark --test tests\redshift_test_suite_emission.json`
 
-The result images and logs along with a copy of the reference images and logs will be found in the folder results/<YYYY-MM-DD_HHMM>/
+```bash
+Redshift Unit Tests
+{ 'config': { 'required': { 'maya_batch': 'C:/Program '
+                                          'Files/Autodesk/Maya2015/bin/render.exe',
+                            'redshiftBenchmark': 'C:/ProgramData/Redshift/bin/redshiftBenchmark.exe',
+                            'redshiftCmdLine': 'C:/ProgramData/Redshift/bin/redshiftCmdLine.exe',
+                            'xsi_batch': 'C:/Program Files/Autodesk/Softimage '
+                                         '2013 '
+                                         'SP1/Application/bin/xsibatch.bat'}},
+  'gpu': ['1'],
+  'no_delete': False,
+  'program': 'redshiftBenchmark',
+  'reference': False,
+  'root_path': WindowsPath('E:/Redshift/RUT/RedshiftUnitTests'),
+  'tests': ['./tests/redshift_test_suite_emission.json'],
+  'treshold': 0.95,
+  'user_config': { 'required': { 'maya_project_root': 'E:/Redshift/RUT/RedshiftUnitTests/scenes/',
+                                 'redshift_project_root': 'E:/Redshift/RUT/RedshiftUnitTests/scenes/',
+                                 'xsi_project_root': 'E:/Redshift/tests/UnitTests/XSI'}}}
+Processing files from: ['./tests/redshift_test_suite_emission.json']: 5 tests were found
+Executing test for redshiftBenchmark
+        Running test 1/5 [emission_dl_ss_multisample_nonunified]: Success
+        Running test 2/5 [emission_dl_ss_multisample]: Success
+        Running test 3/5 [emission_dl_ss]: Success
+        Running test 4/5 [emission_simple]: Success
+        Running test 5/5 [emission]: Success
+Generation completed:
+        Succes: 5/5
+        Failed: 0/5
+        Skipped:0/5
+Analyzing results 
+Analysis of emission: mse=0.003, ssi=1.000
+Analysis of emission_dl_ss: mse=0.004, ssi=1.000
+Analysis of emission_dl_ss_multisample: mse=0.003, ssi=1.000
+Analysis of emission_dl_ss_multisample_nonunified: mse=0.000, ssi=1.000
+Analysis of emission_simple: mse=0.000, ssi=1.000
 
-There are additional options:
---redshiftcmdline -default
---redshiftbenchmark - use redshiftBenchmark app instead of redshiftCmdLine
---gpu select gpus to use
+There are 0 that requires inspection
+
+Redshift Unit Tests Finished
+```
+The result images and logs along with a copy of the reference images and logs will be found in the folder `results/<YYYY-MM-DD_HHMM>/`
+
+## Logs and analysis results
+When user executes a test for `redshiftBenchmark` or `redshiftCmdLine` after executing the tests, script will trigger process to compare the results stored in `results/<YYYY-MM-DD_HHMM>/images` with the corresponding images from `references/[program]/images`. Script is using `scikit-image` mean square root `mse` and structured similarity index `ssi` to compare the images. 
+The result image is considered as incorrect when `mse > threshold`. `treshold` by default is set to 0.95.
+The difference plots are stored in `results/<YYYY-MM-DD_HHMM>/common` together with the reference and result images.
+The summary of the analysis is stored in `results/<YYYY-MM-DD_HHMM>/[program]_ANALYSIS_<YYY-MM-DD_HHMM>.json`.
 
 ## Reviewing the results
 
