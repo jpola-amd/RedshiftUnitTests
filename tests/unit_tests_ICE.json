@@ -1,0 +1,24 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/ICE/ICE Attribute and Texture Array Switch.rs",
+      "test_name": "ICE Attribute and Texture Array Switch"
+    },
+    {
+      "path_to_scene": "unit_tests/ICE/ICE Attribute Reading Problem.rs",
+      "test_name": "ICE Attribute Reading Problem"
+    },
+    {
+      "path_to_scene": "unit_tests/ICE/ice-loftedstrands-mblur.rs",
+      "test_name": "ice-loftedstrands-mblur"
+    },
+    {
+      "path_to_scene": "unit_tests/ICE/ice-strands-attributes.rs",
+      "test_name": "ice-strands-attributes"
+    },
+    {
+      "path_to_scene": "unit_tests/ICE/ice-uv+vtxcol+wm.rs",
+      "test_name": "ice-uv+vtxcol+wm"
+    }
+  ]
+}

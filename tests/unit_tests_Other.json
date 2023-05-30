@@ -1,0 +1,72 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Other/Barry_Bacon.0001.rs",
+      "test_name": "Barry_Bacon.0001"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/Default_Pass_Archive.0001.rs",
+      "test_name": "Default_Pass_Archive.0001"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/Default_Pass_Archive.0002.rs",
+      "test_name": "Default_Pass_Archive.0002"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/dl_test_2_incandescent_quads.rs",
+      "test_name": "dl_test_2_incandescent_quads"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/dl_test_2_point_lights.rs",
+      "test_name": "dl_test_2_point_lights"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/Female_Groom_Example_1.rs",
+      "test_name": "Female_Groom_Example_1"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/light.rs",
+      "test_name": "light"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/light_in_glossy_box.rs",
+      "test_name": "light_in_glossy_box"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/light_in_glossy_box_256bucket_size_2560by1440_v4.rs",
+      "test_name": "light_in_glossy_box_256bucket_size_2560by1440_v4"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/light_in_glossy_box_v2.rs",
+      "test_name": "light_in_glossy_box_v2"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/light_in_glossy_box_v3.rs",
+      "test_name": "light_in_glossy_box_v3"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/rt_test.rs",
+      "test_name": "rt_test"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/simple_hair_torus.rs",
+      "test_name": "simple_hair_torus"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/simple_rs_scene.rs",
+      "test_name": "simple_rs_scene"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/sphere_light.rs",
+      "test_name": "sphere_light"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/TESTY.rs",
+      "test_name": "TESTY"
+    },
+    {
+      "path_to_scene": "unit_tests/Other/triplanar_final.rs",
+      "test_name": "triplanar_final"
+    }
+  ]
+}

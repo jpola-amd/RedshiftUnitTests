@@ -1,0 +1,40 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/MotionBlur/dl_test_mb_bsdf_change.rs",
+      "test_name": "dl_test_mb_bsdf_change"
+    },
+    {
+      "path_to_scene": "unit_tests/MotionBlur/dl_test_mb_camera.rs",
+      "test_name": "dl_test_mb_camera"
+    },
+    {
+      "path_to_scene": "unit_tests/MotionBlur/dl_test_mb_light_move.rs",
+      "test_name": "dl_test_mb_light_move"
+    },
+    {
+      "path_to_scene": "unit_tests/MotionBlur/dl_test_mb_obj_deform.rs",
+      "test_name": "dl_test_mb_obj_deform"
+    },
+    {
+      "path_to_scene": "unit_tests/MotionBlur/dl_test_mb_obj_move.rs",
+      "test_name": "dl_test_mb_obj_move"
+    },
+    {
+      "path_to_scene": "unit_tests/MotionBlur/MBTest_Camera.rs",
+      "test_name": "MBTest_Camera"
+    },
+    {
+      "path_to_scene": "unit_tests/MotionBlur/MBTest_Deformation.rs",
+      "test_name": "MBTest_Deformation"
+    },
+    {
+      "path_to_scene": "unit_tests/MotionBlur/MBTest_DeformationWithTransformationICP.rs",
+      "test_name": "MBTest_DeformationWithTransformationICP"
+    },
+    {
+      "path_to_scene": "unit_tests/MotionBlur/MBTest_Transformation.rs",
+      "test_name": "MBTest_Transformation"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/embree-test/dl_test_mb_obj_deform_translate_instance.rs",
+      "test_name": "dl_test_mb_obj_deform_translate_instance"
+    },
+    {
+      "path_to_scene": "unit_tests/embree-test/hair_motion_blur_instance.rs",
+      "test_name": "hair_motion_blur_instance"
+    }
+  ]
+}

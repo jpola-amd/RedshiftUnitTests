@@ -1,0 +1,200 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/GI/DirectIndirect_03_asmeasured.rs",
+      "test_name": "DirectIndirect_03_asmeasured"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/directNONE.rs",
+      "test_name": "directNONE"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/directQMC2.rs",
+      "test_name": "directQMC2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/directQMC8.rs",
+      "test_name": "directQMC8"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF.rs",
+      "test_name": "GITest_BF"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF_BF0.rs",
+      "test_name": "GITest_BF_BF0"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF_BF1.rs",
+      "test_name": "GITest_BF_BF1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF_BF2.rs",
+      "test_name": "GITest_BF_BF2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF_BF3.rs",
+      "test_name": "GITest_BF_BF3"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF_IPC0.rs",
+      "test_name": "GITest_BF_IPC0"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF_IPC1.rs",
+      "test_name": "GITest_BF_IPC1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF_IPC2.rs",
+      "test_name": "GITest_BF_IPC2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BF_IPC3.rs",
+      "test_name": "GITest_BF_IPC3"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BruteForce1.rs",
+      "test_name": "GITest_BruteForce1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BruteForce2.rs",
+      "test_name": "GITest_BruteForce2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_BruteForce_SSS.rs",
+      "test_name": "GITest_BruteForce_SSS"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_IC.rs",
+      "test_name": "GITest_IC"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_ICP1.rs",
+      "test_name": "GITest_ICP1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_ICP2.rs",
+      "test_name": "GITest_ICP2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_IC_IPC0.rs",
+      "test_name": "GITest_IC_IPC0"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_IC_IPC1.rs",
+      "test_name": "GITest_IC_IPC1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_IC_IPC2.rs",
+      "test_name": "GITest_IC_IPC2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_IC_IPC3.rs",
+      "test_name": "GITest_IC_IPC3"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF.rs",
+      "test_name": "GITest_MIS_BF"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_BF0.rs",
+      "test_name": "GITest_MIS_BF_BF0"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_BF1.rs",
+      "test_name": "GITest_MIS_BF_BF1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_BF2.rs",
+      "test_name": "GITest_MIS_BF_BF2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_BF3.rs",
+      "test_name": "GITest_MIS_BF_BF3"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_IPC0.rs",
+      "test_name": "GITest_MIS_BF_IPC0"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_IPC1.rs",
+      "test_name": "GITest_MIS_BF_IPC1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_IPC2.rs",
+      "test_name": "GITest_MIS_BF_IPC2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_IPC3.rs",
+      "test_name": "GITest_MIS_BF_IPC3"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BF_Photon.rs",
+      "test_name": "GITest_MIS_BF_Photon"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_BruteForce1.rs",
+      "test_name": "GITest_MIS_BruteForce1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_IC.rs",
+      "test_name": "GITest_MIS_IC"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_ICP1.rs",
+      "test_name": "GITest_MIS_ICP1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_IC_IPC0.rs",
+      "test_name": "GITest_MIS_IC_IPC0"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_IC_IPC1.rs",
+      "test_name": "GITest_MIS_IC_IPC1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_IC_IPC2.rs",
+      "test_name": "GITest_MIS_IC_IPC2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_IC_IPC3.rs",
+      "test_name": "GITest_MIS_IC_IPC3"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_MIS_None.rs",
+      "test_name": "GITest_MIS_None"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_Photons1.rs",
+      "test_name": "GITest_Photons1"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_Photons2.rs",
+      "test_name": "GITest_Photons2"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_Photons3.rs",
+      "test_name": "GITest_Photons3"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_PreserveReflectionEnergy.rs",
+      "test_name": "GITest_PreserveReflectionEnergy"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/GITest_Translucency.rs",
+      "test_name": "GITest_Translucency"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/gi_bf_bf.rs",
+      "test_name": "gi_bf_bf"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/gi_bf_ip.rs",
+      "test_name": "gi_bf_ip"
+    },
+    {
+      "path_to_scene": "unit_tests/GI/gi_ic_bf.rs",
+      "test_name": "gi_ic_bf"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Volumetric/VolumetricLightTest1.rs",
+      "test_name": "VolumetricLightTest1"
+    }
+  ]
+}

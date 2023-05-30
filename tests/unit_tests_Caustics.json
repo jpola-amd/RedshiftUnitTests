@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Caustics/caustic_area.rs",
+      "test_name": "caustic_area"
+    },
+    {
+      "path_to_scene": "unit_tests/Caustics/caustic_point.rs",
+      "test_name": "caustic_point"
+    }
+  ]
+}

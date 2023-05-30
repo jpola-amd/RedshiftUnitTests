@@ -1,0 +1,20 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Tessellation/TessTest1.rs",
+      "test_name": "TessTest1"
+    },
+    {
+      "path_to_scene": "unit_tests/Tessellation/TessTest2.rs",
+      "test_name": "TessTest2"
+    },
+    {
+      "path_to_scene": "unit_tests/Tessellation/TessTest3.rs",
+      "test_name": "TessTest3"
+    },
+    {
+      "path_to_scene": "unit_tests/Tessellation/TessTest4.rs",
+      "test_name": "TessTest4"
+    }
+  ]
+}

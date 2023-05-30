@@ -1,0 +1,7 @@
+{
+    "tests": [
+        {"include": "large_scenes.json"},
+        {"include": "redshift_test_suite.json"},
+        {"include": "unit_tests.json"}
+    ]
+}

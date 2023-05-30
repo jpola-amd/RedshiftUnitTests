@@ -1,7 +1,7 @@
 { 
 	"required": {
 		"xsi_project_root" : "E:/Redshift/tests/UnitTests/XSI",
-		"maya_project_root" : "E:/Redshift/RUT/RedshiftUnitTests/scenes/",
-		"redshift_project_root" : "E:/Redshift/RUT/RedshiftUnitTests/scenes/"
+		"maya_project_root" : "F:/projects/RUT/RedshiftUnitTests/scenes",
+		"redshift_project_root" : "F:/projects/RUT/RedshiftUnitTests/scenes"
 	}
 }

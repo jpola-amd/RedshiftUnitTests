@@ -1,0 +1,160 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/LightGeneral/environment_lightexclude.rs",
+      "test_name": "environment_lightexclude"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Cast_Shadow_Off.rs",
+      "test_name": "redshift_lights_Area_Cast_Shadow_Off"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Disc_Intensity_0.rs",
+      "test_name": "redshift_lights_Area_Disc_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Disc_Intensity_1.rs",
+      "test_name": "redshift_lights_Area_Disc_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_DoubleSided_On.rs",
+      "test_name": "redshift_lights_Area_DoubleSided_On"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Normalize_Intensity_Off.rs",
+      "test_name": "redshift_lights_Area_Normalize_Intensity_Off"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Rectangle_Intensity_0.rs",
+      "test_name": "redshift_lights_Area_Rectangle_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Rectangle_Intensity_1.rs",
+      "test_name": "redshift_lights_Area_Rectangle_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Shadow_Density_0.rs",
+      "test_name": "redshift_lights_Area_Shadow_Density_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Shadow_Density_50.rs",
+      "test_name": "redshift_lights_Area_Shadow_Density_50"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Size_100cm.rs",
+      "test_name": "redshift_lights_Area_Size_100cm"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Size_10cm.rs",
+      "test_name": "redshift_lights_Area_Size_10cm"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Size_50cm.rs",
+      "test_name": "redshift_lights_Area_Size_50cm"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Sphere_Intensity_0.rs",
+      "test_name": "redshift_lights_Area_Sphere_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Sphere_Intensity_1.rs",
+      "test_name": "redshift_lights_Area_Sphere_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Default.rs",
+      "test_name": "redshift_lights_Area_Visibility_Default"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Diffuse_Reflection_0.rs",
+      "test_name": "redshift_lights_Area_Visibility_Diffuse_Reflection_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Diffuse_Reflection_50.rs",
+      "test_name": "redshift_lights_Area_Visibility_Diffuse_Reflection_50"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Indirect_0.rs",
+      "test_name": "redshift_lights_Area_Visibility_Indirect_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Indirect_5.rs",
+      "test_name": "redshift_lights_Area_Visibility_Indirect_5"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Occlude_Off.rs",
+      "test_name": "redshift_lights_Area_Visibility_Occlude_Off"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Primary_0.rs",
+      "test_name": "redshift_lights_Area_Visibility_Primary_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Primary_50.rs",
+      "test_name": "redshift_lights_Area_Visibility_Primary_50"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Spec_Gloss_Reflection_0.rs",
+      "test_name": "redshift_lights_Area_Visibility_Spec_Gloss_Reflection_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_Area_Visibility_Spec_Gloss_Reflection_50.rs",
+      "test_name": "redshift_lights_Area_Visibility_Spec_Gloss_Reflection_50"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_HDRI_Intensity_0.rs",
+      "test_name": "redshift_lights_HDRI_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_HDRI_Intensity_1.rs",
+      "test_name": "redshift_lights_HDRI_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_InfiniteLight_Intensity_0.rs",
+      "test_name": "redshift_lights_InfiniteLight_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_InfiniteLight_Intensity_1.rs",
+      "test_name": "redshift_lights_InfiniteLight_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_PointLight_Intensity_0.rs",
+      "test_name": "redshift_lights_PointLight_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_PointLight_Intensity_1.rs",
+      "test_name": "redshift_lights_PointLight_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_SpotLight_Angle180_Soft0_Intensity_0.rs",
+      "test_name": "redshift_lights_SpotLight_Angle180_Soft0_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_SpotLight_Angle180_Soft0_Intensity_1.rs",
+      "test_name": "redshift_lights_SpotLight_Angle180_Soft0_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_SpotLight_Angle180_Soft50_Intensity_0.rs",
+      "test_name": "redshift_lights_SpotLight_Angle180_Soft50_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_SpotLight_Angle180_Soft50_Intensity_1.rs",
+      "test_name": "redshift_lights_SpotLight_Angle180_Soft50_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_SpotLight_Angle90_Soft0_Intensity_0.rs",
+      "test_name": "redshift_lights_SpotLight_Angle90_Soft0_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_SpotLight_Angle90_Soft0_Intensity_1.rs",
+      "test_name": "redshift_lights_SpotLight_Angle90_Soft0_Intensity_1"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_SpotLight_Angle90_Soft50_Intensity_0.rs",
+      "test_name": "redshift_lights_SpotLight_Angle90_Soft50_Intensity_0"
+    },
+    {
+      "path_to_scene": "unit_tests/LightGeneral/redshift_lights_SpotLight_Angle90_Soft50_Intensity_1.rs",
+      "test_name": "redshift_lights_SpotLight_Angle90_Soft50_Intensity_1"
+    }
+  ]
+}

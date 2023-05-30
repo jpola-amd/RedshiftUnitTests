@@ -1,0 +1,44 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/OSL/closure.rs",
+      "test_name": "closure"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/fake_caustics.rs",
+      "test_name": "fake_caustics"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/fake_caustics_2.rs",
+      "test_name": "fake_caustics_2"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/JawbreakerNoise.rs",
+      "test_name": "JawbreakerNoise"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/scratches.rs",
+      "test_name": "scratches"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/SierpinskiSquares.rs",
+      "test_name": "SierpinskiSquares"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/simple.rs",
+      "test_name": "simple"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/texture.rs",
+      "test_name": "texture"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/texture2.rs",
+      "test_name": "texture2"
+    },
+    {
+      "path_to_scene": "unit_tests/OSL/texture_closure.rs",
+      "test_name": "texture_closure"
+    }
+  ]
+}

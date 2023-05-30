@@ -1,0 +1,20 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Hair/HairDeformation.rs",
+      "test_name": "HairDeformation"
+    },
+    {
+      "path_to_scene": "unit_tests/Hair/HairInstancedAndMotionBlurred.rs",
+      "test_name": "HairInstancedAndMotionBlurred"
+    },
+    {
+      "path_to_scene": "unit_tests/Hair/HairTextured.rs",
+      "test_name": "HairTextured"
+    },
+    {
+      "path_to_scene": "unit_tests/Hair/HairTransparentTips.rs",
+      "test_name": "HairTransparentTips"
+    }
+  ]
+}

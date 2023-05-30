@@ -1,0 +1,36 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/AreaLights/area_light_diffuse.rs",
+      "test_name": "area_light_diffuse"
+    },
+    {
+      "path_to_scene": "unit_tests/AreaLights/area_light_diffuse_GI.rs",
+      "test_name": "area_light_diffuse_GI"
+    },
+    {
+      "path_to_scene": "unit_tests/AreaLights/area_light_plastic.rs",
+      "test_name": "area_light_plastic"
+    },
+    {
+      "path_to_scene": "unit_tests/AreaLights/area_light_plastic_GI.rs",
+      "test_name": "area_light_plastic_GI"
+    },
+    {
+      "path_to_scene": "unit_tests/AreaLights/area_light_specular.rs",
+      "test_name": "area_light_specular"
+    },
+    {
+      "path_to_scene": "unit_tests/AreaLights/area_light_specular_GI.rs",
+      "test_name": "area_light_specular_GI"
+    },
+    {
+      "path_to_scene": "unit_tests/AreaLights/area_light_two_visibility_off.rs",
+      "test_name": "area_light_two_visibility_off"
+    },
+    {
+      "path_to_scene": "unit_tests/AreaLights/area_light_two_visibility_on.rs",
+      "test_name": "area_light_two_visibility_on"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Photographic/PhotographicTest_DOF.rs",
+      "test_name": "PhotographicTest_DOF"
+    },
+    {
+      "path_to_scene": "unit_tests/Photographic/PhotographicTest_Other.rs",
+      "test_name": "PhotographicTest_Other"
+    }
+  ]
+}

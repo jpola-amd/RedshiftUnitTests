@@ -1,0 +1,164 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0000.rs",
+      "test_name": "maxon_noises_0_9_0000"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0001.rs",
+      "test_name": "maxon_noises_0_9_0001"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0002.rs",
+      "test_name": "maxon_noises_0_9_0002"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0003.rs",
+      "test_name": "maxon_noises_0_9_0003"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0004.rs",
+      "test_name": "maxon_noises_0_9_0004"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0005.rs",
+      "test_name": "maxon_noises_0_9_0005"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0006.rs",
+      "test_name": "maxon_noises_0_9_0006"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0007.rs",
+      "test_name": "maxon_noises_0_9_0007"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0008.rs",
+      "test_name": "maxon_noises_0_9_0008"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_0_9_0009.rs",
+      "test_name": "maxon_noises_0_9_0009"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0000.rs",
+      "test_name": "maxon_noises_10_19_0000"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0001.rs",
+      "test_name": "maxon_noises_10_19_0001"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0002.rs",
+      "test_name": "maxon_noises_10_19_0002"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0003.rs",
+      "test_name": "maxon_noises_10_19_0003"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0004.rs",
+      "test_name": "maxon_noises_10_19_0004"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0005.rs",
+      "test_name": "maxon_noises_10_19_0005"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0006.rs",
+      "test_name": "maxon_noises_10_19_0006"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0007.rs",
+      "test_name": "maxon_noises_10_19_0007"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0008.rs",
+      "test_name": "maxon_noises_10_19_0008"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_10_19_0009.rs",
+      "test_name": "maxon_noises_10_19_0009"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0000.rs",
+      "test_name": "maxon_noises_20_29_0000"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0001.rs",
+      "test_name": "maxon_noises_20_29_0001"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0002.rs",
+      "test_name": "maxon_noises_20_29_0002"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0003.rs",
+      "test_name": "maxon_noises_20_29_0003"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0004.rs",
+      "test_name": "maxon_noises_20_29_0004"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0005.rs",
+      "test_name": "maxon_noises_20_29_0005"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0006.rs",
+      "test_name": "maxon_noises_20_29_0006"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0007.rs",
+      "test_name": "maxon_noises_20_29_0007"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0008.rs",
+      "test_name": "maxon_noises_20_29_0008"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_20_29_0009.rs",
+      "test_name": "maxon_noises_20_29_0009"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_30_32_0000.rs",
+      "test_name": "maxon_noises_30_32_0000"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_30_32_0001.rs",
+      "test_name": "maxon_noises_30_32_0001"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/maxon_noises_30_32_0002.rs",
+      "test_name": "maxon_noises_30_32_0002"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/redshift_noises0000.rs",
+      "test_name": "redshift_noises0000"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/redshift_noises0001.rs",
+      "test_name": "redshift_noises0001"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/redshift_noises0002.rs",
+      "test_name": "redshift_noises0002"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/redshift_shaders0000.rs",
+      "test_name": "redshift_shaders0000"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/redshift_shaders0001.rs",
+      "test_name": "redshift_shaders0001"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/redshift_shaders0002.rs",
+      "test_name": "redshift_shaders0002"
+    },
+    {
+      "path_to_scene": "unit_tests/RedshiftShaders/redshift_shaders0003.rs",
+      "test_name": "redshift_shaders0003"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+    "tests":[
+        {"include" : "unit_tests_AreaLights.json"},
+        {"include" : "unit_tests_Bugs.json"},
+        {"include" : "unit_tests_Camera.json"},
+        {"include" : "unit_tests_Caustics.json"},
+        {"include" : "unit_tests_DirectLighting.json"},
+        {"include" : "unit_tests_Displacement.json"},
+        {"include" : "unit_tests_embree-test.json"},
+        {"include" : "unit_tests_GI.json"},
+        {"include" : "unit_tests_Hair.json"},
+        {"include" : "unit_tests_ICE.json"},
+        {"include" : "unit_tests_Instancing.json"},
+        {"include" : "unit_tests_LightGeneral.json"},
+        {"include" : "unit_tests_LightTypes.json"},
+        {"include" : "unit_tests_Materials.json"},
+        {"include" : "unit_tests_Misc.json"},
+        {"include" : "unit_tests_MotionBlur.json"},
+        {"include" : "unit_tests_OSL.json"},
+        {"include" : "unit_tests_Other.json"},
+        {"include" : "unit_tests_Photographic.json"},
+        {"include" : "unit_tests_RedshiftShaders.json"},
+        {"include" : "unit_tests_ShaderPruning.json"},
+        {"include" : "unit_tests_Sprite.json"},
+        {"include" : "unit_tests_SSS.json"},
+        {"include" : "unit_tests_Tessellation.json"},
+        {"include" : "unit_tests_UnifiedSampling.json"},
+        {"include" : "unit_tests_UserDataStrings.json"},
+        {"include" : "unit_tests_VisibilityFlags.json"},
+        {"include" : "unit_tests_Volume.json"},
+        {"include" : "unit_tests_Volumetric.json"}
+    ]
+}
+

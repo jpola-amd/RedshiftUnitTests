@@ -1,0 +1,36 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/LightTypes/lights_area.rs",
+      "test_name": "lights_area"
+    },
+    {
+      "path_to_scene": "unit_tests/LightTypes/lights_dome.rs",
+      "test_name": "lights_dome"
+    },
+    {
+      "path_to_scene": "unit_tests/LightTypes/lights_ies.rs",
+      "test_name": "lights_ies"
+    },
+    {
+      "path_to_scene": "unit_tests/LightTypes/lights_infinite.rs",
+      "test_name": "lights_infinite"
+    },
+    {
+      "path_to_scene": "unit_tests/LightTypes/lights_point.rs",
+      "test_name": "lights_point"
+    },
+    {
+      "path_to_scene": "unit_tests/LightTypes/lights_portal.rs",
+      "test_name": "lights_portal"
+    },
+    {
+      "path_to_scene": "unit_tests/LightTypes/lights_spot.rs",
+      "test_name": "lights_spot"
+    },
+    {
+      "path_to_scene": "unit_tests/LightTypes/lights_sun.rs",
+      "test_name": "lights_sun"
+    }
+  ]
+}

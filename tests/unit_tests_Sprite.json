@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "path_to_scene": "unit_tests/Sprite/SpriteInstanced.rs",
+      "test_name": "SpriteInstanced"
+    },
+    {
+      "path_to_scene": "unit_tests/Sprite/spriteinstanced_missinguvs.rs",
+      "test_name": "spriteinstanced_missinguvs"
+    },
+    {
+      "path_to_scene": "unit_tests/Sprite/sprite_missinguvs.rs",
+      "test_name": "sprite_missinguvs"
+    }
+  ]
+}
