@@ -20,10 +20,63 @@
             "request": "launch",
             "program": "run_tests.py",
             "args": [
+                "--program", "redshiftCmdLine",
+                "--test",
+                "./tests/redshift_test_suite_emission.json",
+                "--gpu", "0"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Benchmark large AMD",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
                 "--program", "redshiftBenchmark",
                 "--test",
-                "./tests/redshift_test_suite_displacement.json",
-                "--gpu", "1"
+                "./tests/large_scenes.json",
+                "--gpu", "0"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Performance analysis emission AMD {benchmark}",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftBenchmark",
+                "--performance-analysis",
+                "--analysis-path", "results/2023-06-06_230127"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Performance analysis emission AMD {cmdline}",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--performance-analysis",
+                "--analysis-path", "results/2023-06-06_011556"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Image analysis emission AMD {benchmark}",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftBenchmark",
+                "--image-analysis",
+                "--analysis-path", "results/2023-06-06_001039"
             ],
             "console": "integratedTerminal",
             "justMyCode": true
