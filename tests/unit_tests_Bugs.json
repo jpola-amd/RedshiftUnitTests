@@ -101,10 +101,6 @@
       "test_name": "CLI36859"
     },
     {
-      "path_to_scene": "unit_tests/Bugs/DirectIndirect_03_asmeasured.rs",
-      "test_name": "DirectIndirect_03_asmeasured"
-    },
-    {
       "path_to_scene": "unit_tests/Bugs/empty_scene.rs",
       "test_name": "empty_scene"
     },
