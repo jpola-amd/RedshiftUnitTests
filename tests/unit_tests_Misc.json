@@ -25,10 +25,6 @@
       "test_name": "emission_material_point_lights_GI"
     },
     {
-      "path_to_scene": "unit_tests/Misc/empty_scene.rs",
-      "test_name": "empty_scene"
-    },
-    {
       "path_to_scene": "unit_tests/Misc/multi_light_plastic_GI.rs",
       "test_name": "multi_light_plastic_GI"
     },

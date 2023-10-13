@@ -8,7 +8,7 @@
             "args": [
                 "--program", "redshiftBenchmark",
                 "--test",
-                "./tests/unit_tests.json",
+                "./tests/all.json",
                 "--gpu", "0" //gpu 1 W6800
             ],
             "console": "integratedTerminal",
@@ -50,7 +50,7 @@
             "args": [
                 "--program", "redshiftBenchmark",
                 "--performance-analysis",
-                "--analysis-path", "results/2023-06-06_230127"
+                "--analysis-path", "results/2023-06-14_022514"
             ],
             "console": "integratedTerminal",
             "justMyCode": true
@@ -76,11 +76,29 @@
             "args": [
                 "--program", "redshiftBenchmark",
                 "--image-analysis",
-                "--analysis-path", "results/2023-06-06_001039"
+                "--analysis-path", "results/2023-06-13_171619"
             ],
             "console": "integratedTerminal",
             "justMyCode": true
         },
+        {
+            "name": "Test bugs navi31",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftBenchmark",
+                "--test",
+                "tests/_bugs-res.json",
+                "--gpu", "0"
+            ],
+            "console": "integratedTerminal",
+            "env": { "key":"PYDEVD_DISABLE_FILE_VALIDATION", "value":"1" },
+            "justMyCode": true
+        },
+
+
+        
         
     ]
 }
