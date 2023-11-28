@@ -1,0 +1,21 @@
+{
+    "tests": [
+        {
+            "path_to_scene": "unit_tests\\Bugs\\Bug1454_BadBlendedAOVs.rs",
+            "test_name": "Bug1454_BadBlendedAOVs"
+        },
+        {
+            "path_to_scene": "unit_tests\\Bugs\\CLI36859.rs",
+            "test_name": "CLI36859"
+        },
+        {
+            "path_to_scene": "unit_tests\\Bugs\\Bug1498_BadPuzzleMatte.rs",
+            "test_name": "Bug1498_BadPuzzleMatte"
+        },
+        {
+            "path_to_scene": "unit_tests\\Bugs\\Bug1454_BadBlendedAOVs.rs",
+            "test_name": "Bug1454_BadBlendedAOVs"
+
+        }
+    ]
+}

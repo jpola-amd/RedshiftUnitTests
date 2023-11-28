@@ -40,7 +40,7 @@ class AnalysisItem:
                 480 : 387,
                 486 : 393,
                 512 : 420,
-                540 : 447,
+                540 : 436,
                 562 : 470,
                 576 : 484, 
                 600 : 507,
@@ -218,7 +218,8 @@ class ImageAnalyzer:
         result_image_paths = [Path(f) for f in images_directory.glob('*.png')]
         self.to_compare_items = []
         for result_image in result_image_paths:
-            name = result_image.name.split(".")[0]
+            _parts = result_image.name.split(".")[:-2] # selecet everythin except .result.png
+            name = ".".join(_parts)
             reference_file = self.reference_path / 'images' / f'{name}.reference.png'
             if not reference_file.exists():
                 warn_msg = f'{Fore.YELLOW}Warning: {Fore.GREEN}{reference_file}{Style.RESET_ALL} does not exists'

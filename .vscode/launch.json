@@ -9,7 +9,50 @@
                 "--program", "redshiftBenchmark",
                 "--test",
                 "./tests/all.json",
+                "--gpu", "1" //gpu 1 W6800
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "CMD multioutput",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--reference",
+                "--test",
+                "./tests/multi_output.json",
                 "--gpu", "0" //gpu 1 W6800
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "CMD all",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--test",
+                "./tests/all.json",
+                "--gpu", "1" //gpu 1 W6800
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "CMD aov",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--test",
+                "./tests/redshift_test_suite_aov.json",
+                "--gpu", "1" //gpu 1 W6800
             ],
             "console": "integratedTerminal",
             "justMyCode": true
@@ -20,10 +63,10 @@
             "request": "launch",
             "program": "run_tests.py",
             "args": [
-                "--program", "redshiftCmdLine",
+                "--program", "redshiftBenchmark",
                 "--test",
                 "./tests/redshift_test_suite_emission.json",
-                "--gpu", "0"
+                "--gpu", "1"
             ],
             "console": "integratedTerminal",
             "justMyCode": true
@@ -82,6 +125,34 @@
             "justMyCode": true
         },
         {
+            "name": "Image analysis emission AMD {cmd}",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--image-analysis",
+                "--analysis-path", "results/2023-11-24_152401"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "References redshiftCmdLine CUDA",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--reference",
+                "--test",
+                "./tests/all.json",
+                "--gpu", "0"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Test bugs navi31",
             "type": "python",
             "request": "launch",
@@ -96,6 +167,7 @@
             "env": { "key":"PYDEVD_DISABLE_FILE_VALIDATION", "value":"1" },
             "justMyCode": true
         },
+
 
 
         

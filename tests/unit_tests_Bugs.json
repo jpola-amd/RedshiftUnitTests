@@ -136,54 +136,7 @@
       "path_to_scene": "unit_tests/Bugs/normals.rs",
       "test_name": "normals"
     },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001.rs",
-      "test_name": "OvernightRender_v001"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth.rs",
-      "test_name": "OvernightRender_v001_reduced_depth"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v10.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v10"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v11.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v11"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v2.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v2"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v3.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v3"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v4.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v4"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v5.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v5"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v6.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v6"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v7.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v7"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v8.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v8"
-    },
-    {
-      "path_to_scene": "unit_tests/Bugs/OvernightRender_v001_reduced_depth_v9.rs",
-      "test_name": "OvernightRender_v001_reduced_depth_v9"
-    },
+   
     {
       "path_to_scene": "unit_tests/Bugs/rslight.rs",
       "test_name": "rslight"

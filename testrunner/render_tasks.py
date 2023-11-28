@@ -131,22 +131,19 @@ class RenderingTask(Task):
         return True, "Success"
     
     def rename_and_move_to_results(self, output_image:Path, name:str):
-         # change output image name to test_name
-        if len(output_image.suffixes) > 1:
-            name_parts = [name] + \
-                output_image.suffixes[:-1] + [f"{self.result_suffix}.png"]
-        else:
-            name_parts = [name] + [f"{self.result_suffix}.png"]
-        name = "".join(name_parts)
-        suffixed_image_path = output_image.with_name(name)
+        # change output image name to test_name
+        parts = output_image.name.split(".")
+        _name = ".".join( [name] + parts[:-1] + [f"{self.result_suffix}.png"]) # parts[1:-1] select all in between main name and the trailing png.
+        # _name = "".join([output_image.name, f"{self.result_suffix}.png"])
+        suffixed_image_path = output_image.with_name(_name)
         if suffixed_image_path.exists():
             print(f"{Fore.YELLOW}Warning:{Style.RESET_ALL} removing [{suffixed_image_path}]")
             os.remove(suffixed_image_path)
-        output_image.rename(suffixed_image_path)
-        output_image = suffixed_image_path
-        if Path.exists(self.images_path / name):
-            print(f"{Fore.YELLOW}Warning:{Style.RESET_ALL} removing [{self.images_path / name}]")
-            os.remove(self.images_path / name)
+        
+        output_image = output_image.rename(suffixed_image_path)
+        if Path.exists(self.images_path / _name):
+            print(f"{Fore.YELLOW}Warning:{Style.RESET_ALL} removing [{self.images_path / _name}]")
+            os.remove(self.images_path / _name)
         shutil.move(str(output_image), self.images_path)
 
     def prepare_command_line_params(self, scene: Scene) -> list:
@@ -205,7 +202,7 @@ class RedshiftCmdLineTask(RenderingTask):
         date_name = date_time_with_prefix("")
         self.results_folder_name = date_name
         self.results_path = self.params.root_path / 'results' / self.results_folder_name
-        self.result_suffix = ".result"
+        self.result_suffix = "result"
         self.init_folders()
         self.run_msg = "\tRunning test {color}{index}{reset}/{color}{count}{reset} [{scene}]"
         self.end_msg = '{magenta}Tests completed{reset}:\n' \
@@ -229,7 +226,7 @@ class RedshiftCmdLineReferenceTask(RenderingTask):
         date_name = date_time_with_prefix("")
         self.results_folder_name = self.params.program
         self.results_path = self.params.root_path / 'references' / self.results_folder_name
-        self.result_suffix = ".reference"
+        self.result_suffix = "reference"
         self.init_folders()
         self.run_msg = "\tGenerating {color}{index}{reset}/{color}{count}{reset} [{scene}]"
         self.end_msg = '{magenta}Generation completed{reset}:\n' \
@@ -253,7 +250,7 @@ class RedshiftBenchmarkTask(RenderingTask):
         date_name = date_time_with_prefix("")
         self.results_folder_name = date_name
         self.results_path = self.params.root_path / 'results' / self.results_folder_name
-        self.result_suffix = ".result"
+        self.result_suffix = "result"
         self.init_folders()
         self.run_msg = "\tRunning test {color}{index}{reset}/{color}{count}{reset} [{scene}]"
         self.end_msg = '{magenta}Tests completed{reset}:\n' \
@@ -275,7 +272,7 @@ class RedshiftBenchmarkReferenceTask(RenderingTask):
         date_name = date_time_with_prefix("")
         self.results_folder_name = self.params.program
         self.results_path = self.params.root_path / 'references' / self.results_folder_name
-        self.result_suffix = ".reference"
+        self.result_suffix = "reference"
         self.init_folders()
         self.run_msg = "\tGenerating {color}{index}{reset}/{color}{count}{reset} [{scene}]"
         self.end_msg = '{magenta}Generation completed{reset}:\n' \
