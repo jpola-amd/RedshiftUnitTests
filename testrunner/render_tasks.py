@@ -107,7 +107,7 @@ class RenderingTask(Task):
     
     def handle_result(self, return_code: int, test_name: str) -> Tuple[bool, str]:
         log_file = get_latest_log_path() / "log.html"
-        shutil.copy2(log_file, self.logs_path / f'{test_name}{self.result_suffix}.html')
+        shutil.copy2(log_file, self.logs_path / f'{test_name}.{self.result_suffix}.html')
 
         if return_code != 0:
             result, msg = analyze_latest_log(log_file)
