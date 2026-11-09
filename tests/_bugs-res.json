@@ -1,0 +1,67 @@
+{
+    "tests": [
+        {"include": "unit_tests_Displacement.json"},
+        {"include": "unit_tests_DirectLighting.json"},
+        {"include": "unit_tests_Sprite.json"},
+        {
+            "path_to_scene": "unit_tests/Bugs/Bug1458_1462.rs",
+            "test_name": "Bug1458_1462"
+        },
+        {
+            "path_to_scene": "unit_tests/Bugs/Bug1740_BlendedOpacityCutoutCrash.rs",
+            "test_name": "Bug1740_BlendedOpacityCutoutCrash"
+        },
+        {
+            "path_to_scene": "unit_tests/Bugs/Bug2559_MultipleVtxFormatsBadGeo.rs",
+            "test_name": "Bug2559_MultipleVtxFormatsBadGeo"
+        },
+        {
+            "path_to_scene": "unit_tests/Bugs/Bug2876_BadMemoryLayoutForBlendedSSSAndBump.rs",
+            "test_name": "Bug2876_BadMemoryLayoutForBlendedSSSAndBump"
+        },
+        {
+            "path_to_scene": "unit_tests/Bugs/Bug3073_3074_PortalAndDomeGlitches.rs",
+            "test_name": "Bug3073_3074_PortalAndDomeGlitches"
+        },
+        {
+            "path_to_scene": "unit_tests/OSL/closure.rs",
+            "test_name": "closure"
+        },
+        {
+            "path_to_scene": "unit_tests/ICE/ice-uv+vtxcol+wm.rs",
+            "test_name": "ice-uv+vtxcol+wm"
+        },
+        {
+            "path_to_scene": "unit_tests/Bugs/HelmetCItyTex/helmetCity-lightc4d_0003.rs",
+            "test_name": "helmetCity-lightc4d_0003"
+        },
+        {
+            "path_to_scene": "unit_tests/Materials/MatBlend.rs",
+            "test_name": "MatBlend"
+        },
+        {
+            "path_to_scene": "unit_tests/Materials/MatBlend_TextureAsLayerAlphaAsBlend.rs",
+            "test_name": "MatBlend_TextureAsLayerAlphaAsBlend"
+        },
+        {
+            "path_to_scene": "unit_tests/Materials/MatteShadow.rs",
+            "test_name": "MatteShadow"
+        },
+        {
+            "path_to_scene": "unit_tests/Camera/ProjectionShifts.rs",
+            "test_name": "ProjectionShifts"
+        },
+        {
+            "path_to_scene": "unit_tests/Materials/RaySwitch.rs",
+            "test_name": "RaySwitch"
+        },
+        {
+            "path_to_scene": "unit_tests/Misc/shader-switch.rs",
+            "test_name": "shader-switch"
+        },
+        {
+            "path_to_scene": "unit_tests/Tessellation/TessTest4.rs",
+            "test_name": "TessTest4"
+        }
+    ]
+}
