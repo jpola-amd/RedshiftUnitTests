@@ -1,0 +1,37 @@
+{
+    "description": "Category 'area_light' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/area_light/area_light_diffuse.rs",
+            "test_name": "c4d_area_light_area_light_diffuse"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/area_light/area_light_diffuse_GI.rs",
+            "test_name": "c4d_area_light_area_light_diffuse_GI"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/area_light/area_light_plastic.rs",
+            "test_name": "c4d_area_light_area_light_plastic"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/area_light/area_light_plastic_GI.rs",
+            "test_name": "c4d_area_light_area_light_plastic_GI"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/area_light/area_light_specular.rs",
+            "test_name": "c4d_area_light_area_light_specular"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/area_light/area_light_specular_GI.rs",
+            "test_name": "c4d_area_light_area_light_specular_GI"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/area_light/area_light_two_visibility_off.rs",
+            "test_name": "c4d_area_light_area_light_two_visibility_off"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/area_light/area_light_two_visibility_on.rs",
+            "test_name": "c4d_area_light_area_light_two_visibility_on"
+        }
+    ]
+}

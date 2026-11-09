@@ -1,0 +1,29 @@
+{
+    "description": "All scenes of scenes/feature/hip_emission",
+    "tests": [
+        {
+            "path_to_scene": "feature/hip_emission/test_emission.rs",
+            "test_name": "emission_test_emission"
+        },
+        {
+            "path_to_scene": "feature/hip_emission/test_emission_dl.rs",
+            "test_name": "emission_test_emission_dl"
+        },
+        {
+            "path_to_scene": "feature/hip_emission/test_emission_dl_ss.rs",
+            "test_name": "emission_test_emission_dl_ss"
+        },
+        {
+            "path_to_scene": "feature/hip_emission/test_emission_dl_ss_multisample.rs",
+            "test_name": "emission_test_emission_dl_ss_multisample"
+        },
+        {
+            "path_to_scene": "feature/hip_emission/test_emission_dl_ss_multisample_nounified.rs",
+            "test_name": "emission_test_emission_dl_ss_multisample_nounified"
+        },
+        {
+            "path_to_scene": "feature/hip_emission/test_emission_simple.rs",
+            "test_name": "emission_test_emission_simple"
+        }
+    ]
+}

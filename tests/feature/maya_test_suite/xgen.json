@@ -1,0 +1,9 @@
+{
+    "description": "Category 'xgen' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/XGen/test-xg-ns.rs",
+            "test_name": "maya_xgen_test-xg-ns"
+        }
+    ]
+}

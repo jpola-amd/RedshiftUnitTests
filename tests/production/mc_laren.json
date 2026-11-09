@@ -1,0 +1,9 @@
+{
+    "description": "All scenes of scenes/production/mc_laren",
+    "tests": [
+        {
+            "path_to_scene": "production/mc_laren/scenes/Car.rs",
+            "test_name": "prod_mc_laren_Car"
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+{
+    "description": "All categories of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "include": "c4d_feature_scenes/area_light.json"
+        },
+        {
+            "include": "c4d_feature_scenes/bugs.json"
+        },
+        {
+            "include": "c4d_feature_scenes/camera_types.json"
+        },
+        {
+            "include": "c4d_feature_scenes/caustics.json"
+        },
+        {
+            "include": "c4d_feature_scenes/displacement.json"
+        },
+        {
+            "include": "c4d_feature_scenes/embree_test.json"
+        },
+        {
+            "include": "c4d_feature_scenes/gi_types.json"
+        },
+        {
+            "include": "c4d_feature_scenes/light_general.json"
+        },
+        {
+            "include": "c4d_feature_scenes/light_types.json"
+        },
+        {
+            "include": "c4d_feature_scenes/misc.json"
+        },
+        {
+            "include": "c4d_feature_scenes/motion_blur.json"
+        },
+        {
+            "include": "c4d_feature_scenes/osl.json"
+        },
+        {
+            "include": "c4d_feature_scenes/redshift_shaders.json"
+        },
+        {
+            "include": "c4d_feature_scenes/shader_pruning.json"
+        },
+        {
+            "include": "c4d_feature_scenes/user_data_strings.json"
+        },
+        {
+            "include": "c4d_feature_scenes/volume.json"
+        }
+    ]
+}

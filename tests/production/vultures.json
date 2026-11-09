@@ -1,0 +1,17 @@
+{
+    "description": "All scenes of scenes/production/vultures",
+    "tests": [
+        {
+            "path_to_scene": "production/vultures/Vultures-debug-2.rs",
+            "test_name": "prod_vultures_Vultures-debug-2"
+        },
+        {
+            "path_to_scene": "production/vultures/Vultures-debug.rs",
+            "test_name": "prod_vultures_Vultures-debug"
+        },
+        {
+            "path_to_scene": "production/vultures/Vultures.rs",
+            "test_name": "prod_vultures_Vultures"
+        }
+    ]
+}

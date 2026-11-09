@@ -1,0 +1,9 @@
+{
+    "description": "All scenes of scenes/production/robot",
+    "tests": [
+        {
+            "path_to_scene": "production/robot/scenes/robot.rs",
+            "test_name": "prod_robot_robot"
+        }
+    ]
+}

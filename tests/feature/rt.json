@@ -1,0 +1,17 @@
+{
+    "description": "All scenes of scenes/feature/rt",
+    "tests": [
+        {
+            "path_to_scene": "feature/rt/rt_test.rs",
+            "test_name": "rt_rt_test"
+        },
+        {
+            "path_to_scene": "feature/rt/TESTY.rs",
+            "test_name": "rt_TESTY"
+        },
+        {
+            "path_to_scene": "feature/rt/triplanar_final.rs",
+            "test_name": "rt_triplanar_final"
+        }
+    ]
+}

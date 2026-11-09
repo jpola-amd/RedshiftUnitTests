@@ -1,0 +1,31 @@
+{
+    "description": "Redshift path overrides (REDSHIFT_PATHOVERRIDE_FILE) that map the absolute paths baked into the scenes to the scenes folder. 'to' is relative to redshift_project_root. Redshift compares path prefixes case-insensitively and converts 'from' to backslashes, so absolute paths stored with forward slashes cannot be overridden (those scenes fall back to their relative paths). An entry with 'relative_to' builds 'from' from that scene folder plus the relative path stored in the scene. The first matching entry wins.",
+    "overrides": [
+        {
+            "from": "C:\\Program Files\\Autodesk\\Softimage 2015 SP2\\Application\\rsrc",
+            "to": "feature/xsi_unit_tests",
+            "note": "noIcon.pic used by 29 Softimage scenes"
+        },
+        {
+            "from": "C:\\Eva6\\20\\SourceData\\XSI\\Pictures",
+            "to": "feature/xsi_unit_tests/Pictures",
+            "note": "Softimage unit test textures"
+        },
+        {
+            "from": "C:\\dev\\redshift\\scenes\\test-suite\\redshift-collection",
+            "to": "feature/maya_test_suite",
+            "note": "proxies loaded by gi_types/cornell-box-cube-* and bring_up-simplified_copied_yellow_light"
+        },
+        {
+            "from": "C:\\Work\\Redshift\\OneDrive_2022-08-29\\Redshift Test Scenes\\scenes\\feature-scenes",
+            "to": "feature/c4d_feature_scenes",
+            "note": "osl/texture2 texture"
+        },
+        {
+            "relative_to": "production/robot/scenes",
+            "from": "..\\..\\..\\..\\..\\..\\Users\\redshift\\Documents\\maya\\projects\\default\\sourceimages",
+            "to": "production/robot/sourceimages",
+            "note": "robot shell UDIM textures, stored only as a relative path to the artist's Maya project"
+        }
+    ]
+}

@@ -1,0 +1,21 @@
+{
+    "description": "All scenes of scenes/production/cinebench_v5",
+    "tests": [
+        {
+            "path_to_scene": "production/cinebench_v5/benchmark v5 complete.rs",
+            "test_name": "prod_cinebench_v5_benchmark_v5_complete"
+        },
+        {
+            "path_to_scene": "production/cinebench_v5/benchmark v5 complete_modified_ggx.rs",
+            "test_name": "prod_cinebench_v5_benchmark_v5_complete_modified_ggx"
+        },
+        {
+            "path_to_scene": "production/cinebench_v5/benchmark v5.rs",
+            "test_name": "prod_cinebench_v5_benchmark_v5"
+        },
+        {
+            "path_to_scene": "production/cinebench_v5/benchmark v5_debug_blanket_complete_3.rs",
+            "test_name": "prod_cinebench_v5_benchmark_v5_debug_blanket_complete_3"
+        }
+    ]
+}

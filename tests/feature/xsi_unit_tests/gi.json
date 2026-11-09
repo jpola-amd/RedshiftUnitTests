@@ -1,0 +1,173 @@
+{
+    "description": "Category 'gi' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF.rs",
+            "test_name": "xsi_gi_GITest_BF"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF_BF0.rs",
+            "test_name": "xsi_gi_GITest_BF_BF0"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF_BF1.rs",
+            "test_name": "xsi_gi_GITest_BF_BF1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF_BF2.rs",
+            "test_name": "xsi_gi_GITest_BF_BF2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF_BF3.rs",
+            "test_name": "xsi_gi_GITest_BF_BF3"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF_IPC0.rs",
+            "test_name": "xsi_gi_GITest_BF_IPC0"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF_IPC1.rs",
+            "test_name": "xsi_gi_GITest_BF_IPC1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF_IPC2.rs",
+            "test_name": "xsi_gi_GITest_BF_IPC2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BF_IPC3.rs",
+            "test_name": "xsi_gi_GITest_BF_IPC3"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BruteForce1.rs",
+            "test_name": "xsi_gi_GITest_BruteForce1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BruteForce2.rs",
+            "test_name": "xsi_gi_GITest_BruteForce2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_BruteForce_SSS.rs",
+            "test_name": "xsi_gi_GITest_BruteForce_SSS"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_IC.rs",
+            "test_name": "xsi_gi_GITest_IC"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_IC_IPC0.rs",
+            "test_name": "xsi_gi_GITest_IC_IPC0"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_IC_IPC1.rs",
+            "test_name": "xsi_gi_GITest_IC_IPC1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_IC_IPC2.rs",
+            "test_name": "xsi_gi_GITest_IC_IPC2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_IC_IPC3.rs",
+            "test_name": "xsi_gi_GITest_IC_IPC3"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_ICP1.rs",
+            "test_name": "xsi_gi_GITest_ICP1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_ICP2.rs",
+            "test_name": "xsi_gi_GITest_ICP2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_BF0.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_BF0"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_BF1.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_BF1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_BF2.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_BF2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_BF3.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_BF3"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_IPC0.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_IPC0"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_IPC1.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_IPC1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_IPC2.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_IPC2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_IPC3.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_IPC3"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BF_Photon.rs",
+            "test_name": "xsi_gi_GITest_MIS_BF_Photon"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_BruteForce1.rs",
+            "test_name": "xsi_gi_GITest_MIS_BruteForce1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_IC.rs",
+            "test_name": "xsi_gi_GITest_MIS_IC"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_IC_IPC0.rs",
+            "test_name": "xsi_gi_GITest_MIS_IC_IPC0"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_IC_IPC1.rs",
+            "test_name": "xsi_gi_GITest_MIS_IC_IPC1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_IC_IPC2.rs",
+            "test_name": "xsi_gi_GITest_MIS_IC_IPC2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_IC_IPC3.rs",
+            "test_name": "xsi_gi_GITest_MIS_IC_IPC3"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_ICP1.rs",
+            "test_name": "xsi_gi_GITest_MIS_ICP1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_MIS_None.rs",
+            "test_name": "xsi_gi_GITest_MIS_None"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_Photons1.rs",
+            "test_name": "xsi_gi_GITest_Photons1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_Photons2.rs",
+            "test_name": "xsi_gi_GITest_Photons2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_Photons3.rs",
+            "test_name": "xsi_gi_GITest_Photons3"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_PreserveReflectionEnergy.rs",
+            "test_name": "xsi_gi_GITest_PreserveReflectionEnergy"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/GI/GITest_Translucency.rs",
+            "test_name": "xsi_gi_GITest_Translucency"
+        }
+    ]
+}

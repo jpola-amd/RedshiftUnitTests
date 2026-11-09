@@ -5,6 +5,7 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftBenchmark",
                 "--test",
@@ -19,11 +20,12 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftCmdLine",
                 "--reference",
                 "--test",
-                "./tests/multi_output.json",
+                "./tests/suites/multi_output.json",
                 "--gpu", "0" //gpu 1 W6800
             ],
             "console": "integratedTerminal",
@@ -34,6 +36,7 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftCmdLine",
                 "--test",
@@ -44,14 +47,31 @@
             "justMyCode": true
         },
         {
+            "name": "CMD all RT",
+            "type": "python",
+            "request": "launch",
+            "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "args": [
+                "--program", "redshiftCmdLine",
+                "--test",
+                "./tests/all.json",
+                "--gpu", "0",
+                "--use_rt"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "CMD aov",
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftCmdLine",
                 "--test",
-                "./tests/redshift_test_suite_aov.json",
+                "./tests/feature/maya_test_suite/aov.json",
                 "--gpu", "1" //gpu 1 W6800
             ],
             "console": "integratedTerminal",
@@ -62,10 +82,11 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftBenchmark",
                 "--test",
-                "./tests/redshift_test_suite_emission.json",
+                "./tests/feature/hip_emission.json",
                 "--gpu", "1"
             ],
             "console": "integratedTerminal",
@@ -76,10 +97,11 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftBenchmark",
                 "--test",
-                "./tests/large_scenes.json",
+                "./tests/production.json",
                 "--gpu", "0"
             ],
             "console": "integratedTerminal",
@@ -90,6 +112,7 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftBenchmark",
                 "--performance-analysis",
@@ -103,6 +126,7 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftCmdLine",
                 "--performance-analysis",
@@ -116,6 +140,7 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftBenchmark",
                 "--image-analysis",
@@ -129,6 +154,7 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftCmdLine",
                 "--image-analysis",
@@ -142,6 +168,7 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftCmdLine",
                 "--reference",
@@ -157,10 +184,11 @@
             "type": "python",
             "request": "launch",
             "program": "run_tests.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "args": [
                 "--program", "redshiftBenchmark",
                 "--test",
-                "tests/_bugs-res.json",
+                "tests/suites/bugs_res.json",
                 "--gpu", "0"
             ],
             "console": "integratedTerminal",

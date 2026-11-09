@@ -1,0 +1,13 @@
+{
+    "description": "Category 'osl' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/osl/Mandelbrot.rs",
+            "test_name": "maya_osl_Mandelbrot"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/osl/test_osl_microfacet.rs",
+            "test_name": "maya_osl_test_osl_microfacet"
+        }
+    ]
+}

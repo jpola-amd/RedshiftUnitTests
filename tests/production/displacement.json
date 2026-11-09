@@ -1,0 +1,13 @@
+{
+    "description": "All scenes of scenes/production/displacement",
+    "tests": [
+        {
+            "path_to_scene": "production/displacement/Displacement_DisplaceOnly.rs",
+            "test_name": "prod_displacement_Displacement_DisplaceOnly"
+        },
+        {
+            "path_to_scene": "production/displacement/Displacement_fullScene.rs",
+            "test_name": "prod_displacement_Displacement_fullScene"
+        }
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "description": "Category 'general' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/panos.rs",
+            "test_name": "maya_general_panos"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/AridTerrain.rs",
+            "test_name": "maya_general_AridTerrain"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/bring_up.rs",
+            "test_name": "maya_general_bring_up"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/polygondata.rs",
+            "test_name": "maya_general_polygondata"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/RockC.rs",
+            "test_name": "maya_general_RockC"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/simplebench.rs",
+            "test_name": "maya_general_simplebench"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/simpletest.rs",
+            "test_name": "maya_general_simpletest"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/sphereproxycrash.rs",
+            "test_name": "maya_general_sphereproxycrash"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/test_reflection_newqueue_ForeceEvict2.rs",
+            "test_name": "maya_general_test_reflection_newqueue_ForeceEvict2"
+        }
+    ]
+}

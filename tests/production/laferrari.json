@@ -1,0 +1,13 @@
+{
+    "description": "All scenes of scenes/production/laferrari",
+    "tests": [
+        {
+            "path_to_scene": "production/laferrari/LAF_Redshift_HQ.rs",
+            "test_name": "prod_laferrari_LAF_Redshift_HQ"
+        },
+        {
+            "path_to_scene": "production/laferrari/LAF_Redshift_LQ.rs",
+            "test_name": "prod_laferrari_LAF_Redshift_LQ"
+        }
+    ]
+}

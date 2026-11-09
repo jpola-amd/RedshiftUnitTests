@@ -1,0 +1,17 @@
+{
+    "description": "Category 'aov' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/AOV/aovtest1-minimal-3.rs",
+            "test_name": "maya_aov_aovtest1-minimal-3"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/AOV/aovtest1.rs",
+            "test_name": "maya_aov_aovtest1"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/AOV/aovtest_transpuzzlematte.rs",
+            "test_name": "maya_aov_aovtest_transpuzzlematte"
+        }
+    ]
+}

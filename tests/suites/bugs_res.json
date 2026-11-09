@@ -1,0 +1,78 @@
+{
+    "description": "Bug regression set used for the resolution checks on Navi31.",
+    "tests": [
+        {
+            "include": "../feature/xsi_unit_tests/displacement.json"
+        },
+        {
+            "include": "../feature/xsi_unit_tests/direct_lighting.json"
+        },
+        {
+            "include": "../feature/xsi_unit_tests/sprite.json"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/displacement/displacement_vertex_attributes.rs",
+            "test_name": "c4d_displacement_displacement_vertex_attributes"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug1458_1462.rs",
+            "test_name": "xsi_bugs_Bug1458_1462"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug1740_BlendedOpacityCutoutCrash.rs",
+            "test_name": "xsi_bugs_Bug1740_BlendedOpacityCutoutCrash"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug2559_MultipleVtxFormatsBadGeo.rs",
+            "test_name": "xsi_bugs_Bug2559_MultipleVtxFormatsBadGeo"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug2876_BadMemoryLayoutForBlendedSSSAndBump.rs",
+            "test_name": "xsi_bugs_Bug2876_BadMemoryLayoutForBlendedSSSAndBump"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug3073_3074_PortalAndDomeGlitches.rs",
+            "test_name": "xsi_bugs_Bug3073_3074_PortalAndDomeGlitches"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/closure.rs",
+            "test_name": "c4d_osl_closure"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/ICE/ice-uv+vtxcol+wm.rs",
+            "test_name": "xsi_ice_ice-uv_vtxcol_wm"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/HelmetCItyTex/helmetCity-lightc4d_0003.rs",
+            "test_name": "c4d_bugs_helmetCity-lightc4d_0003"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatBlend.rs",
+            "test_name": "xsi_materials_MatBlend"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatBlend_TextureAsLayerAlphaAsBlend.rs",
+            "test_name": "xsi_materials_MatBlend_TextureAsLayerAlphaAsBlend"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatteShadow.rs",
+            "test_name": "xsi_materials_MatteShadow"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Camera/ProjectionShifts.rs",
+            "test_name": "xsi_camera_ProjectionShifts"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/RaySwitch.rs",
+            "test_name": "xsi_materials_RaySwitch"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/shader-switch.rs",
+            "test_name": "c4d_misc_shader-switch"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Tessellation/TessTest4.rs",
+            "test_name": "xsi_tessellation_TessTest4"
+        }
+    ]
+}

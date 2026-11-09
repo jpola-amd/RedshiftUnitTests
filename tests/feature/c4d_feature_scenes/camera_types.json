@@ -1,0 +1,29 @@
+{
+    "description": "Category 'camera_types' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/camera_types/camera_cylindrical.rs",
+            "test_name": "c4d_camera_types_camera_cylindrical"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/camera_types/camera_fisheye.rs",
+            "test_name": "c4d_camera_types_camera_fisheye"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/camera_types/camera_shutter_blades.rs",
+            "test_name": "c4d_camera_types_camera_shutter_blades"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/camera_types/camera_spherical.rs",
+            "test_name": "c4d_camera_types_camera_spherical"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/camera_types/camera_standard.rs",
+            "test_name": "c4d_camera_types_camera_standard"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/camera_types/camera_stereo_spherical.rs",
+            "test_name": "c4d_camera_types_camera_stereo_spherical"
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "description": "Category 'volumetric' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/AllowGlobalVolScattering.rs",
+            "test_name": "maya_volumetric_AllowGlobalVolScattering"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/cornellbunny-debug/cornellbunny-bf-bf.rs",
+            "test_name": "maya_volumetric_cornellbunny-bf-bf"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/cornellbunny-debug/cornellbunny-bf-ipc.rs",
+            "test_name": "maya_volumetric_cornellbunny-bf-ipc"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/cornellbunny-debug/cornellbunny-ic-bf.rs",
+            "test_name": "maya_volumetric_cornellbunny-ic-bf"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/cornellbunny.rs",
+            "test_name": "maya_volumetric_cornellbunny"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/cornellbunny_lightgrouptest.rs",
+            "test_name": "maya_volumetric_cornellbunny_lightgrouptest"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/cornellbunny_withGlobalFog_AndTransparency.rs",
+            "test_name": "maya_volumetric_cornellbunny_withGlobalFog_AndTransparency"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/motionblur.rs",
+            "test_name": "maya_volumetric_motionblur"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/overlapping.rs",
+            "test_name": "maya_volumetric_overlapping"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Volumetric/test_vdb_lighting.rs",
+            "test_name": "maya_volumetric_test_vdb_lighting"
+        }
+    ]
+}

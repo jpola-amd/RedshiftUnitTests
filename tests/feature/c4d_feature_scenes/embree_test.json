@@ -1,0 +1,13 @@
+{
+    "description": "Category 'embree_test' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/embree_test/dl_test_mb_obj_deform_translate_instance.rs",
+            "test_name": "c4d_embree_test_dl_test_mb_obj_deform_translate_instance"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/embree_test/hair_motion_blur_instance.rs",
+            "test_name": "c4d_embree_test_hair_motion_blur_instance"
+        }
+    ]
+}

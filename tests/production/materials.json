@@ -1,0 +1,9 @@
+{
+    "description": "All scenes of scenes/production/materials",
+    "tests": [
+        {
+            "path_to_scene": "production/materials/Materials_03.rs",
+            "test_name": "prod_materials_Materials_03"
+        }
+    ]
+}

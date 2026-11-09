@@ -1,2 +1,0 @@
-EnableOptiXRTOnSupportedGPUs True
-AutomaticMemoryManagement True

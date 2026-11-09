@@ -1,0 +1,17 @@
+{
+    "description": "Category 'sprite' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Sprite/sprite_missinguvs.rs",
+            "test_name": "xsi_sprite_sprite_missinguvs"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Sprite/SpriteInstanced.rs",
+            "test_name": "xsi_sprite_SpriteInstanced"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Sprite/spriteinstanced_missinguvs.rs",
+            "test_name": "xsi_sprite_spriteinstanced_missinguvs"
+        }
+    ]
+}

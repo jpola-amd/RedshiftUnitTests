@@ -1,0 +1,9 @@
+{
+    "description": "Category 'gi' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/GI/test_photon.rs",
+            "test_name": "maya_gi_test_photon"
+        }
+    ]
+}

@@ -1,8 +1,0 @@
-{
-    "tests":[
-        {
-            "path_to_scene": "redshift_test_suite\\scenes\\XGen\\test-xg-ns.rs",
-            "test_name": "test-xg-ns"
-        }
-    ]
-}

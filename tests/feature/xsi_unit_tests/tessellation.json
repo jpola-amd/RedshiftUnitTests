@@ -1,0 +1,21 @@
+{
+    "description": "Category 'tessellation' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Tessellation/TessTest1.rs",
+            "test_name": "xsi_tessellation_TessTest1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Tessellation/TessTest2.rs",
+            "test_name": "xsi_tessellation_TessTest2"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Tessellation/TessTest3.rs",
+            "test_name": "xsi_tessellation_TessTest3"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Tessellation/TessTest4.rs",
+            "test_name": "xsi_tessellation_TessTest4"
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+{
+	"required": {
+		"redshift_project_root" : "/home/redshift/RedshiftUnitTest/scenes"
+	}
+}

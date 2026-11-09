@@ -1,0 +1,11 @@
+{
+	"required": {
+		"redshiftBenchmark" : "D:/maxon/redshiftcore/deploy/bin/redshiftBenchmark.exe",
+		"redshiftCmdLine" : "D:/maxon/redshiftcore/deploy/bin/redshiftCmdLine.exe"
+	},
+	"optional": {
+		"redshift_coredata_path" : "D:/maxon/redshiftcore/deploy",
+		"redshift_localdata_path" : "D:/maxon/redshiftcore/deploy",
+		"path_overrides" : "config/path_overrides.json"
+	}
+}

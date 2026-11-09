@@ -1,0 +1,9 @@
+{
+    "description": "Category 'particles' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Particles/rgbPP.rs",
+            "test_name": "maya_particles_rgbPP"
+        }
+    ]
+}

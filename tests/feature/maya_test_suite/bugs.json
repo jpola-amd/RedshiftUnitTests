@@ -1,0 +1,105 @@
+{
+    "description": "Category 'bugs' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug11191_shaderswitchshadows.rs",
+            "test_name": "maya_bugs_bug11191_shaderswitchshadows"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug1466_badprocbump_badprocdisplacementbump.rs",
+            "test_name": "maya_bugs_bug1466_badprocbump_badprocdisplacementbump"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug1899_goborepeats_dropoff.rs",
+            "test_name": "maya_bugs_bug1899_goborepeats_dropoff"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/Bug2896_BumpGainDrivenByProcNode.rs",
+            "test_name": "maya_bugs_Bug2896_BumpGainDrivenByProcNode"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug3389_flippedNormalMap.rs",
+            "test_name": "maya_bugs_bug3389_flippedNormalMap"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug3731_shadowsoftness.rs",
+            "test_name": "maya_bugs_bug3731_shadowsoftness"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug4619_ignoredAnisotropicTangentMap.rs",
+            "test_name": "maya_bugs_bug4619_ignoredAnisotropicTangentMap"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug5133_badRampNodeBump.rs",
+            "test_name": "maya_bugs_bug5133_badRampNodeBump"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug5231_missingBlocksWithInstancing.rs",
+            "test_name": "maya_bugs_bug5231_missingBlocksWithInstancing"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug5231_outOfPermanentMem.rs",
+            "test_name": "maya_bugs_bug5231_outOfPermanentMem"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug5347_proxyCrash.rs",
+            "test_name": "maya_bugs_bug5347_proxyCrash"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug5596_AOandhair.rs",
+            "test_name": "maya_bugs_bug5596_AOandhair"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug5686_uvsmoothall.rs",
+            "test_name": "maya_bugs_bug5686_uvsmoothall"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug5775_badProjectionAlpha.rs",
+            "test_name": "maya_bugs_bug5775_badProjectionAlpha"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug5956_proxyCrash.rs",
+            "test_name": "maya_bugs_bug5956_proxyCrash"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug6068_proxyCrash.rs",
+            "test_name": "maya_bugs_bug6068_proxyCrash"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug_IES.rs",
+            "test_name": "maya_bugs_bug_IES"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug_missingGIAOV.rs",
+            "test_name": "maya_bugs_bug_missingGIAOV"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/bug_pointbasedtexturecrash.rs",
+            "test_name": "maya_bugs_bug_pointbasedtexturecrash"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/BumpWithMathNodes.rs",
+            "test_name": "maya_bugs_BumpWithMathNodes"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/globalscatteringshaders.rs",
+            "test_name": "maya_bugs_globalscatteringshaders"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/mashCRash2.rs",
+            "test_name": "maya_bugs_mashCRash2"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/matte_parameters_bug.rs",
+            "test_name": "maya_bugs_matte_parameters_bug"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/pointbasedsss_refraction.rs",
+            "test_name": "maya_bugs_pointbasedsss_refraction"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Bugs/TexturedVolumeShadows.rs",
+            "test_name": "maya_bugs_TexturedVolumeShadows"
+        }
+    ]
+}

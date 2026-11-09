@@ -1,0 +1,61 @@
+{
+    "groups": {
+        "feature": {
+            "description": "Small single-feature scenes (correctness). Each sub-folder is a collection split into categories.",
+            "layout": "categories"
+        },
+        "production": {
+            "description": "Large production scenes (performance and correctness). Each sub-folder is one scene.",
+            "layout": "scenes",
+            "name_prefix": "prod"
+        }
+    },
+    "collection_name_prefix": {
+        "feature/c4d_feature_scenes": "c4d",
+        "feature/xsi_unit_tests": "xsi",
+        "feature/maya_test_suite": "maya",
+        "feature/hip_emission": "emission",
+        "feature/lighting_basics": "lighting"
+    },
+    "category_skip_dirs": ["scenes", "Scenes", "UnitTests"],
+    "exclude": {
+        "feature/xsi_unit_tests/Render_Archives/light.rs": "proxy loaded by Bug4850_ProxyLightInstancing",
+        "feature/xsi_unit_tests/Render_Archives/sphere_light.rs": "proxy loaded by Bug3668_ProxyLightDuplicates",
+        "production/cinebench_v5/Blanket.rs": "proxy loaded by 'benchmark v5.rs'"
+    },
+    "overrides": {},
+    "suites": {
+        "bugs_res": {
+            "description": "Bug regression set used for the resolution checks on Navi31.",
+            "tests": [
+                {"include": "feature/xsi_unit_tests/displacement.json"},
+                {"include": "feature/xsi_unit_tests/direct_lighting.json"},
+                {"include": "feature/xsi_unit_tests/sprite.json"},
+                "feature/c4d_feature_scenes/displacement/displacement_vertex_attributes.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug1458_1462.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug1740_BlendedOpacityCutoutCrash.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug2559_MultipleVtxFormatsBadGeo.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug2876_BadMemoryLayoutForBlendedSSSAndBump.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug3073_3074_PortalAndDomeGlitches.rs",
+                "feature/c4d_feature_scenes/osl/closure.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/ICE/ice-uv+vtxcol+wm.rs",
+                "feature/c4d_feature_scenes/bugs/HelmetCItyTex/helmetCity-lightc4d_0003.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatBlend.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatBlend_TextureAsLayerAlphaAsBlend.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatteShadow.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Camera/ProjectionShifts.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Materials/RaySwitch.rs",
+                "feature/c4d_feature_scenes/misc/shader-switch.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Tessellation/TessTest4.rs"
+            ]
+        },
+        "multi_output": {
+            "description": "Scenes that write several AOV / multi-pass outputs.",
+            "tests": [
+                "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug1454_BadBlendedAOVs.rs",
+                "feature/c4d_feature_scenes/bugs/CLI36859.rs",
+                "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug1498_BadPuzzleMatte.rs"
+            ]
+        }
+    }
+}

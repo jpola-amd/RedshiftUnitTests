@@ -1,0 +1,9 @@
+{
+    "description": "All scenes of scenes/production/direct_indirect",
+    "tests": [
+        {
+            "path_to_scene": "production/direct_indirect/DirectIndirect_03.rs",
+            "test_name": "prod_direct_indirect_DirectIndirect_03"
+        }
+    ]
+}

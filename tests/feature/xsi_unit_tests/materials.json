@@ -1,0 +1,61 @@
+{
+    "description": "Category 'materials' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/ALSurface_Trans_GI.rs",
+            "test_name": "xsi_materials_ALSurface_Trans_GI"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/AOV.rs",
+            "test_name": "xsi_materials_AOV"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/BlendedSkinShader.rs",
+            "test_name": "xsi_materials_BlendedSkinShader"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/CameraMap.rs",
+            "test_name": "xsi_materials_CameraMap"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatBlend.rs",
+            "test_name": "xsi_materials_MatBlend"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatBlend_TextureAsLayerAlphaAsBlend.rs",
+            "test_name": "xsi_materials_MatBlend_TextureAsLayerAlphaAsBlend"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatteObject.rs",
+            "test_name": "xsi_materials_MatteObject"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatteShadow.rs",
+            "test_name": "xsi_materials_MatteShadow"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatteShadow_PhysLight.rs",
+            "test_name": "xsi_materials_MatteShadow_PhysLight"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/MatteShadow_Reflect.rs",
+            "test_name": "xsi_materials_MatteShadow_Reflect"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/RaySwitch.rs",
+            "test_name": "xsi_materials_RaySwitch"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/RussianRouletteAndRaySwitch.rs",
+            "test_name": "xsi_materials_RussianRouletteAndRaySwitch"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/SkinShader.rs",
+            "test_name": "xsi_materials_SkinShader"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Materials/test_singlescatter.rs",
+            "test_name": "xsi_materials_test_singlescatter"
+        }
+    ]
+}
