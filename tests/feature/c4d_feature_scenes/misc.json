@@ -1,0 +1,53 @@
+{
+    "description": "Category 'misc' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/3carMatsNoise/Untitled 6.rs",
+            "test_name": "c4d_misc_Untitled_6"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/alpha_opacity_emitter.rs",
+            "test_name": "c4d_misc_alpha_opacity_emitter"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/DirectIndirect.rs",
+            "test_name": "c4d_misc_DirectIndirect"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/displacementcrash.rs",
+            "test_name": "c4d_misc_displacementcrash"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/dl_test_dof.rs",
+            "test_name": "c4d_misc_dl_test_dof"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/emission_material_GI.rs",
+            "test_name": "c4d_misc_emission_material_GI"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/emission_material_point_lights_GI.rs",
+            "test_name": "c4d_misc_emission_material_point_lights_GI"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/empty_scene.rs",
+            "test_name": "c4d_misc_empty_scene"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/multi_light_plastic_GI.rs",
+            "test_name": "c4d_misc_multi_light_plastic_GI"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/sampling_test.rs",
+            "test_name": "c4d_misc_sampling_test"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/shader-switch.rs",
+            "test_name": "c4d_misc_shader-switch"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/misc/user_data_float.rs",
+            "test_name": "c4d_misc_user_data_float"
+        }
+    ]
+}

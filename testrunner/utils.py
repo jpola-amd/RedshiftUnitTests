@@ -1,249 +1,188 @@
-import argparse
+"""Generic helpers: console output, paths, test files, processes and Redshift logs."""
+
 import json
+import os
 import platform
-import pprint as pprint
-import re as re
+import re
+import subprocess
+import time
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from pprint import PrettyPrinter
-from subprocess import PIPE, Popen
-from typing import List, Tuple
 
 from colorama import Fore, Style
 
-EXIT_SUCCESS = 0
-EXIT_FAILURE = -1
-
-def print_error(msg: str):
-    print(f'{Fore.RED}ERROR: {msg}{Style.RESET_ALL}')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+TIMESTAMP_FORMAT = "%Y-%m-%d_%H%M%S"
 
 
-def print_msg(msg: str, color=None):
-    if color:
-        print(f"{color}{msg}{Style.RESET_ALL}")
-    else:
-        print(f"{msg}")
+class RunnerError(Exception):
+    """A user-facing error (bad arguments, missing files); main() prints it and exits with code 2."""
+
+
+# --- console -------------------------------------------------------------------------------------
+
+
+def print_error(msg: str) -> None:
+    print(f"{Fore.RED}ERROR: {msg}{Style.RESET_ALL}")
+
+
+def print_warning(msg: str) -> None:
+    print(f"{Fore.YELLOW}Warning:{Style.RESET_ALL} {msg}")
+
+
+def colored(text, color: str) -> str:
+    return f"{color}{text}{Style.RESET_ALL}"
+
+
+# --- paths and time ------------------------------------------------------------------------------
 
 
 def get_os_tag() -> str:
-    if platform.system() == "Linux":
-        return "linux"
-    elif platform.system() == "Windows":
+    system = platform.system()
+    if system == "Windows":
         return "win"
-    else:
-        raise RuntimeError("{} is not supported".format(platform.system()))
+    if system == "Linux":
+        return "linux"
+    raise RunnerError(f"{system} is not supported")
 
 
-def process_test_files(test_json, tests_list) -> None:
-    try:
-        with open(test_json, 'r') as test_file:
-            conf = json.load(test_file)
-        tests = conf['tests']
-        for t in tests:
-            if 'include' in t:
-                process_test_files(Path(test_json).parent /
-                                   t['include'], tests_list)
-            else:
-                tests_list.append(t)
-    except IOError as e:
-        raise e
+def resolve_path(path, base: Path = PROJECT_ROOT) -> Path:
+    """Absolute path; a relative path is taken from the current directory if it exists there, else from base."""
+    path = Path(path)
+    if path.is_absolute():
+        return path
+    cwd_path = Path.cwd() / path
+    return cwd_path.resolve() if cwd_path.exists() else (base / path).resolve()
 
 
-def execute_process(params: list, user_env=None) -> int:
-    params_str = [str(p) for p in params]
-    process = Popen(params_str, env=user_env,
-                    stdout=PIPE, stderr=PIPE, shell=False)
-    stdout, stderr = process.communicate()
-    return process.returncode
+def timestamp() -> str:
+    return datetime.now().strftime(TIMESTAMP_FORMAT)
 
 
-def get_latest_log_path() -> Path:
-    if get_os_tag() == "win":
-        return Path("C:\\ProgramData\\Redshift\\Log\\Log.Latest.0")
-    else:
-        return Path.home() / 'redshift/log/log.latest.0'
+def parse_redshift_time(text: str) -> float | None:
+    """Seconds from a Redshift FormatTime() string: '45ms', '1.2s', '2m:3s' or '1h:2m:3s'. None if not parsable."""
+    if not text:
+        return None
+    match = re.fullmatch(r"\s*(\d+)\s*ms\s*", text)
+    if match:
+        return int(match.group(1)) / 1000.0
+    parts = re.findall(r"(\d+(?:\.\d+)?)\s*([hms])\b", text)
+    if not parts:
+        return None
+    return sum(float(value) * {"h": 3600, "m": 60, "s": 1}[unit] for value, unit in parts)
 
 
-def analyze_latest_log(log_file: Path) -> Tuple[bool, str]:
-    error_message = 'Redshift encountered an unrecoverable error during rendering and has been disabled.'
-    try:
-        with open(log_file, 'r', encoding='utf-8', errors='ignore') as file:
-            log = file.read()
-            if log.find(error_message) != -1:
-                return False, error_message
-            regex = re.search('=\n(ASSERT FAILED.*)\n=', log, re.DOTALL)
-            if regex:
-                msg = regex.group(1)
-                return False, msg
-        return True, "Success"
-    except IOError as err:
-        return False, "Log not found"
+def gpu_arguments(gpus: list[str]) -> list[str]:
+    """['0', '1,2'] -> ['-gpu', '0', '-gpu', '1', '-gpu', '2']"""
+    args = []
+    for value in gpus:
+        for gpu in value.split(","):
+            if gpu.strip():
+                args += ["-gpu", gpu.strip()]
+    return args
 
 
-def validate_path(path:Path):
-    if not path.exists():
-        msg = f'Path does not exists {path}'
-        print_error(msg)
-        raise IOError(msg)
-    
-def read_html(file: Path):
-    with open(file, 'r') as f:
-        content = f.read()
-    return content
-
-def date_time_with_prefix(prefix:str, ext:str="json", format:str='%Y-%m-%d_%H%M%S'):
-    if not prefix:
-        return datetime.now().strftime('%Y-%m-%d_%H%M%S')
-    else:
-        return datetime.now().strftime(f'{prefix}_%Y-%m-%d_%H%M%S.{ext}')
-
-def convert_to_seconds(time_string:str, time_format="%Hh:%Mm:%Ss"):
-    time_object = datetime.strptime(time_string, time_format)
-    total_seconds = timedelta(hours=time_object.hour, minutes=time_object.minute, seconds=time_object.second).total_seconds()
-    return total_seconds
+# --- test files ----------------------------------------------------------------------------------
 
 
-def split_to_gpus(val:str, prefix= "-gpu", sep:str=",") -> List[str]:
-    items = []
-    for item in val.split(sep):
-            items.append(prefix)
-            items.append(item)
-    return items
-    
+def load_tests(test_files: list[Path]) -> list[dict]:
+    """Test entries ({'path_to_scene', 'test_name', ...}) from test JSON files, following 'include' directives."""
+    tests: list[dict] = []
 
-def load_test_files(tests: list) -> list:
-    print(f'{Fore.GREEN}Processing files from{Style.RESET_ALL}: {tests}:', end= ' ')
-    scene_files = []
-    try:
-        for json_test in tests:
-            process_test_files(json_test, scene_files)
-    except IOError as io_err:
-        print_error(repr(io_err))
-        exit(EXIT_FAILURE)
-    print(f'{Fore.BLUE}{len(scene_files)}{Style.RESET_ALL} tests were found')
-    return scene_files
-
-
-@dataclass(init=False, eq=False, order=False, repr=True)
-class ExecutionParameters:
-
-    reference: bool
-    no_delete: bool
-    treshold: float
-    root_path: Path
-    analysis_path: Path
-    performance_analysis: bool
-    image_analysis: bool
-    gpu: List[str]
-    program: str
-    test: str
-
-    def __init__(self, args):
-        self.reference = args.reference
-        self.tests = args.test
-        self.no_delete = args.no_delete
-        self.treshold = args.treshold
-        self.program = args.program
-        self.gpu = args.gpu
-        self.root_path = Path("./").resolve()
-        self.performance_analysis = args.performance_analysis
-        self.image_analysis = args.image_analysis
-        self.analysis_path = Path(str(args.analysis_path))
-
+    def load(file: Path, stack: tuple):
+        file = file.resolve()
+        if file in stack:
+            raise RunnerError(f"Test file include cycle: {' -> '.join(str(f) for f in stack + (file,))}")
         try:
-            with open(args.config, 'r') as cfg:
-                self.config = json.load(cfg)
-            with open(args.user_config, 'r') as cfg:
-                self.user_config = json.load(cfg)
-        except IOError as err:
-            raise err
-        except json.decoder.JSONDecodeError as jerr:
-            raise jerr
+            entries = json.loads(file.read_text(encoding="utf-8"))["tests"]
+        except FileNotFoundError:
+            raise RunnerError(f"Test file does not exist: {file}") from None
+        except (json.JSONDecodeError, KeyError, TypeError) as err:
+            raise RunnerError(f"Invalid test file {file}: {err!r}") from None
+        for entry in entries:
+            if "include" in entry:
+                load(file.parent / entry["include"], stack + (file,))
+            elif "path_to_scene" in entry and "test_name" in entry:
+                tests.append(entry)
+            else:
+                raise RunnerError(f"Invalid entry in {file}: {entry}")
 
-        is_valid, msg = self.validate()
-        if not is_valid:
-            raise ValueError(msg)
-
-    # def __repr__(self) -> str:
-    #    return f"program: {self.program}, test: {self.tests}, gpu: {self.gpu}, reference: {self.reference} treshold: {self.treshold}, no_delete: {self.no_delete}"
-
-    def print_config(self) -> None:
-        pp = PrettyPrinter(indent=4)
-        pp.pprint(self.config)
-
-    def print_user_config(self) -> None:
-        pp = PrettyPrinter(indent=4)
-        pp.pprint(self.user_config)
-
-    def validate(self) -> (bool, str):
-        # config
-        if not "required" in self.config:
-            return False, "'required' section is missing in config"
-        if not "required" in self.user_config:
-            return False, "'required' section is missing in user config"
-        if not "maya_project_root" in self.user_config['required']:
-            return False, "'maya_project_root' is missing in user config"
-        if not 'redshift_project_root' in self.user_config['required']:
-            return False, "'redshift_project_root' is missing in user config"
-
-        # paths
-        p = Path(self.config['required']['redshiftCmdLine'])
-        if not p.exists():
-            return False, f"Config: Path to redshiftCmdLine does not exists {p}"
-        p = Path(self.config['required']['redshiftBenchmark'])
-        if not p.exists():
-            return False, f"Config: Path to redshiftBenchmark does not exists {p}"
-        p = Path(self.user_config['required']['redshift_project_root'])
-        if not p.exists():
-            return False, f"User config: Path to Redshift scenes [redshift_project_root] does not exists {p}"
-        p = Path(self.user_config['required']['maya_project_root'])
-        if not p.exists():
-            return False, f"User config: Path to Maya scenes [maya_project_root] does not exists {p}"
-
-        return True, None
-
-    def get_executable(self) -> Path:
-        kind = self.program
-        if kind == 'redshiftBenchmark':
-            return self.config['required']['redshiftBenchmark']
-        elif kind == 'redshiftCmdLine':
-            return self.config['required']['redshiftCmdLine']
-        elif kind == 'maya':
-            return self.config['required']['maya_batch']
-        elif kind == 'xsi':
-            return self.config['required']['xsi_batch']
-        else:
-            return Path()
+    for test_file in test_files:
+        load(test_file, ())
+    return tests
 
 
-def parse_command_line_args() -> ExecutionParameters:
-    class ExtendAction(argparse.Action):
-        def __call__(self, parser, namespace, values, option_string=None):
-            items = getattr(namespace, self.dest) or []
-            items.extend(values)
-            setattr(namespace, self.dest, items)
-
-    DEFAULT_CONFIG_FILE = f'config/config.{get_os_tag()}.json'
-    DEFAULT_USER_CONFIG_FILE = f'config/config.{get_os_tag()}.user.json'
-
-    parser = argparse.ArgumentParser(description='Run Redshift unit tests.')
-    parser.register('action', 'extend', ExtendAction)
-    parser.add_argument('--reference', action='store_true', help='Use to generate reference images for given "program"')
-    parser.add_argument('--config', default=DEFAULT_CONFIG_FILE, help='Main configuration file to use')
-    parser.add_argument('--user-config', default=DEFAULT_USER_CONFIG_FILE, help='User config to use')
-    parser.add_argument('--test', action='append', required=False, help='Test to execute')
-    parser.add_argument('--no-delete', action='store_true', help='deprecated')
-    parser.add_argument('--gpu', nargs='+', required=False, action='extend', help='GPU to execute the program. For multi-GPU separete with comma --gpu 1,2,3')
-    parser.add_argument("--treshold", type=float, default=0.95, help="Mean Square Root [mse] value above which the image is considered incorrect")
-    parser.add_argument("--program", choices=['redshiftCmdLine',
-                        'redshiftBenchmark', 'maya'], required=True, help='Choose program to execute the tests')
-    parser.add_argument("--performance-analysis", action="store_true", help="Extract the performance results from the --analysis_path")
-    parser.add_argument("--image-analysis", action="store_true", help="Run the image analysis task on the results from --analysis_path")
-    parser.add_argument("--analysis-path", type=str, help="Path to the results for analysis")
-
-    args = parser.parse_args()
-    parameters = ExecutionParameters(args)
-    return parameters
+# --- processes -----------------------------------------------------------------------------------
 
 
+@dataclass
+class ProcessResult:
+    returncode: int | None  # None when the process was killed after the timeout
+    duration: float
+    timed_out: bool
+
+
+def run_process(
+    cmd: list, env: dict, console_log: Path, timeout: float | None, cwd: Path | None = None
+) -> ProcessResult:
+    """Runs cmd, writing stdout and stderr to console_log; kills it after timeout seconds."""
+    start = time.time()
+    with open(console_log, "w", encoding="utf-8", errors="replace") as out:
+        process = subprocess.Popen([str(c) for c in cmd], env=env, cwd=cwd, stdout=out, stderr=subprocess.STDOUT)
+        try:
+            returncode = process.wait(timeout=timeout)
+            return ProcessResult(returncode, time.time() - start, False)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait()
+            return ProcessResult(None, time.time() - start, True)
+
+
+# --- Redshift logs -------------------------------------------------------------------------------
+
+UNRECOVERABLE_ERROR = "Redshift encountered an unrecoverable error during rendering and has been disabled."
+
+
+def redshift_log_file(env: dict) -> Path:
+    """log.html of the latest Redshift run; it is under REDSHIFT_LOCALDATAPATH when that is set (custom builds)."""
+    local_data = env.get("REDSHIFT_LOCALDATAPATH")
+    if local_data:
+        folder = Path(local_data) / "Log" / "Log.Latest.0"
+    elif get_os_tag() == "win":
+        folder = Path(os.environ.get("PROGRAMDATA", "C:/ProgramData")) / "Redshift" / "Log" / "Log.Latest.0"
+    else:
+        folder = Path.home() / "redshift" / "log" / "log.latest.0"
+    return folder / "log.html"
+
+
+def read_text(file: Path) -> str:
+    return file.read_text(encoding="utf-8", errors="ignore")
+
+
+def find_log_error(log: str) -> str | None:
+    """The fatal error reported in a Redshift log, if any."""
+    if UNRECOVERABLE_ERROR in log:
+        return UNRECOVERABLE_ERROR
+    match = re.search(r"=\n(ASSERT FAILED.*?)\n=", log, re.DOTALL)
+    return match.group(1) if match else None
+
+
+def find_redshift_version(console_output: str) -> str | None:
+    match = re.search(r"\(version ([^\s)]+)", console_output)
+    return match.group(1) if match else None
+
+
+def write_path_override_file(overrides_json: Path, scenes_root: Path, out_file: Path) -> int:
+    """Writes a REDSHIFT_PATHOVERRIDE_FILE ('"from" "to"' per line) from config/path_overrides.json."""
+    overrides = json.loads(overrides_json.read_text(encoding="utf-8"))["overrides"]
+    lines = []
+    for override in overrides:
+        source = override["from"]
+        if "relative_to" in override:
+            # Redshift resolves the stored relative path against the scene folder, mirror that here.
+            source = os.path.normpath(os.path.join(scenes_root, override["relative_to"], source.replace("\\", os.sep)))
+        target = os.path.normpath(os.path.join(scenes_root, override["to"]))
+        lines.append(f'"{source}" "{target}"')
+    out_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return len(lines)

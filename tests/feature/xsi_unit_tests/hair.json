@@ -1,0 +1,21 @@
+{
+    "description": "Category 'hair' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Hair/HairDeformation.rs",
+            "test_name": "xsi_hair_HairDeformation"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Hair/HairInstancedAndMotionBlurred.rs",
+            "test_name": "xsi_hair_HairInstancedAndMotionBlurred"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Hair/HairTextured.rs",
+            "test_name": "xsi_hair_HairTextured"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Hair/HairTransparentTips.rs",
+            "test_name": "xsi_hair_HairTransparentTips"
+        }
+    ]
+}

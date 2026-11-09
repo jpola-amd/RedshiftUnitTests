@@ -1,0 +1,49 @@
+{
+    "description": "Category 'direct_lighting' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest1.rs",
+            "test_name": "xsi_direct_lighting_DLTest1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_Dome1.rs",
+            "test_name": "xsi_direct_lighting_DLTest_Dome1"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_Indirect_vs_Direct.rs",
+            "test_name": "xsi_direct_lighting_DLTest_Indirect_vs_Direct"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_LMA_MIS.rs",
+            "test_name": "xsi_direct_lighting_DLTest_LMA_MIS"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_LMA_MIS_Dome.rs",
+            "test_name": "xsi_direct_lighting_DLTest_LMA_MIS_Dome"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_MeshLight_MIS.rs",
+            "test_name": "xsi_direct_lighting_DLTest_MeshLight_MIS"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_MeshLight_Textured.rs",
+            "test_name": "xsi_direct_lighting_DLTest_MeshLight_Textured"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_MeshLights.rs",
+            "test_name": "xsi_direct_lighting_DLTest_MeshLights"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_PhysicalUnits.rs",
+            "test_name": "xsi_direct_lighting_DLTest_PhysicalUnits"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_Portal.rs",
+            "test_name": "xsi_direct_lighting_DLTest_Portal"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/DirectLighting/DLTest_Temperature.rs",
+            "test_name": "xsi_direct_lighting_DLTest_Temperature"
+        }
+    ]
+}

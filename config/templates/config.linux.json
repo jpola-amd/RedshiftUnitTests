@@ -1,0 +1,11 @@
+{
+	"required": {
+		"redshiftBenchmark" : "/usr/redshift/bin/redshiftBenchmark",
+		"redshiftCmdLine" : "/usr/redshift/bin/redshiftCmdLine"
+	},
+	"optional": {
+		"redshift_coredata_path" : "/usr/redshift",
+		"redshift_localdata_path" : "/home/redshift/redshift",
+		"path_overrides" : "config/path_overrides.json"
+	}
+}

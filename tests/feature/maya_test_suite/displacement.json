@@ -1,0 +1,17 @@
+{
+    "description": "Category 'displacement' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Displacement/invisiblefaces.rs",
+            "test_name": "maya_displacement_invisiblefaces"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Displacement/multiMaterial.rs",
+            "test_name": "maya_displacement_multiMaterial"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Displacement/test_brownian_displacement.rs",
+            "test_name": "maya_displacement_test_brownian_displacement"
+        }
+    ]
+}

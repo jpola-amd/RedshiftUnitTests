@@ -1,0 +1,21 @@
+{
+    "description": "Category 'motion_blur' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/MotionBlur/MBTest_Camera.rs",
+            "test_name": "xsi_motion_blur_MBTest_Camera"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/MotionBlur/MBTest_Deformation.rs",
+            "test_name": "xsi_motion_blur_MBTest_Deformation"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/MotionBlur/MBTest_DeformationWithTransformationICP.rs",
+            "test_name": "xsi_motion_blur_MBTest_DeformationWithTransformationICP"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/MotionBlur/MBTest_Transformation.rs",
+            "test_name": "xsi_motion_blur_MBTest_Transformation"
+        }
+    ]
+}

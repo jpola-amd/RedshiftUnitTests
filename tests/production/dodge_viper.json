@@ -1,0 +1,9 @@
+{
+    "description": "All scenes of scenes/production/dodge_viper",
+    "tests": [
+        {
+            "path_to_scene": "production/dodge_viper/DodgeViper_RS.rs",
+            "test_name": "prod_dodge_viper_DodgeViper_RS"
+        }
+    ]
+}

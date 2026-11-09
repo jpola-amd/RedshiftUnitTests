@@ -1,0 +1,13 @@
+{
+    "description": "Category 'caustics' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/caustics/caustic_area.rs",
+            "test_name": "c4d_caustics_caustic_area"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/caustics/caustic_point.rs",
+            "test_name": "c4d_caustics_caustic_point"
+        }
+    ]
+}

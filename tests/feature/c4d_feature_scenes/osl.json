@@ -1,0 +1,45 @@
+{
+    "description": "Category 'osl' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/closure.rs",
+            "test_name": "c4d_osl_closure"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/fake_caustics.rs",
+            "test_name": "c4d_osl_fake_caustics"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/fake_caustics_2.rs",
+            "test_name": "c4d_osl_fake_caustics_2"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/JawbreakerNoise.rs",
+            "test_name": "c4d_osl_JawbreakerNoise"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/scratches.rs",
+            "test_name": "c4d_osl_scratches"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/SierpinskiSquares.rs",
+            "test_name": "c4d_osl_SierpinskiSquares"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/simple.rs",
+            "test_name": "c4d_osl_simple"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/texture.rs",
+            "test_name": "c4d_osl_texture"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/texture2.rs",
+            "test_name": "c4d_osl_texture2"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/osl/texture_closure.rs",
+            "test_name": "c4d_osl_texture_closure"
+        }
+    ]
+}

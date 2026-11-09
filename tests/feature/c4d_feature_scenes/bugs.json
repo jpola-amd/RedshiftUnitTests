@@ -1,0 +1,169 @@
+{
+    "description": "Category 'bugs' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/area_light_diffuse_GI_new.rs",
+            "test_name": "c4d_bugs_area_light_diffuse_GI_new"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/Brians Guitar Pedal Scene 2/Brians Guitar Pedal Scene/Brians Guitar Pedal Scene.rs",
+            "test_name": "c4d_bugs_Brians_Guitar_Pedal_Scene"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/CLI36859.rs",
+            "test_name": "c4d_bugs_CLI36859"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/dim-block-bug/cpuRenderBug.rs",
+            "test_name": "c4d_bugs_cpuRenderBug"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/dim-block-bug/cpuRenderBug_v2.rs",
+            "test_name": "c4d_bugs_cpuRenderBug_v2"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/DirectIndirect_03_asmeasured.rs",
+            "test_name": "c4d_bugs_DirectIndirect_03_asmeasured"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/DisplaceBugB/DisplaceBugB_Subd6.rs",
+            "test_name": "c4d_bugs_DisplaceBugB_Subd6"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/DisplaceBugB/DisplaceBugB_Subd7.rs",
+            "test_name": "c4d_bugs_DisplaceBugB_Subd7"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/distortion/distortion.rs",
+            "test_name": "c4d_bugs_distortion"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/eliteScene_Proxy/AO_LEITE.rs",
+            "test_name": "c4d_bugs_AO_LEITE"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/hair.rs",
+            "test_name": "c4d_bugs_hair"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/HelmetCItyTex/helmetCity-lightc4d_0003.rs",
+            "test_name": "c4d_bugs_helmetCity-lightc4d_0003"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/HelmetCItyTex/HelmetCItyTex.rs",
+            "test_name": "c4d_bugs_HelmetCItyTex"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/HelmetCItyTex/HelmetCItyTex_Reduced1.rs",
+            "test_name": "c4d_bugs_HelmetCItyTex_Reduced1"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/HelmetCItyTex/HelmetCItyTex_Reduced1b_v2.rs",
+            "test_name": "c4d_bugs_HelmetCItyTex_Reduced1b_v2"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/HelmetCItyTex/HelmetCItyTex_Reduced2.rs",
+            "test_name": "c4d_bugs_HelmetCItyTex_Reduced2"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/instance.rs",
+            "test_name": "c4d_bugs_instance"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/irradiance_cache_bug.rs",
+            "test_name": "c4d_bugs_irradiance_cache_bug"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/LFOdesign-SurfaceGenerator_02/LFOdesign-SurfaceGenerator_02-4.rs",
+            "test_name": "c4d_bugs_LFOdesign-SurfaceGenerator_02-4"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/LFOdesign-SurfaceGenerator_02/LFOdesign-SurfaceGenerator_02.rs",
+            "test_name": "c4d_bugs_LFOdesign-SurfaceGenerator_02"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/normals.rs",
+            "test_name": "c4d_bugs_normals"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v10.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v10"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v11.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v11"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v2.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v2"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v3.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v3"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v4.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v4"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v5.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v5"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v6.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v6"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v7.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v7"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v8.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v8"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/OvernightRender_v001_reduced_depth_v9.rs",
+            "test_name": "c4d_bugs_OvernightRender_v001_reduced_depth_v9"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/ReflRough+Metalness/ReflRough+Metalness Reduced.rs",
+            "test_name": "c4d_bugs_ReflRough_Metalness_Reduced"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/RS-1428/test.rs",
+            "test_name": "c4d_bugs_test"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/RS-1451/Emission_Inconsistency.rs",
+            "test_name": "c4d_bugs_Emission_Inconsistency"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/RS-1451/Emission_Inconsistency_2.rs",
+            "test_name": "c4d_bugs_Emission_Inconsistency_2"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/RS-1471/StackProjection.rs",
+            "test_name": "c4d_bugs_StackProjection"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/rslight.rs",
+            "test_name": "c4d_bugs_rslight"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/SandTex/SandTex.rs",
+            "test_name": "c4d_bugs_SandTex"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/statue_03.rs",
+            "test_name": "c4d_bugs_statue_03"
+        }
+    ]
+}

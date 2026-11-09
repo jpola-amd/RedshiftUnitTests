@@ -1,0 +1,9 @@
+{
+    "description": "Category 'shader_pruning' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/shader_pruning/Switch.rs",
+            "test_name": "c4d_shader_pruning_Switch"
+        }
+    ]
+}

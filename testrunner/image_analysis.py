@@ -1,236 +1,213 @@
+"""Image comparison of a results folder with the references or with another results folder."""
+
+import json
+from dataclasses import asdict, dataclass
+from multiprocessing import Pool
+from pathlib import Path
+
 import cv2 as cv
 import matplotlib
-import matplotlib.pyplot as plt
-from skimage.metrics import mean_squared_error
-from skimage.metrics import structural_similarity as ssim
-import shutil
+import numpy as np
+from colorama import Fore
+from skimage.metrics import structural_similarity
 
-from .utils import *
+from .utils import colored, print_warning
 
-USE_MULTIPROCESSING_ANALYSIS = True
-try:
-    from multiprocessing import Pool, Process
-except ImportError:
-    print('multiprocessing module was not found. Will use single threaded version')
-    USE_MULTIPROCESSING_ANALYSIS = False
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402  (the backend must be selected first)
+from matplotlib.colors import PowerNorm  # noqa: E402
 
+# redshiftBenchmark appends an info strip (time, GPUs) below the render. It differs between runs, so it is cut off
+# before comparing: image height -> height of the rendered part.
+BENCHMARK_RENDER_HEIGHT = {
+    256: 163,
+    341: 254,
+    360: 267,
+    431: 238,
+    450: 357,
+    480: 387,
+    486: 393,
+    512: 420,
+    540: 436,
+    562: 470,
+    576: 484,
+    600: 507,
+    720: 628,
+    729: 637,
+    800: 708,
+    900: 808,
+    917: 814,
+    1024: 932,
+    1075: 983,
+    1080: 988,
+    1125: 1032,
+    1200: 1097,
+    1440: 1336,
+    1500: 1408,
+    1800: 1708,
+    2048: 1956,
+    2160: 2057,
+    4500: 4408,
+}
 
-matplotlib.use('Agg')
 
 @dataclass
-class AnalysisItem:
-    def __init__(self, reference_image: Path, result_image: Path, name: str, plot_path: Path, treshold: float = 0.95, crop:bool=False):
-        self.reference_image = reference_image
-        self.result_image = result_image
-        self.name = name
-        self.treshold = treshold
-        self.output_dir = plot_path
-        self.crop = crop
-        self.mse = 0.0
-        self.ssi = 0.0
+class ImageComparison:
+    name: str
+    reference: Path
+    result: Path
+    mse: float | None = None  # mean squared error over the RGB channels, 0-255 scale
+    ssim: float | None = None  # structural similarity, 1 = identical
+    error: str | None = None  # the images could not be compared
+    failed: bool = False
 
-    # cuts the bottom part of the image description generatedby the benchmark    
-    def _trim(self, imdata):
-        known_heights = {
-                256 : 163,
-                360 : 267,
-                341 : 254,
-                431 : 238,
-                450 : 357,
-                480 : 387,
-                486 : 393,
-                512 : 420,
-                540 : 436,
-                562 : 470,
-                576 : 484, 
-                600 : 507,
-                720 : 628,
-                729 : 637,
-                800: 708,
-                900: 808,
-                917: 814,
-                1024: 932,
-                1075: 983,
-                1080: 988,
-                1125: 1032,
-                1200: 1097,
-                1440: 1336,
-                1500: 1408,
-                1800: 1708,
-                2048: 1956,
-                2160: 2057,
-                4500: 4408
-        }
-        h, w, n = imdata.shape
-        try:
-            return imdata[0: known_heights[h], :, :]
-        except KeyError as e:
-            print(f'{Fore.YELLOW}Warning:{ Style.RESET_ALL} Could not find crop size for height {h}')
-            return imdata
 
-    def compute_mse_and_ssi(self) -> None:
-        if self.crop:
-            cv_ref = self._trim(cv.imread(str(self.reference_image)))
-            cv_res = self._trim(cv.imread(str(self.result_image)))
+def load_rgb(path: Path, crop_benchmark_footer: bool) -> np.ndarray:
+    image = cv.imread(str(path), cv.IMREAD_COLOR)
+    if image is None:
+        raise ValueError(f"cannot read {path.name}")
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    if crop_benchmark_footer:
+        height = BENCHMARK_RENDER_HEIGHT.get(image.shape[0])
+        if height is None:
+            print_warning(f"no benchmark crop height for {image.shape[0]} px, comparing the full image {path.name}")
         else:
-            cv_ref = cv.imread(str(self.reference_image))
-            cv_res = cv.imread(str(self.result_image))
+            image = image[:height]
+    return image
 
-        cv_ref = cv.cvtColor(cv_ref, cv.COLOR_BGR2GRAY)
-        cv_res = cv.cvtColor(cv_res, cv.COLOR_BGR2GRAY)
 
-        self.mse = mean_squared_error(cv_ref, cv_res)
-        #it make sense to ocmpare images that are not enitrely black
-        data_range = cv_ref.max() - cv_ref.min()
-        self.ssi = 1.0
-        if data_range > 0:
-            self.ssi = ssim(cv_ref, cv_res, data_range=data_range)
+def compare_images(reference: np.ndarray, result: np.ndarray) -> tuple[float, float]:
+    """(mse, ssim) of two RGB images of the same size."""
+    if reference.shape != result.shape:
+        raise ValueError(
+            f"size differs: reference {reference.shape[1]}x{reference.shape[0]}, "
+            f"result {result.shape[1]}x{result.shape[0]}"
+        )
+    diff = reference.astype(np.float64) - result.astype(np.float64)
+    mse = float(np.mean(diff * diff))
+    ssim = float(structural_similarity(reference, result, channel_axis=2, data_range=255))
+    return mse, ssim
 
-    def create_diff_plot(self, plot_file_path:Path)->None:
-        if self.crop:
-            cv_ref = self._trim(cv.imread(str(self.reference_image)))
-            cv_res = self._trim(cv.imread(str(self.result_image)))
-        else:
-            cv_ref = cv.imread(str(self.reference_image))
-            cv_res = cv.imread(str(self.result_image))
-        
-        fig, axes = plt.subplots(ncols=3, figsize=(19.20,10.80), sharex=True, sharey=True)
-        ax = axes.ravel()
 
-        diff = 255 - cv.absdiff(cv_ref, cv_res)
-        ax[0].imshow(cv_ref, cmap=plt.cm.gray, vmin=0, vmax=255)
-        ax[0].set_title('Original image')
+def save_diff_plot(reference: np.ndarray, result: np.ndarray, comparison: ImageComparison, plot_file: Path) -> None:
+    diff = np.abs(reference.astype(np.int16) - result.astype(np.int16)).max(axis=2)
+    height, width = diff.shape
+    fig, axes = plt.subplots(
+        ncols=3, figsize=(19.2, max(3.0, 19.2 / 3 * height / width + 1.2)), sharex=True, sharey=True
+    )
+    axes[0].imshow(reference)
+    axes[0].set_title("Reference")
+    # Square-root scale so that sparse, small differences stay visible next to large ones.
+    norm = PowerNorm(gamma=0.5, vmin=0, vmax=max(1, int(diff.max())))
+    shown = axes[1].imshow(diff, cmap="inferno", norm=norm)
+    axes[1].set_title(f"Difference (max channel, max {int(diff.max())})")
+    fig.colorbar(shown, ax=axes[1], fraction=0.046)
+    axes[2].imshow(result)
+    axes[2].set_title("Result")
+    axes[2].set_xlabel(f"MSE: {comparison.mse:.3f}, SSIM: {comparison.ssim:.4f}")
+    plt.tight_layout()
+    plt.savefig(str(plot_file), dpi=100)
+    plt.close(fig)
 
-        ax[1].imshow(diff, cmap=plt.cm.gray, vmin=0, vmax=255)
-        ax[1].set_xlabel('')
-        ax[1].set_title('Diff Image')
 
-        ax[2].imshow(cv_res, cmap=plt.cm.gray, vmin=0, vmax=255)
-        ax[2].set_xlabel(f'MSE: {self.mse:.2f}, SSIM: {self.ssi:.2f}')
-        ax[2].set_title('Result Image')
-
-        plt.tight_layout()
-        plt.savefig(str(plot_file_path), dpi=300)
-        plt.close()
-
-def Analyze(item: AnalysisItem):
+def _run_comparison(job: tuple) -> ImageComparison:
+    comparison, crop, threshold, min_ssim, plot_folder = job
     try:
-        item.compute_mse_and_ssi()
-        if item.mse > item.treshold:
-            shutil.copy2(item.reference_image, item.output_dir)
-            shutil.copy2(item.result_image, item.output_dir)
-            plot_file = item.output_dir / f'{item.name}.diff.png'
-            item.create_diff_plot(plot_file)
-    except ValueError as ve:
-        print_error(f"Analysis of {item.name} failed: {repr(ve)}")
-    return item
-    
+        reference = load_rgb(comparison.reference, crop)
+        result = load_rgb(comparison.result, crop)
+        comparison.mse, comparison.ssim = compare_images(reference, result)
+        comparison.failed = comparison.mse > threshold or (min_ssim is not None and comparison.ssim < min_ssim)
+        if comparison.failed and plot_folder:
+            plot_folder.mkdir(parents=True, exist_ok=True)
+            save_diff_plot(reference, result, comparison, plot_folder / f"{comparison.name}.diff.png")
+    except Exception as err:  # noqa: BLE001  any problem with one image must not stop the others
+        comparison.error = str(err)
+        comparison.failed = True
+    return comparison
+
+
 class ImageAnalyzer:
-    def __init__(self, references_path: Path, results_path: Path, treshold: float = 0.95, crop: bool = False):
-        self.reference_path = references_path
+    """Pairs <name>.result.png in <results>/images with <name>.<reference_suffix>.png in <reference_path>/images."""
+
+    def __init__(
+        self,
+        reference_path: Path,
+        results_path: Path,
+        threshold: float = 0.95,
+        min_ssim: float | None = None,
+        crop_benchmark_footer: bool = False,
+        reference_suffix: str = "reference",
+        plot_folder: Path | None = None,
+    ):
+        self.reference_path = reference_path
         self.results_path = results_path
-        self.analysis_output_path = self.results_path / 'common'
-        validate_path(self.reference_path)
-        validate_path(self.results_path)
-        validate_path(self.analysis_output_path)
-        shutil.rmtree(self.analysis_output_path)
-        self.analysis_output_path.mkdir(parents=True)
+        self.threshold = threshold
+        self.min_ssim = min_ssim
+        self.crop = crop_benchmark_footer
+        self.reference_suffix = reference_suffix
+        self.plot_folder = plot_folder
+        self.comparisons: list[ImageComparison] = []
+        self.missing_references: list[Path] = []
 
-        self.treshold = treshold
-        self.crop = crop
-        self.analysis_items = []
-        self.mismatch_items = []
+    @property
+    def failures(self) -> list[ImageComparison]:
+        return [c for c in self.comparisons if c.failed]
 
+    def _pair_images(self) -> list[ImageComparison]:
+        pairs = []
+        for result in sorted((self.results_path / "images").glob("*.result.png")):
+            name = result.name[: -len(".result.png")]
+            reference = self.reference_path / "images" / f"{name}.{self.reference_suffix}.png"
+            if reference.is_file():
+                pairs.append(ImageComparison(name, reference, result))
+            else:
+                self.missing_references.append(reference)
+        return pairs
 
-    def analyze(self):
-        program = "redshiftCmdBenchmark" if self.crop else "redshiftCmdLine"
-        print(f'{Fore.MAGENTA}Analyzing results{Style.RESET_ALL} from {self.results_path} vs {program}')
-        all, found, missing = self.match_results_with_references()
-        if missing:
-            warn_msg = f'{Fore.YELLOW}Warning: Not all references found.\n{Style.RESET_ALL}' \
-                       f'\tNumber of all result images {Fore.BLUE}{all}{Style.RESET_ALL}\n' \
-                       f'\tNumber of reference images {Fore.BLUE}{found}{Style.RESET_ALL}'
-            print(warn_msg)
-            print("Missing files: ")
-            for f in missing:
-                info = f'\t{Fore.YELLOW}{f}{Style.RESET_ALL}'
-                print(info)
-
-        if not found:
+    def analyze(self) -> list[ImageComparison]:
+        print(f"{colored('Analyzing images', Fore.MAGENTA)} of {self.results_path} against {self.reference_path}")
+        pairs = self._pair_images()
+        for missing in self.missing_references:
+            print_warning(f"no reference image {missing}")
+        if not pairs:
             print("There is nothing to compare")
-            return
-        
-        analyzed_items = []    
-        if USE_MULTIPROCESSING_ANALYSIS:
-            with Pool() as pool:
-                # Meh... the analysisItem is not the best one
-                results = pool.imap_unordered(Analyze, self.analysis_items)
-                for item in results:
-                    msg = f"Analysis of {Fore.GREEN}{item.name}{Style.RESET_ALL}: " \
-                        f"mse={Fore.BLUE}{item.mse:.3f}{Style.RESET_ALL}, "\
-                        f"ssi={Fore.BLUE}{item.ssi:.3f}{Style.RESET_ALL}"
-                    print(msg)
-                    analyzed_items.append(item)
-        else:
-            analyzed_items =[Analyze(item) for item in self.analysis_items]            
-            for item in analyzed_items:
-                msg = f"Analysis of {Fore.GREEN}{item.name}{Style.RESET_ALL}: " \
-                      f"mse={Fore.BLUE}{item.mse:.3f}{Style.RESET_ALL}, "\
-                      f"ssi={Fore.BLUE}{item.ssi:.3f}{Style.RESET_ALL}"
-                print(msg)
-        
-        self.analysis_items = analyzed_items
-                
-        mismatch_images = [ item for item in self.analysis_items if item.mse > item.treshold]
-        mismatch_images.sort(key=lambda x: x.mse, reverse=True)
-        msg = f"\n{Fore.YELLOW}There are {Fore.BLUE}{len(mismatch_images)}{Fore.YELLOW} that requires inspection{Style.RESET_ALL}"
-        print(msg)
-        for item in mismatch_images:
-            print(f"\tmse={Fore.BLUE}{item.mse:.3f}{Style.RESET_ALL} [{Fore.GREEN}{item.name}{Style.RESET_ALL}]")
-        self.mismatch_items = mismatch_images
+            return []
+        if self.plot_folder and self.plot_folder.is_dir():
+            for old_plot in self.plot_folder.glob("*.diff.png"):
+                old_plot.unlink()
+        jobs = [(pair, self.crop, self.threshold, self.min_ssim, self.plot_folder) for pair in pairs]
+        with Pool() as pool:
+            self.comparisons = sorted(pool.imap_unordered(_run_comparison, jobs), key=lambda c: c.name)
+        for c in self.comparisons:
+            if c.error:
+                print(f"\t{colored(c.name, Fore.RED)}: {c.error}")
+            else:
+                color = Fore.RED if c.failed else Fore.GREEN
+                print(f"\t{colored(c.name, color)}: mse={c.mse:.3f}, ssim={c.ssim:.4f}")
+        self.print_summary()
+        return self.comparisons
 
-    def save_data(self, file: Path, data):
-        json_data = json.dumps(data, indent=2)
-        try:
-            with open(file, 'w') as json_file:
-                json_file.write(json_data)
-        except IOError as io_err:
-            print_error(
-                f"Could not save analysis info to {file} [{repr(io_err)}]")
+    def print_summary(self) -> None:
+        failures = sorted(self.failures, key=lambda c: (c.error is None, -(c.mse or 0.0)))
+        criteria = f"mse > {self.threshold}" + (f" or ssim < {self.min_ssim}" if self.min_ssim is not None else "")
+        print(
+            f"\n{colored(len(failures), Fore.BLUE)} of {len(self.comparisons)} images need inspection ({criteria}), "
+            f"{len(self.missing_references)} without reference"
+        )
+        for c in failures:
+            detail = c.error or f"mse={c.mse:.3f} ssim={c.ssim:.4f}"
+            print(f"\t{colored(c.name, Fore.YELLOW)}: {detail}")
+        if failures and self.plot_folder:
+            print(f"Diff plots: {self.plot_folder}")
 
-    def save(self, file:Path):
-        results = {item.name: {"mse": item.mse, "ssi": item.ssi} for item in self.analysis_items}
-        self.save_data(file, results)
-    
-    def save_mismatch(self, file:Path):
-        results = {item.name: {"mse": item.mse, "ssi": item.ssi} for item in self.mismatch_items}
-        if results:
-            self.save_data(file, results)
-        else:
-            print("No mismatch image information found to save.")
-        
-    #returns total number of image to analyze and number of matches found
-    def match_results_with_references(self) -> Tuple[int, int, list]:
-        # scan the results path and collect all images
-        # for each image from results find a reference image
-        missing_items = []
-        images_directory = self.results_path / 'images'
-        result_image_paths = [Path(f) for f in images_directory.glob('*.png')]
-        self.to_compare_items = []
-        for result_image in result_image_paths:
-            _parts = result_image.name.split(".")[:-2] # selecet everythin except .result.png
-            name = ".".join(_parts)
-            reference_file = self.reference_path / 'images' / f'{name}.reference.png'
-            if not reference_file.exists():
-                warn_msg = f'{Fore.YELLOW}Warning: {Fore.GREEN}{reference_file}{Style.RESET_ALL} does not exists'
-                missing_items.append(reference_file)
-                print(warn_msg)
-                continue
-            self.analysis_items.append(AnalysisItem(reference_file, result_image, name, self.analysis_output_path, self.treshold, self.crop))
+    @staticmethod
+    def _record(c: ImageComparison) -> dict:
+        record = {k: v for k, v in asdict(c).items() if k in ("mse", "ssim", "error", "failed")}
+        return {k: v for k, v in record.items() if v is not None}
 
-        number_of_all_items = len(result_image_paths)
-        number_of_matcehd_items = len(self.analysis_items)
-        return number_of_all_items, number_of_matcehd_items, missing_items
+    def save(self, file: Path) -> None:
+        file.write_text(json.dumps({c.name: self._record(c) for c in self.comparisons}, indent=2), encoding="utf-8")
 
-   
-       
+    def save_mismatch(self, file: Path) -> None:
+        if self.failures:
+            file.write_text(json.dumps({c.name: self._record(c) for c in self.failures}, indent=2), encoding="utf-8")

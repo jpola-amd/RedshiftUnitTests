@@ -1,0 +1,9 @@
+{
+    "description": "All scenes of scenes/production/hair",
+    "tests": [
+        {
+            "path_to_scene": "production/hair/Hair_02.rs",
+            "test_name": "prod_hair_Hair_02"
+        }
+    ]
+}

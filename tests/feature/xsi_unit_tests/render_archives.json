@@ -1,0 +1,13 @@
+{
+    "description": "Category 'render_archives' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Render_Archives/Default_Pass_Archive.0001.rs",
+            "test_name": "xsi_render_archives_Default_Pass_Archive_0001"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Render_Archives/Default_Pass_Archive.0002.rs",
+            "test_name": "xsi_render_archives_Default_Pass_Archive_0002"
+        }
+    ]
+}

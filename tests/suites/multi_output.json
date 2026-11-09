@@ -1,0 +1,17 @@
+{
+    "description": "Scenes that write several AOV / multi-pass outputs.",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug1454_BadBlendedAOVs.rs",
+            "test_name": "xsi_bugs_Bug1454_BadBlendedAOVs"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/CLI36859.rs",
+            "test_name": "c4d_bugs_CLI36859"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Bugs/Bug1498_BadPuzzleMatte.rs",
+            "test_name": "xsi_bugs_Bug1498_BadPuzzleMatte"
+        }
+    ]
+}

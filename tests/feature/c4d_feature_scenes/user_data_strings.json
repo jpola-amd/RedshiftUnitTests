@@ -1,0 +1,9 @@
+{
+    "description": "Category 'user_data_strings' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/user_data_strings/string-basic.rs",
+            "test_name": "c4d_user_data_strings_string-basic"
+        }
+    ]
+}

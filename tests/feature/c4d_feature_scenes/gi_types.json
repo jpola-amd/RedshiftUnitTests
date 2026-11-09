@@ -1,0 +1,41 @@
+{
+    "description": "Category 'gi_types' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/cornell-box-cube-bf-bf.rs",
+            "test_name": "c4d_gi_types_cornell-box-cube-bf-bf"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/cornell-box-cube-bf-ipc.rs",
+            "test_name": "c4d_gi_types_cornell-box-cube-bf-ipc"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/gi_bf_bf.rs",
+            "test_name": "c4d_gi_types_gi_bf_bf"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/gi_bf_ip.rs",
+            "test_name": "c4d_gi_types_gi_bf_ip"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/gi_ic_bf.rs",
+            "test_name": "c4d_gi_types_gi_ic_bf"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/staircase-investigation/DirectIndirect_03_asmeasured.rs",
+            "test_name": "c4d_gi_types_DirectIndirect_03_asmeasured"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/staircase-investigation/directNONE.rs",
+            "test_name": "c4d_gi_types_directNONE"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/staircase-investigation/directQMC2.rs",
+            "test_name": "c4d_gi_types_directQMC2"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/gi_types/staircase-investigation/directQMC8.rs",
+            "test_name": "c4d_gi_types_directQMC8"
+        }
+    ]
+}

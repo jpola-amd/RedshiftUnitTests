@@ -1,0 +1,9 @@
+{
+    "description": "Category 'volume' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/volume/fog_and_exclude.rs",
+            "test_name": "c4d_volume_fog_and_exclude"
+        }
+    ]
+}

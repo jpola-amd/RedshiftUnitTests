@@ -1,0 +1,13 @@
+{
+    "description": "Category 'proxy' of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Proxy/particleProxy.rs",
+            "test_name": "maya_proxy_particleProxy"
+        },
+        {
+            "path_to_scene": "feature/maya_test_suite/scenes/Proxy/polygonData.rs",
+            "test_name": "maya_proxy_polygonData"
+        }
+    ]
+}

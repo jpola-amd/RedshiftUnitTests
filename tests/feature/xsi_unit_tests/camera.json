@@ -1,0 +1,9 @@
+{
+    "description": "Category 'camera' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Camera/ProjectionShifts.rs",
+            "test_name": "xsi_camera_ProjectionShifts"
+        }
+    ]
+}

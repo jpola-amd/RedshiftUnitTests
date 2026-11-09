@@ -1,0 +1,25 @@
+{
+    "description": "Category 'ice' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/ICE/ICE Attribute and Texture Array Switch.rs",
+            "test_name": "xsi_ice_ICE_Attribute_and_Texture_Array_Switch"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/ICE/ICE Attribute Reading Problem.rs",
+            "test_name": "xsi_ice_ICE_Attribute_Reading_Problem"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/ICE/ice-loftedstrands-mblur.rs",
+            "test_name": "xsi_ice_ice-loftedstrands-mblur"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/ICE/ice-strands-attributes.rs",
+            "test_name": "xsi_ice_ice-strands-attributes"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/ICE/ice-uv+vtxcol+wm.rs",
+            "test_name": "xsi_ice_ice-uv_vtxcol_wm"
+        }
+    ]
+}

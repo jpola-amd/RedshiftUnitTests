@@ -1,0 +1,25 @@
+{
+    "description": "Category 'motion_blur' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/motion_blur/dl_test_mb_bsdf_change.rs",
+            "test_name": "c4d_motion_blur_dl_test_mb_bsdf_change"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/motion_blur/dl_test_mb_camera.rs",
+            "test_name": "c4d_motion_blur_dl_test_mb_camera"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/motion_blur/dl_test_mb_light_move.rs",
+            "test_name": "c4d_motion_blur_dl_test_mb_light_move"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/motion_blur/dl_test_mb_obj_deform.rs",
+            "test_name": "c4d_motion_blur_dl_test_mb_obj_deform"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/motion_blur/dl_test_mb_obj_move.rs",
+            "test_name": "c4d_motion_blur_dl_test_mb_obj_move"
+        }
+    ]
+}

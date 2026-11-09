@@ -1,0 +1,44 @@
+{
+    "description": "Large production scenes (performance and correctness). Each sub-folder is one scene.",
+    "tests": [
+        {
+            "include": "production/ambient_occlusion.json"
+        },
+        {
+            "include": "production/attic_nvidia.json"
+        },
+        {
+            "include": "production/cinebench_2022_11.json"
+        },
+        {
+            "include": "production/cinebench_v5.json"
+        },
+        {
+            "include": "production/direct_indirect.json"
+        },
+        {
+            "include": "production/displacement.json"
+        },
+        {
+            "include": "production/dodge_viper.json"
+        },
+        {
+            "include": "production/hair.json"
+        },
+        {
+            "include": "production/laferrari.json"
+        },
+        {
+            "include": "production/materials.json"
+        },
+        {
+            "include": "production/mc_laren.json"
+        },
+        {
+            "include": "production/robot.json"
+        },
+        {
+            "include": "production/vultures.json"
+        }
+    ]
+}

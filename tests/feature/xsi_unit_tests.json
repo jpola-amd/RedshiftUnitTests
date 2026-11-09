@@ -1,0 +1,59 @@
+{
+    "description": "All categories of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "include": "xsi_unit_tests/bugs.json"
+        },
+        {
+            "include": "xsi_unit_tests/camera.json"
+        },
+        {
+            "include": "xsi_unit_tests/direct_lighting.json"
+        },
+        {
+            "include": "xsi_unit_tests/displacement.json"
+        },
+        {
+            "include": "xsi_unit_tests/gi.json"
+        },
+        {
+            "include": "xsi_unit_tests/hair.json"
+        },
+        {
+            "include": "xsi_unit_tests/ice.json"
+        },
+        {
+            "include": "xsi_unit_tests/instancing.json"
+        },
+        {
+            "include": "xsi_unit_tests/materials.json"
+        },
+        {
+            "include": "xsi_unit_tests/motion_blur.json"
+        },
+        {
+            "include": "xsi_unit_tests/photographic.json"
+        },
+        {
+            "include": "xsi_unit_tests/render_archives.json"
+        },
+        {
+            "include": "xsi_unit_tests/sprite.json"
+        },
+        {
+            "include": "xsi_unit_tests/sss.json"
+        },
+        {
+            "include": "xsi_unit_tests/tessellation.json"
+        },
+        {
+            "include": "xsi_unit_tests/unified_sampling.json"
+        },
+        {
+            "include": "xsi_unit_tests/visibility_flags.json"
+        },
+        {
+            "include": "xsi_unit_tests/volumetric.json"
+        }
+    ]
+}

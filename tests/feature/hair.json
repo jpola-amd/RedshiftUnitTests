@@ -1,0 +1,17 @@
+{
+    "description": "All scenes of scenes/feature/hair",
+    "tests": [
+        {
+            "path_to_scene": "feature/hair/Barry_Bacon.0001.rs",
+            "test_name": "hair_Barry_Bacon_0001"
+        },
+        {
+            "path_to_scene": "feature/hair/Female_Groom_Example_1.rs",
+            "test_name": "hair_Female_Groom_Example_1"
+        },
+        {
+            "path_to_scene": "feature/hair/simple_hair_torus.rs",
+            "test_name": "hair_simple_hair_torus"
+        }
+    ]
+}

@@ -1,230 +1,220 @@
 # RedshiftUnitTests
- UnitTests suite for cmdline and benchmarking with reliable result comparison. 
- Created based on Maxons Unit test package. 
- 
- ### FOR INTERNAL USE ONLY
 
+Regression and performance tests for Redshift (HIP compute and RT backends): render a set of test scenes, compare the
+images with references or with another run, and compare the render times.
+Based on Maxon's unit test package. **For internal use only.**
 
-## Overview
+## Quick start
 
-To run the unit tests for the first time you will need to do the following:
-1. create config/config.user.json
-2. generate the reference images/logs 
-3. run the tests
-4. review the results
+**First time:** the scenes and the machine-specific configuration are not in git. Follow [SETUP.md](SETUP.md) to
+unpack `scenes.7z` and create `config/config.win.json` from `config/templates/`.
 
-Subsequent runs can omit step 1 and usually step 2 if no additional tests have been added and if the code hasn't changed in a way that would result in expected differences in the output images.
-
-
-## Prerequisites
-You will need to install Python 3. 
-Then install pip and and scikit-learn matplotlib colorama
-- python -m pip install --upgrade pip
-- pip3 install scikit-learn scikit-image matplotlib colorama opencv-python beautifulsoup4 pandas openpyxl
-
-
-## Creating `config.<os>.user.json`
-
-`<os>` - can be win or linux depends on the operating system you are running the tests
-Open `config.<os>.user.json` and edit the `*project_root` paths to point to the scenes folder 
-
-## Program options
+```bash
+uv sync                                                                   # once: Python + dependencies in .venv
+uv run run_tests.py --program redshiftCmdLine --reference --test tests/all.json   # generate references
+uv run run_tests.py --program redshiftCmdLine --test tests/all.json               # test run + image comparison
+uv run run_tests.py --program redshiftCmdLine --test tests/all.json --use_rt      # the same with the RT backend
 ```
-usage: run_tests.py [-h] [--reference] [--config CONFIG]
-                    [--user-config USER_CONFIG] [--test TEST] [--no-delete]
-                    [--gpu GPU [GPU ...]] [--treshold TRESHOLD] --program
-                    {redshiftCmdLine,redshiftBenchmark,maya}
-                    [--performance-analysis] [--image-analysis]
-                    [--analysis-path ANALYSIS_PATH]
 
-Run Redshift unit tests.
+Each test run writes `results/<date>_<backend>/` and compares its images with `references/<program>/`.
+The exit code is `0` when everything passed, `1` when a render failed or an image differs, `2` for invalid arguments
+or configuration, so the runner can be used from scripts and CI.
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --reference           Use to generate reference images for given "program"
-  --config CONFIG       Main configuration file to use
-  --user-config USER_CONFIG
-                        User config to use
-  --test TEST           Test to execute
-  --no-delete           deprecated
-  --gpu GPU [GPU ...]   GPU to execute the program. For multi-GPU separete
-                        with comma --gpu 1,2,3
-  --treshold TRESHOLD   Mean Square Root [mse] value above which the image is
-                        considered incorrect
-  --program {redshiftCmdLine,redshiftBenchmark,maya}
-                        Choose program to execute the tests
+## Setup
+
+The project is managed with [uv](https://docs.astral.sh/uv/): dependencies are in `pyproject.toml` / `uv.lock`, the
+Python version in `.python-version`. `uv sync` creates `.venv`, `uv run <script>` runs inside it, `uv add <package>`
+adds a dependency.
+
+### Configuration
+
+`config/config.<os>.json` (`win` or `linux`) holds the Redshift executables. For a local Redshift build (e.g. a
+`deploy` folder) also set `redshift_coredata_path` / `redshift_localdata_path`: they are passed to Redshift as
+`REDSHIFT_COREDATAPATH` / `REDSHIFT_LOCALDATAPATH`, and the render log is then read from
+`<redshift_localdata_path>/Log/Log.Latest.0` instead of `C:\ProgramData\Redshift\Log`.
+
+```json
+{
+	"required": {
+		"redshiftBenchmark" : "D:/maxon/redshiftcore/deploy/bin/redshiftBenchmark.exe",
+		"redshiftCmdLine" : "D:/maxon/redshiftcore/deploy/bin/redshiftCmdLine.exe"
+	},
+	"optional": {
+		"redshift_coredata_path" : "D:/maxon/redshiftcore/deploy",
+		"redshift_localdata_path" : "D:/maxon/redshiftcore/deploy",
+		"path_overrides" : "config/path_overrides.json"
+	}
+}
+```
+
+Only the executable of the selected `--program` has to exist. Templates for Windows and Linux are in
+`config/templates/`; the copies in `config/` are git-ignored because they hold machine-specific paths.
+`config/config.<os>.user.json` is optional; its
+`redshift_project_root` is the scenes folder (default: `scenes/` of this project). Relative paths on the command line
+and in the config are taken from the current directory if they exist there, otherwise from the project folder, so
+the runner can be started from anywhere.
+
+### Scene resources (path overrides)
+
+Many scenes contain absolute texture/proxy paths of the machines they were exported on (e.g.
+`C:\Program Files\Autodesk\Softimage 2015 SP2\Application\rsrc\noIcon.pic`). Redshift first tries the path relative to
+the scene, then the absolute path with the overrides of `REDSHIFT_PATHOVERRIDE_FILE` applied. The overrides are
+defined in `config/path_overrides.json` (`to` is relative to the scenes folder); every run writes them to
+`<output>/path_overrides.txt` and passes that file to Redshift. Set `"path_overrides": ""` to disable them.
+Redshift compares path prefixes case-insensitively and only with backslashes, so absolute paths stored with `/` cannot
+be overridden. Resources missing from the data set are listed in `scenes/README.md`.
+
+## Running tests
+
+```
+usage: run_tests.py [-h] --program {redshiftCmdLine,redshiftBenchmark} [--test TEST] [--gpu GPU [GPU ...]]
+                    [--reference] [--use_rt] [--timeout TIMEOUT] [--threshold THRESHOLD]
+                    [--min-ssim MIN_SSIM] [--performance-analysis] [--image-analysis]
+                    [--analysis-path ANALYSIS_PATH] [--baseline-path BASELINE_PATH] [--config CONFIG]
+                    [--user-config USER_CONFIG]
+
+  --program {redshiftCmdLine,redshiftBenchmark}
+                        Redshift program used to render
+  --test TEST           Test JSON file to run (repeatable), e.g. tests/all.json
+  --gpu GPU [GPU ...]   GPU(s) to render on, e.g. --gpu 0 or --gpu 0,1 (default: 0)
+  --reference           Generate references in references/<program> instead of a test run
+  --use_rt, --use-rt    Render with the RT backend (options_rt.txt) instead of the compute backend
+                        (options_compute.txt). redshiftCmdLine only
+  --timeout TIMEOUT     Seconds after which a render is killed and reported as failed, 0 = no limit
+                        (default: 3600)
+  --threshold THRESHOLD
+                        Images with a mean squared error (RGB, 0-255) above this value fail (default: 0.95)
+  --min-ssim MIN_SSIM   Images with a structural similarity (SSIM) below this value fail as well (off by
+                        default)
   --performance-analysis
-                        Extract the performance results from the
-                        --analysis_path
-  --image-analysis      Run the image analysis task on the results from
-                        --analysis_path
+                        Compare the render times of --analysis-path with the references (or --baseline-path)
+  --image-analysis      Compare the images of --analysis-path with the references (or --baseline-path)
   --analysis-path ANALYSIS_PATH
-                        Path to the results for analysis
-
+                        Results folder to analyze, e.g. results/2026-11-09_231450_rt
+  --baseline-path BASELINE_PATH
+                        Another results folder to compare --analysis-path against, instead of the references
+  --config CONFIG       Main configuration file
+  --user-config USER_CONFIG
+                        User configuration file (optional)
 ```
 
-## Generating the reference images and logs
+`--treshold` is still accepted as a deprecated spelling of `--threshold`.
 
-From the command-line
-`python run_tests.py --program redshiftBenchmark --reference --test tests\redshift_test_suite_emission.json`
+### What a render run does
+
+For every test: render the scene, save Redshift's console output and log, move the images to the output folder.
+A test **fails** when the scene is missing, Redshift exits with an error or is killed after `--timeout`, Redshift did
+not write a log for this render (e.g. a wrong `redshift_localdata_path`), or no image was written. Failures are listed
+at the end of the run.
+
+| Output | Test run: `results/<date>_<backend>/` | `--reference`: `references/<program>/` |
+|---|---|---|
+| Images | `images/<test>.<output name>.result.png` | `images/<test>.<output name>.reference.png` |
+| Redshift log (timings) | `logs/<test>.result.html` | `logs/<test>.reference.html` |
+| Console output | `logs/<test>.result.console.txt` | `logs/<test>.reference.console.txt` |
+| Run summary | `<program>_TEST_<date>.json` | `<program>_REFERENCE_<date>.json` |
+
+The run summary lists successful, failed and skipped tests, the backend, the options file, the Redshift version and the
+duration of each render. Regenerating a reference first deletes the old files of that test, so no stale image of a
+previous version survives.
+
+### Compute and RT backends
+
+`redshiftCmdLine` gets its render options from a file (`-oro`), selected with `--use_rt`:
+
+| Backend | Switch | Options file |
+|---|---|---|
+| compute | (default) | `options_compute.txt` |
+| rt | `--use_rt` | `options_rt.txt` (enables `EnableHARTRTOnSupportedGPUs` / `EnableOptiXRTOnSupportedGPUs`) |
+
+With RT the Redshift log contains `Device 0 (...) uses HART for ray tracing`. Compute and RT share the references in
+`references/<program>/`: generating references with one backend replaces those of the other, and a run with either
+backend is compared with whatever is there. `redshiftBenchmark` has no options file and cannot enable HART RT: it
+always runs with `-nortx` (compute), and `--use_rt` is rejected.
+
+## Comparing results
+
+After a test run the images are compared with the references automatically. Both analyses can also be run on any
+results folder, against the references or against another results folder (`--baseline-path`, e.g. RT vs compute):
 
 ```bash
-Redshift Unit Tests
-{ 'config': { 'required': { 'maya_batch': 'C:/Program '
-                                          'Files/Autodesk/Maya2015/bin/render.exe',
-                            'redshiftBenchmark': 'C:/ProgramData/Redshift/bin/redshiftBenchmark.exe',
-                            'redshiftCmdLine': 'C:/ProgramData/Redshift/bin/redshiftCmdLine.exe',    
-                            'xsi_batch': 'C:/Program Files/Autodesk/Softimage '
-                                         '2013 '
-                                         'SP1/Application/bin/xsibatch.bat'}},
-  'gpu': ['0'],
-  'no_delete': False,
-  'program': 'redshiftBenchmark',
-  'reference': True,
-  'root_path': WindowsPath('E:/Redshift/RUT/RedshiftUnitTests'),
-  'tests': ['./tests/redshift_test_suite_emission.json'],
-  'treshold': 0.95,
-  'user_config': { 'required': { 'maya_project_root': 'E:/Redshift/RUT/RedshiftUnitTests/scenes/',
-                                 'redshift_project_root': 'E:/Redshift/RUT/RedshiftUnitTests/scenes/',
-                                 'xsi_project_root': 'E:/Redshift/tests/UnitTests/XSI'}}}
-Processing files from: ['./tests/redshift_test_suite_emission.json']: 5 tests were found
-Generating references for redshiftBenchmark
-        Running test 1/5 [emission_dl_ss_multisample_nonunified]: Success
-        Running test 2/5 [emission_dl_ss_multisample]: Success
-        Running test 3/5 [emission_dl_ss]: Success
-        Running test 4/5 [emission_simple]: Success
-        Running test 5/5 [emission]: Success
-Generation completed:
-        Succes: 5/5
-        Failed: 0/5
-        Skipped:0/5
-
-Redshift Unit Tests Finished
+uv run run_tests.py --program redshiftCmdLine --image-analysis --performance-analysis --analysis-path results/2026-11-09_231450_rt
+uv run run_tests.py --program redshiftCmdLine --image-analysis --performance-analysis --analysis-path results/2026-11-09_231450_rt --baseline-path results/2026-11-09_231614_compute
 ```
 
-## Running the unit tests
+Results are paired with the references/baseline by test and output name. Everything is written to
+`<analysis-path>/analysis/`, with `<tag>` = `vs_references` or `vs_<baseline folder>`:
 
-From the command-line run
-`python run_tests.py --program redshiftBenchmark --test tests\redshift_test_suite_emission.json`
+* **Images** (`image_<tag>_<date>.json`, `image_<tag>_mismatch_<date>.json`, `diffs_<tag>/`): mean squared error and
+  SSIM over the RGB channels. An image fails when its MSE is above `--threshold`, its SSIM is below `--min-ssim` (if
+  given), or it cannot be compared (unreadable, different size). For each failing image a diff plot (reference,
+  difference, result) is written. `redshiftBenchmark` images are compared without the info strip at the bottom.
+* **Performance** (`performance_<tag>_<date>.csv/.xlsx`, summary on the console): for `redshiftCmdLine` the render
+  time ("Time to render N blocks", `GPU`) and the total time ("Rendering time"), for `redshiftBenchmark` its time
+  (whole seconds only). `Speedup = reference time / result time`, so above 1 means faster. The summary shows the total
+  and geometric-mean speedup and the slowest/fastest tests. Tests that failed to render on either side are excluded.
+  Redshift logs times with 0.1 s resolution, so short scenes only give rough numbers.
 
-```bash
-Redshift Unit Tests
-{ 'config': { 'required': { 'maya_batch': 'C:/Program '
-                                          'Files/Autodesk/Maya2015/bin/render.exe',
-                            'redshiftBenchmark': 'C:/ProgramData/Redshift/bin/redshiftBenchmark.exe',
-                            'redshiftCmdLine': 'C:/ProgramData/Redshift/bin/redshiftCmdLine.exe',
-                            'xsi_batch': 'C:/Program Files/Autodesk/Softimage '
-                                         '2013 '
-                                         'SP1/Application/bin/xsibatch.bat'}},
-  'gpu': ['1'],
-  'no_delete': False,
-  'program': 'redshiftBenchmark',
-  'reference': False,
-  'root_path': WindowsPath('E:/Redshift/RUT/RedshiftUnitTests'),
-  'tests': ['./tests/redshift_test_suite_emission.json'],
-  'treshold': 0.95,
-  'user_config': { 'required': { 'maya_project_root': 'E:/Redshift/RUT/RedshiftUnitTests/scenes/',
-                                 'redshift_project_root': 'E:/Redshift/RUT/RedshiftUnitTests/scenes/',
-                                 'xsi_project_root': 'E:/Redshift/tests/UnitTests/XSI'}}}
-Processing files from: ['./tests/redshift_test_suite_emission.json']: 5 tests were found
-Executing test for redshiftBenchmark
-        Running test 1/5 [emission_dl_ss_multisample_nonunified]: Success
-        Running test 2/5 [emission_dl_ss_multisample]: Success
-        Running test 3/5 [emission_dl_ss]: Success
-        Running test 4/5 [emission_simple]: Success
-        Running test 5/5 [emission]: Success
-Generation completed:
-        Succes: 5/5
-        Failed: 0/5
-        Skipped:0/5
-Analyzing results 
-Analysis of emission: mse=0.003, ssi=1.000
-Analysis of emission_dl_ss: mse=0.004, ssi=1.000
-Analysis of emission_dl_ss_multisample: mse=0.003, ssi=1.000
-Analysis of emission_dl_ss_multisample_nonunified: mse=0.000, ssi=1.000
-Analysis of emission_simple: mse=0.000, ssi=1.000
+## Scenes and tests
 
-There are 0 that requires inspection
-
-Redshift Unit Tests Finished
 ```
-The result images and logs along with a copy of the reference images and logs will be found in the folder `results/<YYYY-MM-DD_HHMM>/`
-
-## Logs and analysis results
-When user executes a test for `redshiftBenchmark` or `redshiftCmdLine` after executing the tests, script will trigger process to compare the results stored in `results/<YYYY-MM-DD_HHMM>/images` with the corresponding images from `references/[program]/images`. Script is using `scikit-image` mean square root `mse` and structured similarity index `ssi` to compare the images. 
-The result image is considered as incorrect when `mse > threshold`. `treshold` by default is set to 0.95.
-The difference plots are stored in `results/<YYYY-MM-DD_HHMM>/common` together with the reference and result images.
-The summary of the analysis is stored in `results/<YYYY-MM-DD_HHMM>/[program]_ANALYSIS_<YYY-MM-DD_HHMM>.json`.
-
-## Reviewing the results
-
-When the tests are run, the script will tell you whether each test succeeded or failed.
-The script will review the results using scikit-image SMI algorithm and compute RMS and SMI params to check 
-whether the image was rendered correctly. 
-It might give a false positive, it is always recommended to check the result images 'by-eye'
-The output images are organized in such a way that you can scrub through the images using FastStone image viewer - that is the reference image, result image and diff image are named so that they appear next to each other when the files are sorted alphabetically.
-If an error occurs during a test, the result image will be black with red text describing the error.
-
-
-## Extracting performance resutls
-You can extract the performance results from the saved results by execting following command:
-```bash
-python run_tests.py --program redshiftBenchmark --performance-analysis --analysis-path results/2023-05-25_010452
-```
-This command will get the results from the path provided by the `--analysis-path` and match it with the reference results generated by the program `redshiftBenchmark`.
-
-## Run image analysis
-You can execute the image analysis task on a sved results by execution following command:
-```bash
-python run_tests.py --program redshiftBenchmark --image-analysis --analusis-path results/2023-06-05_010000
+scenes/                     scene data (not in git), see scenes/README.md
+  feature/<collection>/     small single-feature scenes, grouped by source set and category
+  production/<scene>/       large production scenes
+tests/                      generated by tools/generate_tests.py, do not edit by hand
+  all.json                  every scene
+  feature.json, production.json
+  feature/<collection>.json             one collection
+  feature/<collection>/<category>.json  one category, e.g. feature/xsi_unit_tests/gi.json
+  production/<scene>.json               one production scene
+  suites/<suite>.json                   curated suites (bugs_res, multi_output)
+tools/
+  generate_tests.py         regenerates tests/ from scenes/
+  test_generation.json      exclusions, test name prefixes, per-scene overrides and suites
 ```
 
-## Adding additional tests
+Test names are `<collection prefix>_<category>_<scene file name>` (production: `prod_<scene folder>_<scene file name>`),
+e.g. `xsi_gi_GITest_BF`, `prod_attic_nvidia_Nvidia_Attic_RS_Nodes`. They are unique and contain no dots, because the
+result, reference and log file names are derived from them.
 
-The tests to run are defined in one or more json files that you pass using the '--test' flag to run_tests.py.
-You can specify multiple test json files by passing multiple --test <filename> arguments to run_tests.py.
-A test file contains a list of tests, each of which are either explicit test definitions or include directives for additional test json files.
-Example test json file:
-```json{
-	"tests": [
-		{
-			"include": "sometests.json"
-		},
-        {
-            "path_to_scene": "Scenes\\UnitTests\\TestOne.scn",
-            "test_name": "TestOne"
-        },
-		{
-            "path_to_scene": "Scenes\\UnitTests\\TestTwo.scn",
-            "test_name": "TestTwo"
-        },
-        {
-			"include": "moretests.json"
-		}
+### Adding tests
+
+1. Copy the scene (`.rs` plus the textures it references, keeping their relative paths) into a collection under
+   `scenes/feature/` or into a new folder `scenes/production/<scene>/`.
+2. Run `uv run tools/generate_tests.py` (`--check` only reports whether `tests/` is out of date).
+3. Optional: exclude proxies or broken scenes, rename a test, set `skippostfx` (`overrides`) or add the scene to a
+   curated suite in `tools/test_generation.json`, then regenerate.
+
+For an ad-hoc selection, create your own JSON file outside the generated folders (e.g. `tests/my_selection.json`) and
+pass it with `--test`; the generator does not touch it. Format:
+
+```json
+{
+    "tests": [
+        {"include": "feature/hip_emission.json"},
+        {"path_to_scene": "feature/hair/simple_hair_torus.rs", "test_name": "hair_simple_hair_torus"},
+        {"path_to_scene": "feature/rt/rt_test.rs", "test_name": "rt_rt_test", "skippostfx": true}
     ]
 }
 ```
-This example file has 2 explicit test definitions and 2 include directives.
-The files 'sometests.json' and 'moretests.json' themselves each contain a list of tests (which can be explicit test definitions or include directives).
 
-An explicit test definition has the following parameters:
-`path_to_scene` (required) is the path to the scn file relative to the project root.
-`test_name` (required) is the name of the test.  This is usually just the scn file name, but in general it can be any string.  The test name is used for filenames, so it should only include valid filename characters.
-`frames` (optional) lets you specifiy which frame or frames should be rendered as part of the test.  If omitted, the test will render frame 1 only.  The value for frames can be one of:
-  1. `<start frame>,<end frame>`, e.g. `1,10` will render frames 1 through 10
-  2. `<start frame>,<end frame>,<frame step>`, e.g. `1,10,2` will render frames 1,3,5,7,9
-  3. `scene`, the frame range to render will be taken from the options in the scene file
+`path_to_scene` is relative to the scenes folder, `include` relative to the JSON file. `skippostfx` passes
+`-skippostfx` to `redshiftCmdLine`. Each `.rs` file is one frame; there is no frame range option.
 
-An include directive has a single parameter:
-`include` (required) is the path (relative to the current json file) of the test json file to include
+## Development
 
-The file `_alltests.json` in the `tests` directory holds all `official` unit tests.
-If you inspect this file, you will notice that it `includes` other files (e.g. `dl_tests.json`).
+```
+run_tests.py                    entry point: CLI -> render and/or analyses, exit code
+testrunner/cli.py               command line, configuration and validation (ExecutionParameters)
+testrunner/render_tasks.py      RenderTask: renders the tests for both programs, test runs and references
+testrunner/image_analysis.py    ImageAnalyzer: RGB MSE/SSIM comparison and diff plots
+testrunner/performance_analysis.py  PerformanceAnalyzer: log parsing and speedups
+testrunner/utils.py             helpers: paths, test files, processes, Redshift logs
+testrunner/tests/               unit tests of the runner itself
+```
 
-To add a new test, you have several options.
-You can simply add your new test to one of the test json files that is already being processed (directly or indirectly) by run_tests.py (e.g. add the test to _alltests.json or dltests.json).
-Alternatively, you can create a test json file for your new test and either pass it as an additional test to run_tests.py (using the --test flag), or include it in a test json file that is passed directly or indirectly to run_tests.py.
-
-It should be easy to infer the correct syntax from the existing entries.
-
-
+```bash
+uv run pytest                 # unit tests (no GPU or Redshift needed)
+uv run ruff check .           # lint
+uv run ruff format .          # format
+```

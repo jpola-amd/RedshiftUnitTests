@@ -1,0 +1,44 @@
+{
+    "description": "All categories of scenes/feature/maya_test_suite",
+    "tests": [
+        {
+            "include": "maya_test_suite/aov.json"
+        },
+        {
+            "include": "maya_test_suite/bugs.json"
+        },
+        {
+            "include": "maya_test_suite/camera.json"
+        },
+        {
+            "include": "maya_test_suite/displacement.json"
+        },
+        {
+            "include": "maya_test_suite/general.json"
+        },
+        {
+            "include": "maya_test_suite/gi.json"
+        },
+        {
+            "include": "maya_test_suite/materials.json"
+        },
+        {
+            "include": "maya_test_suite/osl.json"
+        },
+        {
+            "include": "maya_test_suite/particles.json"
+        },
+        {
+            "include": "maya_test_suite/proxies.json"
+        },
+        {
+            "include": "maya_test_suite/proxy.json"
+        },
+        {
+            "include": "maya_test_suite/volumetric.json"
+        },
+        {
+            "include": "maya_test_suite/xgen.json"
+        }
+    ]
+}

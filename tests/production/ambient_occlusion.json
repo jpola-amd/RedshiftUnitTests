@@ -1,0 +1,9 @@
+{
+    "description": "All scenes of scenes/production/ambient_occlusion",
+    "tests": [
+        {
+            "path_to_scene": "production/ambient_occlusion/AmbientOcclusion_02.rs",
+            "test_name": "prod_ambient_occlusion_AmbientOcclusion_02"
+        }
+    ]
+}

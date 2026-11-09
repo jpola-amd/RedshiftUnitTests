@@ -1,0 +1,9 @@
+{
+    "description": "All scenes of scenes/production/attic_nvidia",
+    "tests": [
+        {
+            "path_to_scene": "production/attic_nvidia/Nvidia_Attic_RS_Nodes.rs",
+            "test_name": "prod_attic_nvidia_Nvidia_Attic_RS_Nodes"
+        }
+    ]
+}

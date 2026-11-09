@@ -1,0 +1,13 @@
+{
+    "description": "Category 'displacement' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/displacement/displacement.rs",
+            "test_name": "c4d_displacement_displacement"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/displacement/displacement_vertex_attributes.rs",
+            "test_name": "c4d_displacement_displacement_vertex_attributes"
+        }
+    ]
+}

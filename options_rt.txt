@@ -1,0 +1,3 @@
+EnableOptiXRTOnSupportedGPUs True
+EnableHARTRTOnSupportedGPUs True
+AutomaticMemoryManagement True

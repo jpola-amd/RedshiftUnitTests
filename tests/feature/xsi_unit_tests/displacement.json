@@ -1,0 +1,41 @@
+{
+    "description": "Category 'displacement' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement.rs",
+            "test_name": "xsi_displacement_Displacement"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement_badautobumpwithtranslation.rs",
+            "test_name": "xsi_displacement_Displacement_badautobumpwithtranslation"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement_blender.rs",
+            "test_name": "xsi_displacement_Displacement_blender"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement_deform.rs",
+            "test_name": "xsi_displacement_Displacement_deform"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement_deform_tangent.rs",
+            "test_name": "xsi_displacement_Displacement_deform_tangent"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement_DroppedDisplacementBugWithManyVerts.rs",
+            "test_name": "xsi_displacement_Displacement_DroppedDisplacementBugWithManyVerts"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement_instancedAutoBump.rs",
+            "test_name": "xsi_displacement_Displacement_instancedAutoBump"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement_motionblur.rs",
+            "test_name": "xsi_displacement_Displacement_motionblur"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Displacement/Displacement_proctexture.rs",
+            "test_name": "xsi_displacement_Displacement_proctexture"
+        }
+    ]
+}

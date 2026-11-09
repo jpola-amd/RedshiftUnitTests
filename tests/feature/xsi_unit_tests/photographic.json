@@ -1,0 +1,13 @@
+{
+    "description": "Category 'photographic' of scenes/feature/xsi_unit_tests",
+    "tests": [
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Photographic/PhotographicTest_DOF.rs",
+            "test_name": "xsi_photographic_PhotographicTest_DOF"
+        },
+        {
+            "path_to_scene": "feature/xsi_unit_tests/Scenes/UnitTests/Photographic/PhotographicTest_Other.rs",
+            "test_name": "xsi_photographic_PhotographicTest_Other"
+        }
+    ]
+}

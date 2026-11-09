@@ -1,0 +1,26 @@
+{
+    "description": "Small single-feature scenes (correctness). Each sub-folder is a collection split into categories.",
+    "tests": [
+        {
+            "include": "feature/c4d_feature_scenes.json"
+        },
+        {
+            "include": "feature/hair.json"
+        },
+        {
+            "include": "feature/hip_emission.json"
+        },
+        {
+            "include": "feature/lighting_basics.json"
+        },
+        {
+            "include": "feature/maya_test_suite.json"
+        },
+        {
+            "include": "feature/rt.json"
+        },
+        {
+            "include": "feature/xsi_unit_tests.json"
+        }
+    ]
+}

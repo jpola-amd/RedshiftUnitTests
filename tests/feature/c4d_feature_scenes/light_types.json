@@ -1,0 +1,37 @@
+{
+    "description": "Category 'light_types' of scenes/feature/c4d_feature_scenes",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/light_types/lights_area.rs",
+            "test_name": "c4d_light_types_lights_area"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/light_types/lights_dome.rs",
+            "test_name": "c4d_light_types_lights_dome"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/light_types/lights_ies.rs",
+            "test_name": "c4d_light_types_lights_ies"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/light_types/lights_infinite.rs",
+            "test_name": "c4d_light_types_lights_infinite"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/light_types/lights_point.rs",
+            "test_name": "c4d_light_types_lights_point"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/light_types/lights_portal.rs",
+            "test_name": "c4d_light_types_lights_portal"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/light_types/lights_spot.rs",
+            "test_name": "c4d_light_types_lights_spot"
+        },
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/light_types/lights_sun.rs",
+            "test_name": "c4d_light_types_lights_sun"
+        }
+    ]
+}

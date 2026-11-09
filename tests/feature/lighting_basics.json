@@ -1,0 +1,33 @@
+{
+    "description": "All scenes of scenes/feature/lighting_basics",
+    "tests": [
+        {
+            "path_to_scene": "feature/lighting_basics/dl_test_2_incandescent_quads.rs",
+            "test_name": "lighting_dl_test_2_incandescent_quads"
+        },
+        {
+            "path_to_scene": "feature/lighting_basics/dl_test_2_point_lights.rs",
+            "test_name": "lighting_dl_test_2_point_lights"
+        },
+        {
+            "path_to_scene": "feature/lighting_basics/light_in_glossy_box.rs",
+            "test_name": "lighting_light_in_glossy_box"
+        },
+        {
+            "path_to_scene": "feature/lighting_basics/light_in_glossy_box_256bucket_size_2560by1440_v4.rs",
+            "test_name": "lighting_light_in_glossy_box_256bucket_size_2560by1440_v4"
+        },
+        {
+            "path_to_scene": "feature/lighting_basics/light_in_glossy_box_v2.rs",
+            "test_name": "lighting_light_in_glossy_box_v2"
+        },
+        {
+            "path_to_scene": "feature/lighting_basics/light_in_glossy_box_v3.rs",
+            "test_name": "lighting_light_in_glossy_box_v3"
+        },
+        {
+            "path_to_scene": "feature/lighting_basics/simple_rs_scene.rs",
+            "test_name": "lighting_simple_rs_scene"
+        }
+    ]
+}
