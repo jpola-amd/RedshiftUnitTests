@@ -1,0 +1,29 @@
+{
+    "description": "Category 'inclusive_booleans' of scenes/feature/boolean",
+    "tests": [
+        {
+            "path_to_scene": "feature/boolean/inclusive_booleans/inclusive_boolean_carves_two_spheres_with_object_material_back_camera_hwrt.rs",
+            "test_name": "boolean_inclusive_booleans_inclusive_boolean_carves_two_spheres_with_object_material_back_camera_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/inclusive_booleans/inclusive_boolean_carves_two_spheres_with_object_material_back_camera_swrt.rs",
+            "test_name": "boolean_inclusive_booleans_inclusive_boolean_carves_two_spheres_with_object_material_back_camera_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/inclusive_booleans/inclusive_boolean_carves_two_spheres_with_object_material_front_camera_hwrt.rs",
+            "test_name": "boolean_inclusive_booleans_inclusive_boolean_carves_two_spheres_with_object_material_front_camera_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/inclusive_booleans/inclusive_boolean_carves_two_spheres_with_object_material_front_camera_swrt.rs",
+            "test_name": "boolean_inclusive_booleans_inclusive_boolean_carves_two_spheres_with_object_material_front_camera_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/inclusive_booleans/inclusive_boolean_carves_two_spheres_with_object_material_side_camera_hwrt.rs",
+            "test_name": "boolean_inclusive_booleans_inclusive_boolean_carves_two_spheres_with_object_material_side_camera_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/inclusive_booleans/inclusive_boolean_carves_two_spheres_with_object_material_side_camera_swrt.rs",
+            "test_name": "boolean_inclusive_booleans_inclusive_boolean_carves_two_spheres_with_object_material_side_camera_swrt"
+        }
+    ]
+}

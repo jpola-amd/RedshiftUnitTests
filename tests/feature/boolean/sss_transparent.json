@@ -1,0 +1,85 @@
+{
+    "description": "Category 'sss_transparent' of scenes/feature/boolean",
+    "tests": [
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_perfect_glass_camera_back_hwrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_perfect_glass_camera_back_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_perfect_glass_camera_back_swrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_perfect_glass_camera_back_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_perfect_glass_camera_front_hwrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_perfect_glass_camera_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_perfect_glass_camera_front_swrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_perfect_glass_camera_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_rough_glass_camera_back_hwrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_rough_glass_camera_back_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_rough_glass_camera_back_swrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_rough_glass_camera_back_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_rough_glass_camera_front_hwrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_rough_glass_camera_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_rough_glass_camera_front_swrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_rough_glass_camera_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_rw_sss_camera_back_hwrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_rw_sss_camera_back_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_rw_sss_camera_back_swrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_rw_sss_camera_back_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_rw_sss_camera_front_hwrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_rw_sss_camera_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/exclusive/exclusive_boolean_rw_sss_camera_front_swrt.rs",
+            "test_name": "boolean_sss_transparent_exclusive_boolean_rw_sss_camera_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/inclusive/inclusive_boolean_rough_glass_camera_back_hwrt.rs",
+            "test_name": "boolean_sss_transparent_inclusive_boolean_rough_glass_camera_back_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/inclusive/inclusive_boolean_rough_glass_camera_back_swrt.rs",
+            "test_name": "boolean_sss_transparent_inclusive_boolean_rough_glass_camera_back_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/inclusive/inclusive_boolean_rough_glass_camera_front_hwrt.rs",
+            "test_name": "boolean_sss_transparent_inclusive_boolean_rough_glass_camera_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/inclusive/inclusive_boolean_rough_glass_camera_front_swrt.rs",
+            "test_name": "boolean_sss_transparent_inclusive_boolean_rough_glass_camera_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/inclusive/inclusive_boolean_rw_sss_camera_back_hwrt.rs",
+            "test_name": "boolean_sss_transparent_inclusive_boolean_rw_sss_camera_back_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/inclusive/inclusive_boolean_rw_sss_camera_back_swrt.rs",
+            "test_name": "boolean_sss_transparent_inclusive_boolean_rw_sss_camera_back_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/inclusive/inclusive_boolean_rw_sss_camera_front_hwrt.rs",
+            "test_name": "boolean_sss_transparent_inclusive_boolean_rw_sss_camera_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/sss_transparent/inclusive/inclusive_boolean_rw_sss_camera_front_swrt.rs",
+            "test_name": "boolean_sss_transparent_inclusive_boolean_rw_sss_camera_front_swrt"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "description": "All categories of scenes/feature/boolean",
+    "tests": [
+        {
+            "include": "boolean/affects_lighting.json"
+        },
+        {
+            "include": "boolean/carve_cut_boolean.json"
+        },
+        {
+            "include": "boolean/exclusive_booleans.json"
+        },
+        {
+            "include": "boolean/inclusive_booleans.json"
+        },
+        {
+            "include": "boolean/polygon_soup_boolean.json"
+        },
+        {
+            "include": "boolean/sss_transparent.json"
+        },
+        {
+            "include": "boolean/texture_displacement.json"
+        }
+    ]
+}

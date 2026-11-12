@@ -1,0 +1,37 @@
+{
+    "description": "Category 'exclusive_booleans' of scenes/feature/boolean",
+    "tests": [
+        {
+            "path_to_scene": "feature/boolean/exclusive_booleans/exclusive_boolean_carves_two_spheres_with_object_material_back_camera_hwrt.rs",
+            "test_name": "boolean_exclusive_booleans_exclusive_boolean_carves_two_spheres_with_object_material_back_camera_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/exclusive_booleans/exclusive_boolean_carves_two_spheres_with_object_material_back_camera_swrt.rs",
+            "test_name": "boolean_exclusive_booleans_exclusive_boolean_carves_two_spheres_with_object_material_back_camera_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/exclusive_booleans/exclusive_boolean_carves_two_spheres_with_object_material_front_camera_hwrt.rs",
+            "test_name": "boolean_exclusive_booleans_exclusive_boolean_carves_two_spheres_with_object_material_front_camera_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/exclusive_booleans/exclusive_boolean_carves_two_spheres_with_object_material_front_camera_swrt.rs",
+            "test_name": "boolean_exclusive_booleans_exclusive_boolean_carves_two_spheres_with_object_material_front_camera_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/exclusive_booleans/exclusive_boolean_carves_two_spheres_with_object_material_inside_camera_hwrt.rs",
+            "test_name": "boolean_exclusive_booleans_exclusive_boolean_carves_two_spheres_with_object_material_inside_camera_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/exclusive_booleans/exclusive_boolean_carves_two_spheres_with_object_material_inside_camera_swrt.rs",
+            "test_name": "boolean_exclusive_booleans_exclusive_boolean_carves_two_spheres_with_object_material_inside_camera_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/exclusive_booleans/exclusive_boolean_carves_two_spheres_with_object_material_side_camera_hwrt.rs",
+            "test_name": "boolean_exclusive_booleans_exclusive_boolean_carves_two_spheres_with_object_material_side_camera_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/exclusive_booleans/exclusive_boolean_carves_two_spheres_with_object_material_side_camera_swrt.rs",
+            "test_name": "boolean_exclusive_booleans_exclusive_boolean_carves_two_spheres_with_object_material_side_camera_swrt"
+        }
+    ]
+}

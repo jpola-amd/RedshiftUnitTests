@@ -23,7 +23,9 @@
         "feature/xsi_unit_tests/Render_Archives/sphere_light.rs": "proxy loaded by Bug3668_ProxyLightDuplicates",
         "production/cinebench_v5/Blanket.rs": "proxy loaded by 'benchmark v5.rs'"
     },
-    "overrides": {},
+    "overrides": {
+        "production/cinebench_2022_11/Cinebench_Nov_23_2022.rs": {"render_options": {"rt": {"BlockSize": 256}}}
+    },
     "suites": {
         "bugs_res": {
             "description": "Bug regression set used for the resolution checks on Navi31.",

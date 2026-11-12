@@ -1,0 +1,53 @@
+{
+    "description": "Category 'texture_displacement' of scenes/feature/boolean",
+    "tests": [
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/exclusive_boolean_tfd_cube_camera_inside_hwrt.rs",
+            "test_name": "boolean_texture_displacement_exclusive_boolean_tfd_cube_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/exclusive_boolean_tfd_cube_camera_inside_swrt.rs",
+            "test_name": "boolean_texture_displacement_exclusive_boolean_tfd_cube_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/exclusive_boolean_tfd_cube_camera_outside_hwrt.rs",
+            "test_name": "boolean_texture_displacement_exclusive_boolean_tfd_cube_camera_outside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/exclusive_boolean_tfd_cube_camera_outside_swrt.rs",
+            "test_name": "boolean_texture_displacement_exclusive_boolean_tfd_cube_camera_outside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/inclusive_boolean_tfd_cube_camera_inside2_hwrt.rs",
+            "test_name": "boolean_texture_displacement_inclusive_boolean_tfd_cube_camera_inside2_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/inclusive_boolean_tfd_cube_camera_inside2_swrt.rs",
+            "test_name": "boolean_texture_displacement_inclusive_boolean_tfd_cube_camera_inside2_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/inclusive_boolean_tfd_cube_camera_inside_hwrt.rs",
+            "test_name": "boolean_texture_displacement_inclusive_boolean_tfd_cube_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/inclusive_boolean_tfd_cube_camera_inside_swrt.rs",
+            "test_name": "boolean_texture_displacement_inclusive_boolean_tfd_cube_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/inclusive_boolean_tfd_cube_camera_outside2_hwrt.rs",
+            "test_name": "boolean_texture_displacement_inclusive_boolean_tfd_cube_camera_outside2_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/inclusive_boolean_tfd_cube_camera_outside2_swrt.rs",
+            "test_name": "boolean_texture_displacement_inclusive_boolean_tfd_cube_camera_outside2_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/inclusive_boolean_tfd_cube_camera_outside_hwrt.rs",
+            "test_name": "boolean_texture_displacement_inclusive_boolean_tfd_cube_camera_outside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/texture_displacement/inclusive_boolean_tfd_cube_camera_outside_swrt.rs",
+            "test_name": "boolean_texture_displacement_inclusive_boolean_tfd_cube_camera_outside_swrt"
+        }
+    ]
+}

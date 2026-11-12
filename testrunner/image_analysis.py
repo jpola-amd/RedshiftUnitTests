@@ -1,6 +1,7 @@
 """Image comparison of a results folder with the references or with another results folder."""
 
 import json
+import os
 from dataclasses import asdict, dataclass
 from multiprocessing import Pool
 from pathlib import Path
@@ -16,6 +17,15 @@ from .utils import colored, print_warning
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402  (the backend must be selected first)
 from matplotlib.colors import PowerNorm  # noqa: E402
+
+# Upper bound of image comparison processes. On Windows multiprocessing waits on at most 63 handles, so a Pool with
+# one process per logical CPU fails on many-core machines (e.g. 192 threads).
+MAX_ANALYSIS_WORKERS = 32
+
+
+def analysis_workers(jobs: int) -> int:
+    return max(1, min(MAX_ANALYSIS_WORKERS, os.cpu_count() or 1, jobs))
+
 
 # redshiftBenchmark appends an info strip (time, GPUs) below the render. It differs between runs, so it is cut off
 # before comparing: image height -> height of the rendered part.
@@ -176,7 +186,7 @@ class ImageAnalyzer:
             for old_plot in self.plot_folder.glob("*.diff.png"):
                 old_plot.unlink()
         jobs = [(pair, self.crop, self.threshold, self.min_ssim, self.plot_folder) for pair in pairs]
-        with Pool() as pool:
+        with Pool(analysis_workers(len(jobs))) as pool:
             self.comparisons = sorted(pool.imap_unordered(_run_comparison, jobs), key=lambda c: c.name)
         for c in self.comparisons:
             if c.error:

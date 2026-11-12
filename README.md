@@ -68,7 +68,7 @@ be overridden. Resources missing from the data set are listed in `scenes/README.
 
 ```
 usage: run_tests.py [-h] --program {redshiftCmdLine,redshiftBenchmark} [--test TEST] [--gpu GPU [GPU ...]]
-                    [--reference] [--use_rt] [--timeout TIMEOUT] [--threshold THRESHOLD]
+                    [--reference] [--use_rt] [--override_features] [--timeout TIMEOUT] [--threshold THRESHOLD]
                     [--min-ssim MIN_SSIM] [--performance-analysis] [--image-analysis]
                     [--analysis-path ANALYSIS_PATH] [--baseline-path BASELINE_PATH] [--config CONFIG]
                     [--user-config USER_CONFIG]
@@ -80,6 +80,9 @@ usage: run_tests.py [-h] --program {redshiftCmdLine,redshiftBenchmark} [--test T
   --reference           Generate references in references/<program> instead of a test run
   --use_rt, --use-rt    Render with the RT backend (options_rt.txt) instead of the compute backend
                         (options_compute.txt). redshiftCmdLine only
+  --override_features, --override-features
+                        Apply the per-scene render options ('render_options' of the test entries) on top of the
+                        options file. redshiftCmdLine only
   --timeout TIMEOUT     Seconds after which a render is killed and reported as failed, 0 = no limit
                         (default: 3600)
   --threshold THRESHOLD
@@ -114,9 +117,9 @@ at the end of the run.
 | Console output | `logs/<test>.result.console.txt` | `logs/<test>.reference.console.txt` |
 | Run summary | `<program>_TEST_<date>.json` | `<program>_REFERENCE_<date>.json` |
 
-The run summary lists successful, failed and skipped tests, the backend, the options file, the Redshift version and the
-duration of each render. Regenerating a reference first deletes the old files of that test, so no stale image of a
-previous version survives.
+The run summary lists successful, failed and skipped tests, the backend, the options file, the per-scene render options
+that were applied, the Redshift version and the duration of each render. Regenerating a reference first deletes the old
+files of that test, so no stale image of a previous version survives.
 
 ### Compute and RT backends
 
@@ -131,6 +134,24 @@ With RT the Redshift log contains `Device 0 (...) uses HART for ray tracing`. Co
 `references/<program>/`: generating references with one backend replaces those of the other, and a run with either
 backend is compared with whatever is there. `redshiftBenchmark` has no options file and cannot enable HART RT: it
 always runs with `-nortx` (compute), and `--use_rt` is rejected.
+
+### Per-scene render options
+
+Some scenes need extra render options, e.g. `BlockSize 256` for Cinebench with RT instead of the value Redshift computes.
+A test entry declares them in `render_options`, per backend: `all` applies to both backends, `compute`/`rt` to one of them
+and win over `all`. Set them through `overrides` in `tools/test_generation.json` so they survive regeneration:
+
+```json
+"overrides": {
+    "production/cinebench_2022_11/Cinebench_Nov_23_2022.rs": {"render_options": {"rt": {"BlockSize": 256}}}
+}
+```
+
+They are applied only with `--override_features`. For such a scene the runner writes the backend's options file with the
+scene's options replaced (same name, case-insensitive) or appended to `logs/<test>.<result|reference>.options.txt` and
+passes that file to `-oro`; the progress line shows them (`+BlockSize=256`). Generate references and test runs with the
+same switch, otherwise they are compared with different settings. `redshiftBenchmark` has no options file: the options
+are ignored with a warning.
 
 ## Comparing results
 
@@ -182,8 +203,8 @@ result, reference and log file names are derived from them.
 1. Copy the scene (`.rs` plus the textures it references, keeping their relative paths) into a collection under
    `scenes/feature/` or into a new folder `scenes/production/<scene>/`.
 2. Run `uv run tools/generate_tests.py` (`--check` only reports whether `tests/` is out of date).
-3. Optional: exclude proxies or broken scenes, rename a test, set `skippostfx` (`overrides`) or add the scene to a
-   curated suite in `tools/test_generation.json`, then regenerate.
+3. Optional: exclude proxies or broken scenes, rename a test, set `skippostfx` or `render_options` (`overrides`) or add
+   the scene to a curated suite in `tools/test_generation.json`, then regenerate.
 
 For an ad-hoc selection, create your own JSON file outside the generated folders (e.g. `tests/my_selection.json`) and
 pass it with `--test`; the generator does not touch it. Format:
@@ -199,7 +220,8 @@ pass it with `--test`; the generator does not touch it. Format:
 ```
 
 `path_to_scene` is relative to the scenes folder, `include` relative to the JSON file. `skippostfx` passes
-`-skippostfx` to `redshiftCmdLine`. Each `.rs` file is one frame; there is no frame range option.
+`-skippostfx` to `redshiftCmdLine`, `render_options` see [Per-scene render options](#per-scene-render-options). Each
+`.rs` file is one frame; there is no frame range option.
 
 ## Development
 

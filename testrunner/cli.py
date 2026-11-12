@@ -27,6 +27,7 @@ class ExecutionParameters:
     gpus: list[str] = field(default_factory=lambda: ["0"])
     reference: bool = False
     use_rt: bool = False
+    override_features: bool = False
     timeout: float | None = DEFAULT_TIMEOUT
     threshold: float = 0.95
     min_ssim: float | None = None
@@ -126,6 +127,8 @@ class ExecutionParameters:
         ]
         if self.program == "redshiftCmdLine":
             lines.append(f"options: {self.options_file.name}")
+        if self.override_features:
+            lines.append("per-scene render options: on (--override_features)")
         return lines
 
 
@@ -167,6 +170,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help=f"Render with the RT backend ({OPTIONS_FILES['rt']}) instead of the compute backend "
         f"({OPTIONS_FILES['compute']}). redshiftCmdLine only",
+    )
+    parser.add_argument(
+        "--override_features",
+        "--override-features",
+        dest="override_features",
+        action="store_true",
+        help="Apply the per-scene render options ('render_options' of the test entries) on top of the options "
+        "file. redshiftCmdLine only",
     )
     parser.add_argument(
         "--timeout",
@@ -225,6 +236,7 @@ def parse_command_line_args(argv: list[str] | None = None) -> ExecutionParameter
         gpus=args.gpu or ["0"],
         reference=args.reference,
         use_rt=args.use_rt,
+        override_features=args.override_features,
         timeout=args.timeout if args.timeout and args.timeout > 0 else None,
         threshold=args.threshold,
         min_ssim=args.min_ssim,

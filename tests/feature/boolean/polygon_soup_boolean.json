@@ -1,0 +1,197 @@
+{
+    "description": "Category 'polygon_soup_boolean' of scenes/feature/boolean",
+    "tests": [
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_1_camera_inside_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_1_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_1_camera_inside_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_1_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_1_camera_outside_front_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_1_camera_outside_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_1_camera_outside_front_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_1_camera_outside_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_1_camera_outside_side_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_1_camera_outside_side_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_1_camera_outside_side_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_1_camera_outside_side_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_2_camera_inside_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_2_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_2_camera_inside_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_2_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_2_camera_outside_front_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_2_camera_outside_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_2_camera_outside_front_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_2_camera_outside_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_2_camera_outside_side_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_2_camera_outside_side_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_2_camera_outside_side_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_2_camera_outside_side_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_3_camera_inside_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_3_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_3_camera_inside_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_3_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_3_camera_outside_front_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_3_camera_outside_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_3_camera_outside_front_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_3_camera_outside_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_3_camera_outside_side_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_3_camera_outside_side_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_3_camera_outside_side_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_3_camera_outside_side_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_4_camera_inside_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_4_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_4_camera_inside_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_4_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_4_camera_outside_front_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_4_camera_outside_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_4_camera_outside_front_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_4_camera_outside_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_4_camera_outside_side_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_4_camera_outside_side_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/exclusive/exclusive_boolean_polygon_soup_4_camera_outside_side_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_exclusive_boolean_polygon_soup_4_camera_outside_side_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_1_camera_inside_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_1_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_1_camera_inside_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_1_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_1_camera_outside_front_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_1_camera_outside_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_1_camera_outside_front_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_1_camera_outside_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_1_camera_outside_side_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_1_camera_outside_side_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_1_camera_outside_side_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_1_camera_outside_side_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_2_camera_inside_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_2_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_2_camera_inside_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_2_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_2_camera_outside_front_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_2_camera_outside_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_2_camera_outside_front_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_2_camera_outside_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_2_camera_outside_side_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_2_camera_outside_side_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_2_camera_outside_side_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_2_camera_outside_side_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_3_camera_inside_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_3_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_3_camera_inside_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_3_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_3_camera_outside_front_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_3_camera_outside_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_3_camera_outside_front_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_3_camera_outside_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_3_camera_outside_side_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_3_camera_outside_side_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_3_camera_outside_side_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_3_camera_outside_side_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_4_camera_inside_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_4_camera_inside_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_4_camera_inside_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_4_camera_inside_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_4_camera_outside_front_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_4_camera_outside_front_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_4_camera_outside_front_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_4_camera_outside_front_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_4_camera_outside_side_hwrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_4_camera_outside_side_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/polygon_soup_boolean/inclusive/inclusive_boolean_polygon_soup_4_camera_outside_side_swrt.rs",
+            "test_name": "boolean_polygon_soup_boolean_inclusive_boolean_polygon_soup_4_camera_outside_side_swrt"
+        }
+    ]
+}
