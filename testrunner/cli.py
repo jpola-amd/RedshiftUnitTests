@@ -38,6 +38,7 @@ class ExecutionParameters:
     config: dict = field(default_factory=dict)  # merged 'required' and 'optional' sections of config.<os>.json
     user_config: dict = field(default_factory=dict)  # merged sections of config.<os>.user.json
     root_path: Path = PROJECT_ROOT
+    output_path: Path | None = None  # test run folder, default results/<date>_<run tag>
 
     @property
     def is_analysis(self) -> bool:
@@ -46,6 +47,11 @@ class ExecutionParameters:
     @property
     def backend(self) -> str:
         return "rt" if self.use_rt else "compute"
+
+    @property
+    def run_tag(self) -> str:
+        """Backend, plus '_override' with --override_features: names the results folder of a test run."""
+        return f"{self.backend}_override" if self.override_features else self.backend
 
     @property
     def options_file(self) -> Path:
@@ -153,7 +159,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run Redshift test scenes, compare the images and timings with references or another run."
     )
-    parser.add_argument("--program", choices=PROGRAMS, required=True, help="Redshift program used to render")
+    parser.add_argument(
+        "--program", choices=PROGRAMS, help="Redshift program used to render (required without --batch)"
+    )
     parser.add_argument(
         "--test", action="append", default=[], help="Test JSON file to run (repeatable), e.g. tests/all.json"
     )
@@ -216,22 +224,35 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--user-config", default=f"config/config.{os_tag}.user.json", help="User configuration file (optional)"
     )
+    batch = parser.add_mutually_exclusive_group()
+    batch.add_argument(
+        "--batch",
+        help="Batch file (e.g. batches/production.json): references, several runs, analyses and a summary report. "
+        "--program/--test/--gpu/--timeout/--threshold/--min-ssim given on the command line override the file",
+    )
+    batch.add_argument(
+        "--resume", help="Continue an interrupted batch, e.g. results/batch_2026-11-12_184215_production"
+    )
     parser.add_argument("--no-delete", action="store_true", help=argparse.SUPPRESS)  # deprecated, no effect
     return parser
 
 
-def parse_command_line_args(argv: list[str] | None = None) -> ExecutionParameters:
+def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
     argv = sys.argv[1:] if argv is None else argv
-    parser = build_parser()
-    args = parser.parse_args(argv)
+    args = build_parser().parse_args(argv)
     if "--treshold" in argv:
         print_warning("--treshold is deprecated, use --threshold")
     if args.no_delete:
         print_warning("--no-delete is deprecated and has no effect")
+    return args
 
-    user_config_default = parser.get_default("user_config")
+
+def parameters_from_args(args: argparse.Namespace, validate: bool = True) -> ExecutionParameters:
+    if validate and not args.program:
+        raise RunnerError("--program is required")
+    user_config_default = build_parser().get_default("user_config")
     params = ExecutionParameters(
-        program=args.program,
+        program=args.program or "",
         tests=[resolve_path(t) for t in args.test],
         gpus=args.gpu or ["0"],
         reference=args.reference,
@@ -247,5 +268,10 @@ def parse_command_line_args(argv: list[str] | None = None) -> ExecutionParameter
         config=_load_config(resolve_path(args.config), required=True),
         user_config=_load_config(resolve_path(args.user_config), required=args.user_config != user_config_default),
     )
-    params.validate()
+    if validate:
+        params.validate()
     return params
+
+
+def parse_command_line_args(argv: list[str] | None = None) -> ExecutionParameters:
+    return parameters_from_args(parse_arguments(argv))

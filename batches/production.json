@@ -1,0 +1,19 @@
+{
+    "description": "References with compute, then compute, RT and RT with the per-scene render options.",
+    "program": "redshiftCmdLine",
+    "tests": ["tests/production.json"],
+    "gpus": ["0"],
+    "timeout": 3600,
+    "threshold": 0.95,
+    "slowdown": 0.9,
+    "reference": {"backend": "compute"},
+    "runs": [
+        {"name": "compute", "backend": "compute"},
+        {"name": "rt", "backend": "rt"},
+        {"name": "rt_override", "backend": "rt", "override_features": true}
+    ],
+    "pairs": [
+        {"baseline": "compute", "result": "rt"},
+        {"baseline": "rt", "result": "rt_override"}
+    ]
+}

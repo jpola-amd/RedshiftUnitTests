@@ -4,6 +4,7 @@ import json
 import os
 import shutil
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -91,9 +92,19 @@ class TestOutcome:
 
 
 class RenderTask:
-    """Renders every scene of the test files into results/<date>_<backend> (or references/<program>)."""
+    """Renders every scene of the test files into results/<date>_<run tag> (or references/<program>).
 
-    def __init__(self, params: ExecutionParameters):
+    `skip`: test names not to render (already done by an interrupted batch). `on_start`/`on_outcome` are called before
+    and after each test.
+    """
+
+    def __init__(
+        self,
+        params: ExecutionParameters,
+        skip: set[str] | None = None,
+        on_outcome: Callable[[TestOutcome], None] | None = None,
+        on_start: Callable[[Scene], None] | None = None,
+    ):
         self.params = params
         self.suffix = "reference" if params.reference else "result"
         stamp = timestamp()
@@ -101,12 +112,16 @@ class RenderTask:
             self.output_path = params.references_path
             self.run_log = self.output_path / f"{params.program}_REFERENCE_{stamp}.json"
         else:
-            self.output_path = params.root_path / "results" / f"{stamp}_{params.backend}"
+            self.output_path = params.output_path or params.root_path / "results" / f"{stamp}_{params.run_tag}"
             self.run_log = self.output_path / f"{params.program}_TEST_{stamp}.json"
         self.images_path = self.output_path / "images"
         self.logs_path = self.output_path / "logs"
         self.temp_path = self.output_path / "tmp"
-        self.scenes = [Scene.from_entry(entry, params.scenes_root) for entry in load_tests(params.tests)]
+        scenes = [Scene.from_entry(entry, params.scenes_root) for entry in load_tests(params.tests)]
+        self.skipped_done = [s for s in scenes if skip and s.name in skip]
+        self.scenes = [s for s in scenes if not (skip and s.name in skip)]
+        self.on_outcome = on_outcome
+        self.on_start = on_start
         self.env = self._environment()
         self.outcomes: list[TestOutcome] = []
         self.redshift_version: str | None = None
@@ -256,6 +271,8 @@ class RenderTask:
                     )
         count = len(self.scenes)
         verb = "Generating" if self.params.reference else "Running test"
+        if self.skipped_done:
+            print(f"\t{len(self.skipped_done)} tests already done by the interrupted run, not rendered again")
         for index, scene in enumerate(self.scenes, 1):
             options = self.scene_options(scene) if self.params.program == "redshiftCmdLine" else {}
             extra = colored(" +" + " +".join(f"{k}={v}" for k, v in options.items()), Fore.CYAN) if options else ""
@@ -264,6 +281,8 @@ class RenderTask:
                 end="",
                 flush=True,
             )
+            if self.on_start:
+                self.on_start(scene)
             outcome = self._render(scene)
             self.outcomes.append(outcome)
             if outcome.status == "success":
@@ -273,6 +292,10 @@ class RenderTask:
             else:
                 print(colored("Failed", Fore.RED))
                 print_error(f"\t{outcome.message}")
+            # Saved after every test, so a crash or GPU hang does not lose what was already rendered.
+            self.save()
+            if self.on_outcome:
+                self.on_outcome(outcome)
         shutil.rmtree(self.temp_path, ignore_errors=True)
         self.save()
         self.print_summary()
@@ -287,6 +310,7 @@ class RenderTask:
             "summary": {status: len(entries) for status, entries in by_status.items()},
             **by_status,
             "backend": self.params.backend,
+            "run_tag": self.params.run_tag,
             "redshift_version": self.redshift_version,
             "durations": {o.name: round(o.duration, 3) for o in self.outcomes if o.status != "skipped"},
         }
