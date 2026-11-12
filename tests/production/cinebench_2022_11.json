@@ -3,7 +3,12 @@
     "tests": [
         {
             "path_to_scene": "production/cinebench_2022_11/Cinebench_Nov_23_2022.rs",
-            "test_name": "prod_cinebench_2022_11_Cinebench_Nov_23_2022"
+            "test_name": "prod_cinebench_2022_11_Cinebench_Nov_23_2022",
+            "render_options": {
+                "rt": {
+                    "BlockSize": 256
+                }
+            }
         }
     ]
 }

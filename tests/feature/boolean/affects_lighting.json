@@ -1,0 +1,53 @@
+{
+    "description": "Category 'affects_lighting' of scenes/feature/boolean",
+    "tests": [
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_color_OFF_hwrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_color_OFF_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_color_OFF_swrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_color_OFF_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_color_ON_hwrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_color_ON_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_color_ON_swrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_color_ON_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_color_sidelight_only_OFF_hwrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_color_sidelight_only_OFF_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_color_sidelight_only_OFF_swrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_color_sidelight_only_OFF_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_color_toplight_only_ON_hwrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_color_toplight_only_ON_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_color_toplight_only_ON_swrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_color_toplight_only_ON_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_OFF_hwrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_OFF_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_OFF_swrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_OFF_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_ON_hwrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_ON_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/affects_lighting/exclusive_boolean_affects_lighting_ON_swrt.rs",
+            "test_name": "boolean_affects_lighting_exclusive_boolean_affects_lighting_ON_swrt"
+        }
+    ]
+}

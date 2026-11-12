@@ -1,0 +1,21 @@
+{
+    "description": "Category 'carve_cut_boolean' of scenes/feature/boolean",
+    "tests": [
+        {
+            "path_to_scene": "feature/boolean/carve_cut_boolean/sphere_clipped_by_boolean_camera_inside_bool_hwrt.rs",
+            "test_name": "boolean_carve_cut_boolean_sphere_clipped_by_boolean_camera_inside_bool_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/carve_cut_boolean/sphere_clipped_by_boolean_camera_inside_bool_swrt.rs",
+            "test_name": "boolean_carve_cut_boolean_sphere_clipped_by_boolean_camera_inside_bool_swrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/carve_cut_boolean/sphere_clipped_by_boolean_hwrt.rs",
+            "test_name": "boolean_carve_cut_boolean_sphere_clipped_by_boolean_hwrt"
+        },
+        {
+            "path_to_scene": "feature/boolean/carve_cut_boolean/sphere_clipped_by_boolean_swrt.rs",
+            "test_name": "boolean_carve_cut_boolean_sphere_clipped_by_boolean_swrt"
+        }
+    ]
+}

@@ -66,6 +66,10 @@ def test_render_options(setup):
     assert params.options_file.name == "options_rt.txt"
     assert params.timeout is None
     assert params.threshold == 2.5
+    assert not params.override_features
+    assert parse_command_line_args(
+        args("--program", "redshiftCmdLine", "--test", str(tests), "--override_features")
+    ).override_features
 
 
 @pytest.mark.parametrize(

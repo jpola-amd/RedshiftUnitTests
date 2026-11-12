@@ -4,13 +4,14 @@ import json
 import os
 import shutil
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from colorama import Fore
 
-from .cli import ExecutionParameters
+from .cli import OPTIONS_FILES, ExecutionParameters
 from .utils import (
+    RunnerError,
     colored,
     find_log_error,
     find_redshift_version,
@@ -28,19 +29,56 @@ from .utils import (
 
 BENCHMARK_OUTPUT = "redshiftBenchmarkOutput.png"
 
+# Sections of a test entry's "render_options": "all" applies to every backend, a backend section wins over it.
+RENDER_OPTION_SECTIONS = ("all", *OPTIONS_FILES)
+
+
+def _option_value(value) -> str:
+    return str(value) if not isinstance(value, bool) else ("True" if value else "False")
+
+
+def merge_render_options(base_text: str, overrides: dict[str, str]) -> str:
+    """Options file text with the 'Name Value' lines of `overrides` replaced (case-insensitive name) or appended."""
+    pending = {name.lower(): (name, value) for name, value in overrides.items()}
+    lines = []
+    for line in base_text.splitlines():
+        parts = line.split(maxsplit=1)
+        if parts and parts[0].lower() in pending:
+            name, value = pending.pop(parts[0].lower())
+            line = f"{name} {value}"
+        lines.append(line)
+    lines.extend(f"{name} {value}" for name, value in pending.values())
+    return "\n".join(lines) + "\n"
+
 
 @dataclass(frozen=True)
 class Scene:
     name: str
     path: Path
     skip_postfx: bool = False
+    render_options: dict = field(default_factory=dict, compare=False)  # {section: {option: value}}
 
     @classmethod
     def from_entry(cls, entry: dict, scenes_root: Path) -> "Scene":
         skip = entry.get("skippostfx", False)
+        options = entry.get("render_options", {})
+        if not isinstance(options, dict) or any(
+            section not in RENDER_OPTION_SECTIONS or not isinstance(values, dict) for section, values in options.items()
+        ):
+            raise RunnerError(
+                f"Invalid render_options of test {entry['test_name']}: {options!r}; expected "
+                f"{{section: {{option: value}}}} with sections {', '.join(RENDER_OPTION_SECTIONS)}"
+            )
         return cls(
-            entry["test_name"], scenes_root / entry["path_to_scene"], skip is True or str(skip).lower() == "true"
+            entry["test_name"],
+            scenes_root / entry["path_to_scene"],
+            skip is True or str(skip).lower() == "true",
+            options,
         )
+
+    def options_for(self, backend: str) -> dict[str, str]:
+        merged = {**self.render_options.get("all", {}), **self.render_options.get(backend, {})}
+        return {name: _option_value(value) for name, value in merged.items()}
 
 
 @dataclass
@@ -72,6 +110,7 @@ class RenderTask:
         self.env = self._environment()
         self.outcomes: list[TestOutcome] = []
         self.redshift_version: str | None = None
+        self.applied_options: dict[str, dict[str, str]] = {}
 
     @property
     def results_path(self) -> Path:
@@ -104,7 +143,17 @@ class RenderTask:
         # redshiftBenchmark writes its image to the working directory on Windows and to $HOME on Linux.
         return (self.temp_path if get_os_tag() == "win" else Path.home()) / BENCHMARK_OUTPUT
 
-    def _command(self, scene: Scene) -> list:
+    def scene_options(self, scene: Scene) -> dict[str, str]:
+        """Per-scene render options for this run's backend; only with --override_features."""
+        return scene.options_for(self.params.backend) if self.params.override_features else {}
+
+    def _write_options_file(self, scene: Scene, options: dict[str, str]) -> Path:
+        # Kept next to the logs so the exact options of the render can be checked afterwards.
+        path = self.logs_path / f"{scene.name}.{self.suffix}.options.txt"
+        path.write_text(merge_render_options(read_text(self.params.options_file), options), encoding="utf-8")
+        return path
+
+    def _command(self, scene: Scene, options_file: Path | None = None) -> list:
         gpus = gpu_arguments(self.params.gpus)
         if self.params.program == "redshiftBenchmark":
             # redshiftBenchmark enables RT by default and has no options file; --use_rt is rejected by validate().
@@ -113,7 +162,7 @@ class RenderTask:
             self.params.executable,
             scene.path,
             "-oro",
-            self.params.options_file,
+            options_file or self.params.options_file,
             "-oif",
             "png",
             "-oip",
@@ -159,11 +208,17 @@ class RenderTask:
         if self.params.program == "redshiftBenchmark":
             self._benchmark_output().unlink(missing_ok=True)
 
+        options_file = None
+        options = self.scene_options(scene)
+        if options and self.params.program == "redshiftCmdLine":
+            options_file = self._write_options_file(scene, options)
+            self.applied_options[scene.name] = options
+
         console_log = self.logs_path / f"{scene.name}.{self.suffix}.console.txt"
         redshift_log = redshift_log_file(self.env)
         start = time.time()
         cwd = self.temp_path if self.params.program == "redshiftBenchmark" else None
-        process = run_process(self._command(scene), self.env, console_log, self.params.timeout, cwd)
+        process = run_process(self._command(scene, options_file), self.env, console_log, self.params.timeout, cwd)
         if self.redshift_version is None:
             self.redshift_version = find_redshift_version(read_text(console_log))
 
@@ -192,11 +247,22 @@ class RenderTask:
 
     def execute(self) -> list[TestOutcome]:
         self._prepare_folders()
+        if self.params.program == "redshiftBenchmark":
+            for scene in self.scenes:
+                if self.scene_options(scene):
+                    print_warning(
+                        f"{scene.name}: redshiftBenchmark has no options file, its render options "
+                        f"{self.scene_options(scene)} are ignored"
+                    )
         count = len(self.scenes)
         verb = "Generating" if self.params.reference else "Running test"
         for index, scene in enumerate(self.scenes, 1):
+            options = self.scene_options(scene) if self.params.program == "redshiftCmdLine" else {}
+            extra = colored(" +" + " +".join(f"{k}={v}" for k, v in options.items()), Fore.CYAN) if options else ""
             print(
-                f"\t{verb} {colored(index, Fore.BLUE)}/{colored(count, Fore.BLUE)} [{scene.name}]: ", end="", flush=True
+                f"\t{verb} {colored(index, Fore.BLUE)}/{colored(count, Fore.BLUE)} [{scene.name}]{extra}: ",
+                end="",
+                flush=True,
             )
             outcome = self._render(scene)
             self.outcomes.append(outcome)
@@ -226,6 +292,8 @@ class RenderTask:
         }
         if self.params.program == "redshiftCmdLine":
             info["options_file"] = self.params.options_file.name
+            info["override_features"] = self.params.override_features
+            info["scene_options"] = self.applied_options
         try:
             self.run_log.write_text(json.dumps(info, indent=2), encoding="utf-8")
         except OSError as err:

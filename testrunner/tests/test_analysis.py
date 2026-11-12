@@ -4,9 +4,11 @@ import cv2 as cv
 import numpy as np
 import pytest
 
-from testrunner.image_analysis import ImageAnalyzer, compare_images, load_rgb
+from testrunner.cli import ExecutionParameters
+from testrunner.image_analysis import ImageAnalyzer, analysis_workers, compare_images, load_rgb
 from testrunner.performance_analysis import PerformanceAnalyzer, parse_benchmark_log, parse_cmdline_log, speedup
-from testrunner.render_tasks import Scene
+from testrunner.render_tasks import RenderTask, Scene, merge_render_options
+from testrunner.utils import RunnerError
 
 
 def gradient(height=64, width=64) -> np.ndarray:
@@ -137,3 +139,50 @@ def test_scene_skippostfx(tmp_path, value, expected):
     scene = Scene.from_entry(entry, tmp_path)
     assert scene.skip_postfx is expected
     assert scene.path == tmp_path / "a" / "b.rs"
+
+
+def test_scene_render_options_per_backend(tmp_path):
+    entry = {
+        "test_name": "t",
+        "path_to_scene": "a.rs",
+        "render_options": {"all": {"A": 1, "Flag": True}, "rt": {"A": 2, "BlockSize": 256}},
+    }
+    scene = Scene.from_entry(entry, tmp_path)
+    assert scene.options_for("rt") == {"A": "2", "Flag": "True", "BlockSize": "256"}
+    assert scene.options_for("compute") == {"A": "1", "Flag": "True"}
+    with pytest.raises(RunnerError, match="Invalid render_options"):
+        Scene.from_entry({**entry, "render_options": {"optix": {"A": 1}}}, tmp_path)
+
+
+def test_merge_render_options():
+    base = "EnableHARTRTOnSupportedGPUs True\nblocksize 128\nAutomaticMemoryManagement True\n"
+    merged = merge_render_options(base, {"BlockSize": "256", "New": "1"})
+    assert merged == "EnableHARTRTOnSupportedGPUs True\nBlockSize 256\nAutomaticMemoryManagement True\nNew 1\n"
+
+
+@pytest.mark.parametrize("override", [False, True])
+def test_render_task_scene_options_file(tmp_path, override):
+    (tmp_path / "options_rt.txt").write_text("AutomaticMemoryManagement True\n")
+    tests = tmp_path / "t.json"
+    entry = {"test_name": "t", "path_to_scene": "a.rs", "render_options": {"rt": {"BlockSize": 256}}}
+    tests.write_text(json.dumps({"tests": [entry]}))
+    params = ExecutionParameters(
+        "redshiftCmdLine", tests=[tests], use_rt=True, override_features=override, root_path=tmp_path
+    )
+    task = RenderTask(params)
+    task.logs_path.mkdir(parents=True)
+    scene = task.scenes[0]
+    options = task.scene_options(scene)
+    options_file = task._write_options_file(scene, options) if options else None
+    used = task._command(scene, options_file)[3]
+    if override:
+        assert used == task.logs_path / "t.result.options.txt"
+        assert used.read_text() == "AutomaticMemoryManagement True\nBlockSize 256\n"
+    else:
+        assert options == {} and used == tmp_path / "options_rt.txt"
+
+
+@pytest.mark.parametrize(("cpus", "jobs", "expected"), [(192, 500, 32), (192, 5, 5), (8, 500, 8), (None, 500, 1)])
+def test_analysis_workers_are_capped(monkeypatch, cpus, jobs, expected):
+    monkeypatch.setattr("testrunner.image_analysis.os.cpu_count", lambda: cpus)
+    assert analysis_workers(jobs) == expected
