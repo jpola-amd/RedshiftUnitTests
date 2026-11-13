@@ -6,7 +6,6 @@
     "timeout": 3600,
     "threshold": 0.95,
     "slowdown": 0.9,
-    "reference": {"backend": "compute"},
     "runs": [
         {"name": "compute", "backend": "compute"},
         {"name": "rt", "backend": "rt"},

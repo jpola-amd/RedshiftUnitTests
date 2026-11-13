@@ -1,0 +1,13 @@
+{
+    "description": "References with compute for every scene, then RT compared with the references.",
+    "program": "redshiftCmdLine",
+    "tests": ["tests/all.json"],
+    "gpus": ["0"],
+    "timeout": 3600,
+    "threshold": 0.95,
+    "slowdown": 0.9,
+    "reference": {"backend": "compute"},
+    "runs": [
+        {"name": "HART", "backend": "rt"}
+    ]
+}
