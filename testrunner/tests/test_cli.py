@@ -67,9 +67,10 @@ def test_render_options(setup):
     assert params.timeout is None
     assert params.threshold == 2.5
     assert not params.override_features
-    assert parse_command_line_args(
-        args("--program", "redshiftCmdLine", "--test", str(tests), "--override_features")
-    ).override_features
+    override = parse_command_line_args(
+        args("--program", "redshiftCmdLine", "--test", str(tests), "--use_rt", "--override_features")
+    )
+    assert override.override_features and override.run_tag == "rt_override"
 
 
 @pytest.mark.parametrize(

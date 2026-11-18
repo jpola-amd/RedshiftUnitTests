@@ -14,9 +14,11 @@ uv sync                                                                   # once
 uv run run_tests.py --program redshiftCmdLine --reference --test tests/all.json   # generate references
 uv run run_tests.py --program redshiftCmdLine --test tests/all.json               # test run + image comparison
 uv run run_tests.py --program redshiftCmdLine --test tests/all.json --use_rt      # the same with the RT backend
+uv run run_tests.py --batch batches/production.json                               # references + several runs + report
 ```
 
-Each test run writes `results/<date>_<backend>/` and compares its images with `references/<program>/`.
+Each test run writes `results/<date>_<backend>/` and compares its images with `references/<program>/`. A batch runs
+several of them and writes one summary report, see [Batches](#batches).
 The exit code is `0` when everything passed, `1` when a render failed or an image differs, `2` for invalid arguments
 or configuration, so the runner can be used from scripts and CI.
 
@@ -67,14 +69,14 @@ be overridden. Resources missing from the data set are listed in `scenes/README.
 ## Running tests
 
 ```
-usage: run_tests.py [-h] --program {redshiftCmdLine,redshiftBenchmark} [--test TEST] [--gpu GPU [GPU ...]]
+usage: run_tests.py [-h] [--program {redshiftCmdLine,redshiftBenchmark}] [--test TEST] [--gpu GPU [GPU ...]]
                     [--reference] [--use_rt] [--override_features] [--timeout TIMEOUT] [--threshold THRESHOLD]
                     [--min-ssim MIN_SSIM] [--performance-analysis] [--image-analysis]
                     [--analysis-path ANALYSIS_PATH] [--baseline-path BASELINE_PATH] [--config CONFIG]
-                    [--user-config USER_CONFIG]
+                    [--user-config USER_CONFIG] [--batch BATCH | --resume RESUME]
 
   --program {redshiftCmdLine,redshiftBenchmark}
-                        Redshift program used to render
+                        Redshift program used to render (required without --batch)
   --test TEST           Test JSON file to run (repeatable), e.g. tests/all.json
   --gpu GPU [GPU ...]   GPU(s) to render on, e.g. --gpu 0 or --gpu 0,1 (default: 0)
   --reference           Generate references in references/<program> instead of a test run
@@ -99,6 +101,10 @@ usage: run_tests.py [-h] --program {redshiftCmdLine,redshiftBenchmark} [--test T
   --config CONFIG       Main configuration file
   --user-config USER_CONFIG
                         User configuration file (optional)
+  --batch BATCH         Batch file (e.g. batches/production.json): references, several runs, analyses and a summary
+                        report. --program/--test/--gpu/--timeout/--threshold/--min-ssim given on the command line
+                        override the file
+  --resume RESUME       Continue an interrupted batch, e.g. results/batch_2026-11-12_184215_production
 ```
 
 `--treshold` is still accepted as a deprecated spelling of `--threshold`.
@@ -110,7 +116,7 @@ A test **fails** when the scene is missing, Redshift exits with an error or is k
 not write a log for this render (e.g. a wrong `redshift_localdata_path`), or no image was written. Failures are listed
 at the end of the run.
 
-| Output | Test run: `results/<date>_<backend>/` | `--reference`: `references/<program>/` |
+| Output | Test run: `results/<date>_<backend>[_override]/` | `--reference`: `references/<program>/` |
 |---|---|---|
 | Images | `images/<test>.<output name>.result.png` | `images/<test>.<output name>.reference.png` |
 | Redshift log (timings) | `logs/<test>.result.html` | `logs/<test>.reference.html` |
@@ -118,8 +124,9 @@ at the end of the run.
 | Run summary | `<program>_TEST_<date>.json` | `<program>_REFERENCE_<date>.json` |
 
 The run summary lists successful, failed and skipped tests, the backend, the options file, the per-scene render options
-that were applied, the Redshift version and the duration of each render. Regenerating a reference first deletes the old
-files of that test, so no stale image of a previous version survives.
+that were applied, the Redshift version and the duration of each render. It is saved after every test, so it survives a
+crash. With `--override_features` the folder is named `<date>_<backend>_override`. Regenerating a reference first
+deletes the old files of that test, so no stale image of a previous version survives.
 
 ### Compute and RT backends
 
@@ -176,6 +183,66 @@ Results are paired with the references/baseline by test and output name. Everyth
   and geometric-mean speedup and the slowest/fastest tests. Tests that failed to render on either side are excluded.
   Redshift logs times with 0.1 s resolution, so short scenes only give rough numbers.
 
+## Batches
+
+A batch renders the references (optional) and several runs one after the other, compares every run with the references
+and selected runs with each other, and writes one summary report. It is described by a JSON file in `batches/`:
+
+```json
+{
+    "description": "References with compute, then compute, RT and RT with the per-scene render options.",
+    "program": "redshiftCmdLine",
+    "tests": ["tests/production.json"],
+    "gpus": ["0"],
+    "timeout": 3600,
+    "threshold": 0.95,
+    "slowdown": 0.9,
+    "reference": {"backend": "compute"},
+    "runs": [
+        {"name": "compute", "backend": "compute"},
+        {"name": "rt", "backend": "rt"},
+        {"name": "rt_override", "backend": "rt", "override_features": true}
+    ],
+    "pairs": [
+        {"baseline": "compute", "result": "rt"},
+        {"baseline": "rt", "result": "rt_override"}
+    ]
+}
+```
+
+| Key | Meaning |
+|---|---|
+| `program`, `tests`, `gpus`, `timeout`, `threshold`, `min_ssim` | as the command line options; `--program`, `--test`, `--gpu`, `--timeout`, `--threshold`, `--min-ssim` given on the command line override them |
+| `reference` | optional: regenerate `references/<program>` first, with this `backend` / `override_features`. Without it the runs are compared with the existing references |
+| `runs` | the test runs: `name` (folder name), `backend` (`compute`/`rt`), `override_features` (per-scene render options) |
+| `pairs` | optional: also compare run `result` with run `baseline` (images and times, speedup > 1 = `result` is faster) |
+| `slowdown` | a test whose speedup is below this value is reported as slower (default 0.9) |
+| `name`, `description` | optional: batch name (default: file name) and a description for the report |
+
+```bash
+uv run run_tests.py --batch batches/production.json --gpu 1
+uv run run_tests.py --resume results/batch_2026-11-12_184215_production
+```
+
+Everything goes to `results/batch_<date>_<name>/`: `batch.json` (the batch as run), `state.json` (progress),
+one folder per run (a normal results folder with its `analysis/`) and `summary/`:
+
+| File | Content |
+|---|---|
+| `summary.html` | overview, problems with links to the diff plots, test x run matrix (colored verdicts, speedups; hover for details) |
+| `summary.md` | overview and problems, e.g. for a ticket or chat |
+| `summary.xlsx` | sheets Overview, Problems, Verdicts, Performance (times and speedups per run), Images (MSE/SSIM per run), Settings |
+| `summary.json` | everything, per test and run |
+
+Each test gets one verdict per run (and pair): `failed` (render failed), `image mismatch`, `no reference`, `slower`
+(speedup below `slowdown`), `ok`, `skipped` or `not run`. The batch passes (exit code 0) when no reference failed to
+render and no run has a failed render or an image mismatch against the references; pairs are informative only.
+
+**Resume:** `state.json` is saved after every test. `--resume <batch folder>` continues where the batch stopped: finished
+runs and tests are not rendered again, and the analyses and the summary are redone for all runs. The test that was
+rendering when the batch stopped (crash, GPU hang, reboot) is marked failed and not rendered again, so a scene that
+hangs the GPU does not stop the batch twice; to retry it, remove it from `outcomes` in `state.json`.
+
 ## Scenes and tests
 
 ```
@@ -229,6 +296,8 @@ pass it with `--test`; the generator does not touch it. Format:
 run_tests.py                    entry point: CLI -> render and/or analyses, exit code
 testrunner/cli.py               command line, configuration and validation (ExecutionParameters)
 testrunner/render_tasks.py      RenderTask: renders the tests for both programs, test runs and references
+testrunner/analysis_tasks.py    image/performance analysis of a results folder vs references or another run
+testrunner/batch/               batches: config (batch file), state (resume), runner, summary, reports (json/xlsx/md/html)
 testrunner/image_analysis.py    ImageAnalyzer: RGB MSE/SSIM comparison and diff plots
 testrunner/performance_analysis.py  PerformanceAnalyzer: log parsing and speedups
 testrunner/utils.py             helpers: paths, test files, processes, Redshift logs
