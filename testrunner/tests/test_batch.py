@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from testrunner import render_tasks
-from testrunner.batch.config import BatchConfig
+from testrunner.batch.config import BatchConfig, RunSpec
 from testrunner.batch.runner import BatchRunner
 from testrunner.batch.state import INTERRUPTED_MESSAGE
 from testrunner.cli import ExecutionParameters, parse_arguments
@@ -16,7 +16,12 @@ LOG = (
     '<div class="INFO line"><b>Rendering time: {total}s (1 devices)</b></div>'
 )
 # (step, test) -> (render seconds, gray value of the image); everything else renders in 10s with gray 100.
-RENDERS = {("rt", "a"): (5.0, 100), ("rt", "b"): (5.0, 160), ("rt_override", "a"): (20.0, 100)}
+RENDERS = {
+    ("rt", "a"): (5.0, 100),
+    ("rt", "b"): (5.0, 160),
+    ("rt", "a@BlockSize=128"): (20.0, 100),
+    ("rt", "a@BlockSize=256"): (4.0, 100),
+}
 CONFIG = {"program": "redshiftCmdLine", "tests": ["t.json"], "runs": [{"name": "rt", "backend": "rt"}]}
 
 
@@ -35,14 +40,18 @@ def fake_render(self, scene):
 
 @pytest.fixture
 def batch(tmp_path, monkeypatch):
-    """Batch reference + compute + rt + rt_override and pair rt_override vs rt over tests a, b, c (fake renders)."""
+    """Batch reference + compute + rt + rt_plain and pair rt vs rt_plain over tests a, b, c (fake renders).
+
+    Test a sweeps BlockSize 128/256 with RT: the rt run renders a, a@BlockSize=128, a@BlockSize=256, b, c."""
     exe = tmp_path / "redshiftCmdLine.exe"
     exe.write_text("")
     (tmp_path / "scenes").mkdir()
     for options in ("options_compute.txt", "options_rt.txt"):
         (tmp_path / options).write_text("AutomaticMemoryManagement True\n")
     tests = tmp_path / "t.json"
-    tests.write_text(json.dumps({"tests": [{"path_to_scene": f"{n}.rs", "test_name": n} for n in "abc"]}))
+    entries = [{"path_to_scene": f"{n}.rs", "test_name": n} for n in "abc"]
+    entries[0]["render_options"] = {"rt": {"BlockSize": [128, 256]}}
+    tests.write_text(json.dumps({"tests": entries}))
     base = ExecutionParameters(
         "",
         config={"redshiftCmdLine": str(exe), "path_overrides": ""},
@@ -57,9 +66,9 @@ def batch(tmp_path, monkeypatch):
             "runs": [
                 {"name": "compute"},
                 {"name": "rt", "backend": "rt"},
-                {"name": "rt_override", "backend": "rt", "override_features": True},
+                {"name": "rt_plain", "backend": "rt", "scene_options": False},
             ],
-            "pairs": [{"baseline": "rt", "result": "rt_override"}],
+            "pairs": [{"baseline": "rt_plain", "result": "rt"}],
         },
         "test",
     )
@@ -75,15 +84,49 @@ def test_batch_verdicts_and_reports(batch):
 
     summary = json.loads((folder / "summary" / "summary.json").read_text())
     verdicts = {name: {t: r["verdict"] for t, r in c["tests"].items()} for name, c in summary["columns"].items()}
-    assert verdicts["compute"] == {"a": "ok", "b": "ok", "c": "failed"}
-    assert verdicts["rt"] == {"a": "ok", "b": "image mismatch", "c": "ok"}
-    assert verdicts["rt_override"] == {"a": "slower", "b": "ok", "c": "ok"}
-    assert verdicts["rt_override_vs_rt"] == {"a": "slower", "b": "image mismatch", "c": "ok"}
-    assert summary["columns"]["rt"]["tests"]["a"]["speedup"] == pytest.approx(2.0)
-    assert summary["columns"]["rt"]["tests"]["b"]["diff_plots"] == ["rt/analysis/diffs_vs_references/b.beauty.diff.png"]
+    variants = {"a@BlockSize=128": "not run", "a@BlockSize=256": "not run"}
+    assert verdicts["compute"] == {"a": "ok", **variants, "b": "ok", "c": "failed"}
+    assert verdicts["rt"] == {
+        "a": "ok",
+        "a@BlockSize=128": "slower",
+        "a@BlockSize=256": "ok",
+        "b": "image mismatch",
+        "c": "ok",
+    }
+    assert verdicts["rt_plain"] == {"a": "ok", **variants, "b": "ok", "c": "ok"}
+    # Variants of the result run are compared with the plain render of the baseline run.
+    assert verdicts["rt_vs_rt_plain"] == {
+        "a": "ok",
+        "a@BlockSize=128": "slower",
+        "a@BlockSize=256": "ok",
+        "b": "image mismatch",
+        "c": "ok",
+    }
+    rt = summary["columns"]["rt"]["tests"]
+    assert rt["a"]["speedup"] == pytest.approx(2.0)
+    assert rt["a@BlockSize=256"]["speedup"] == pytest.approx(2.5)
+    assert summary["columns"]["rt_vs_rt_plain"]["tests"]["a@BlockSize=128"]["speedup"] == pytest.approx(0.5)
+    assert rt["b"]["diff_plots"] == ["rt/analysis/diffs_vs_references/b.beauty.diff.png"]
+    assert summary["best_configs"] == [
+        {
+            "run": "rt",
+            "test": "a",
+            "best": "a@BlockSize=256",
+            "options": "BlockSize=256",
+            "time": 4.0,
+            "speedup": pytest.approx(2.5),
+            "vs_plain": pytest.approx(1.25),
+            "renders": 3,
+            "passing": 3,
+        }
+    ]
     for extension in ("xlsx", "md", "html"):
         assert (folder / "summary" / f"summary.{extension}").is_file()
-    assert "rt_override_vs_rt" in (folder / "summary" / "summary.md").read_text()
+    markdown = (folder / "summary" / "summary.md").read_text()
+    assert "rt_vs_rt_plain" in markdown and "## Best render options" in markdown
+    assert "Best render options" in (folder / "summary" / "summary.html").read_text()
+    references = sorted(p.name for p in (base.root_path / "references" / "redshiftCmdLine" / "images").iterdir())
+    assert references == ["a.beauty.reference.png", "b.beauty.reference.png", "c.beauty.reference.png"]
 
 
 def test_batch_resume_skips_done_and_interrupted_tests(batch, monkeypatch):
@@ -106,7 +149,7 @@ def test_batch_resume_skips_done_and_interrupted_tests(batch, monkeypatch):
 
     monkeypatch.setattr(render_tasks.RenderTask, "_render", track)
     BatchRunner(config, folder, base).execute()
-    assert rendered == [("rt", "c"), ("rt_override", "a"), ("rt_override", "b"), ("rt_override", "c")]
+    assert rendered == [("rt", "c"), ("rt_plain", "a"), ("rt_plain", "b"), ("rt_plain", "c")]
     state = json.loads((folder / "state.json").read_text())
     assert state["outcomes"]["rt"]["b"] == {"status": "failed", "message": INTERRUPTED_MESSAGE, "duration": 0.0}
 
@@ -118,6 +161,7 @@ def test_batch_resume_skips_done_and_interrupted_tests(batch, monkeypatch):
         ({"runs": [{"name": "rt"}, {"name": "rt"}]}, "unique"),
         ({"runs": [{"name": "reference"}]}, "unique"),
         ({"runs": [{"name": "x", "backend": "optix"}]}, "backend"),
+        ({"runs": [{"name": "x", "scene_options": "yes"}]}, "scene_options"),
         ({"pairs": [{"baseline": "rt", "result": "nope"}]}, "pair"),
         ({"program": "maya"}, "program"),
     ],
@@ -134,3 +178,10 @@ def test_batch_command_line_overrides():
     assert (config.gpus, config.threshold, config.timeout) == (["1"], 2, 3600)
     with pytest.raises(RunnerError, match="--use_rt"):
         config.apply_cli(parse_arguments(["--batch", "b.json", "--use_rt"]))
+    with pytest.raises(RunnerError, match="--no_scene_options"):
+        config.apply_cli(parse_arguments(["--batch", "b.json", "--no-scene-options"]))
+
+
+def test_batch_run_scene_options_default_and_deprecated_key():
+    assert RunSpec.from_dict({"name": "rt"}).scene_options is True
+    assert RunSpec.from_dict({"name": "rt", "override_features": False}).scene_options is False

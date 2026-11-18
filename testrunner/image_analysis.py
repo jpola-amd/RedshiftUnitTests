@@ -12,7 +12,7 @@ import numpy as np
 from colorama import Fore
 from skimage.metrics import structural_similarity
 
-from .utils import colored, print_warning
+from .utils import base_test_name, colored, print_warning
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402  (the backend must be selected first)
@@ -167,7 +167,10 @@ class ImageAnalyzer:
         pairs = []
         for result in sorted((self.results_path / "images").glob("*.result.png")):
             name = result.name[: -len(".result.png")]
+            # A render option variant '<test>@<options>' is compared with '<test>' unless the other side has it too.
             reference = self.reference_path / "images" / f"{name}.{self.reference_suffix}.png"
+            if not reference.is_file():
+                reference = self.reference_path / "images" / f"{base_test_name(name)}.{self.reference_suffix}.png"
             if reference.is_file():
                 pairs.append(ImageComparison(name, reference, result))
             else:

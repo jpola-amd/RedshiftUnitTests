@@ -66,11 +66,15 @@ def test_render_options(setup):
     assert params.options_file.name == "options_rt.txt"
     assert params.timeout is None
     assert params.threshold == 2.5
-    assert not params.override_features
-    override = parse_command_line_args(
+    assert params.scene_options and params.run_tag == "rt"
+    plain = parse_command_line_args(
+        args("--program", "redshiftCmdLine", "--test", str(tests), "--use_rt", "--no-scene-options")
+    )
+    assert not plain.scene_options and plain.run_tag == "rt_plain"
+    deprecated = parse_command_line_args(
         args("--program", "redshiftCmdLine", "--test", str(tests), "--use_rt", "--override_features")
     )
-    assert override.override_features and override.run_tag == "rt_override"
+    assert deprecated.scene_options and deprecated.run_tag == "rt"
 
 
 @pytest.mark.parametrize(

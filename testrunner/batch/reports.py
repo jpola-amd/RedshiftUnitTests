@@ -12,6 +12,8 @@ from ..utils import colored
 from .html_report import write_html
 from .summary import BAD, BatchSummary
 from .tables import (
+    BEST_CONFIG_NOTE,
+    best_config_rows,
     fmt_speedup,
     image_rows,
     overview_rows,
@@ -35,6 +37,7 @@ def write_json(summary: BatchSummary, file: Path) -> None:
         "reference": summary.reference,
         "overview": overview_rows(summary),
         "problems": problem_rows(summary),
+        "best_configs": [dataclasses.asdict(b) for b in summary.best_configs],
         "columns": {
             c.name: {
                 "kind": c.kind,
@@ -53,6 +56,7 @@ def write_xlsx(summary: BatchSummary, file: Path) -> None:
     sheets = {
         "Overview": overview_rows(summary),
         "Problems": problem_rows(summary),
+        "Best config": best_config_rows(summary),
         "Verdicts": verdict_rows(summary),
         "Performance": performance_rows(summary),
         "Images": image_rows(summary),
@@ -100,6 +104,9 @@ def write_markdown(summary: BatchSummary, file: Path) -> None:
             slowest = ", ".join(f"{n} {fmt_speedup(s)}" for n, s in column.slowest)
             lines.append(f"- Slowest of **{column.name}**: {slowest}")
     lines += ["", "## Problems", "", *_md_table(problem_rows(summary))]
+    best = best_config_rows(summary)
+    if best:
+        lines += ["## Best render options", "", BEST_CONFIG_NOTE, "", *_md_table(best)]
     lines += ["Full tables: `summary.xlsx`, per test and run: `summary.html`.", ""]
     file.write_text("\n".join(lines), encoding="utf-8")
 
@@ -124,6 +131,12 @@ def print_console(summary: BatchSummary) -> None:
         if bad_tests and column.kind == "run":
             more = f" (+{len(bad_tests) - 5} more)" if len(bad_tests) > 5 else ""
             print(f"\t\t{colored('bad', Fore.RED)}: {', '.join(bad_tests[:5])}{more}")
+    for best in summary.best_configs:
+        choice = colored(best.options, Fore.CYAN) if best.best else colored("no passing render", Fore.RED)
+        print(
+            f"\tbest {best.run}/{best.test}: {choice} ({best.passing}/{best.renders} passing, "
+            f"vs reference {fmt_speedup(best.speedup)}, vs plain {fmt_speedup(best.vs_plain)})"
+        )
     result = colored("PASSED", Fore.GREEN) if summary.ok else colored("FAILED", Fore.RED)
     print(f"\tBatch {result}")
 

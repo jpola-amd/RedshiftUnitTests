@@ -1,5 +1,5 @@
 {
-    "description": "References with compute, then compute, RT and RT with the per-scene render options.",
+    "description": "Compute and RT against the references, then RT vs compute. Tests with per-scene render options are also rendered once per option set (e.g. a BlockSize sweep), see the best render options table.",
     "program": "redshiftCmdLine",
     "tests": ["tests/production.json"],
     "gpus": ["0"],
@@ -8,11 +8,9 @@
     "slowdown": 0.9,
     "runs": [
         {"name": "compute", "backend": "compute"},
-        {"name": "rt", "backend": "rt"},
-        {"name": "rt_override", "backend": "rt", "override_features": true}
+        {"name": "rt", "backend": "rt"}
     ],
     "pairs": [
-        {"baseline": "compute", "result": "rt"},
-        {"baseline": "rt", "result": "rt_override"}
+        {"baseline": "compute", "result": "rt"}
     ]
 }

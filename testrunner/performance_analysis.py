@@ -9,7 +9,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 from colorama import Fore
 
-from .utils import colored, parse_redshift_time, print_warning, read_text
+from .utils import base_test_name, colored, parse_redshift_time, print_warning, read_text
 
 
 def speedup(baseline: float | None, result: float | None) -> float | None:
@@ -99,13 +99,18 @@ class PerformanceAnalyzer:
         self.comparisons: list[TimingComparison] = []
 
     def analyze(self) -> list[dict]:
-        excluded = failed_tests(self.results_path) | failed_tests(self.reference_path)
+        failed_results, failed_references = failed_tests(self.results_path), failed_tests(self.reference_path)
         for result in sorted((self.results_path / "logs").glob("*.result.html")):
             name = result.name[: -len(".result.html")]
-            if name in excluded:
+            # A render option variant '<test>@<options>' is compared with '<test>' unless the other side has it too.
+            against = name
+            reference = self.reference_path / "logs" / f"{name}.{self.reference_suffix}.html"
+            if not reference.is_file():
+                against = base_test_name(name)
+                reference = self.reference_path / "logs" / f"{against}.{self.reference_suffix}.html"
+            if name in failed_results or against in failed_references:
                 print_warning(f"{name} failed to render, excluded from the performance comparison")
                 continue
-            reference = self.reference_path / "logs" / f"{name}.{self.reference_suffix}.html"
             if not reference.is_file():
                 print_warning(f"no {self.label.lower()} log {reference}")
                 continue

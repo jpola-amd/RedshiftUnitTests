@@ -4,7 +4,7 @@ from html import escape
 from pathlib import Path
 
 from .summary import BAD, WARN, BatchSummary, TestResult
-from .tables import fmt_seconds, fmt_speedup, overview_rows, settings_rows
+from .tables import BEST_CONFIG_NOTE, best_config_rows, fmt_seconds, fmt_speedup, overview_rows, settings_rows
 
 STYLE = """
 body { font-family: Segoe UI, Arial, sans-serif; margin: 24px; color: #222; }
@@ -44,6 +44,8 @@ def css_class(verdict: str) -> str:
 
 
 def _cell(value) -> str:
+    if value is None:
+        return '<td class="none">-</td>'
     if isinstance(value, float):
         return f'<td class="num">{fmt_speedup(value)}</td>'
     if isinstance(value, int):
@@ -105,6 +107,13 @@ def _matrix(summary: BatchSummary) -> str:
     return f'<table class="matrix">{head}{"".join(rows)}</table>'
 
 
+def _best_configs(summary: BatchSummary) -> str:
+    rows = best_config_rows(summary)
+    if not rows:
+        return ""
+    return f"<h2>Best render options</h2>\n<p>{escape(BEST_CONFIG_NOTE)}</p>\n{_table(rows)}"
+
+
 def write_html(summary: BatchSummary, file: Path) -> None:
     status = '<span class="passed">PASSED</span>' if summary.ok else '<span class="failed">FAILED</span>'
     description = f"<p>{escape(summary.description)}</p>" if summary.description else ""
@@ -118,6 +127,7 @@ def write_html(summary: BatchSummary, file: Path) -> None:
 {_table(overview_rows(summary), SHOWN_OVERVIEW)}
 <h2>Problems</h2>
 {_problems(summary)}
+{_best_configs(summary)}
 <h2>Tests</h2>
 <input type="checkbox" id="only-problems"><label for="only-problems"> only tests with problems</label>
 {_matrix(summary)}

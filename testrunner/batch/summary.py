@@ -6,6 +6,7 @@ from pathlib import Path
 
 from ..image_analysis import ImageAnalyzer
 from ..performance_analysis import PerformanceAnalyzer, speedup
+from ..utils import VARIANT_SEPARATOR, base_test_name
 
 # Time used for speedups: the full render of redshiftCmdLine, the only time redshiftBenchmark reports.
 MAIN_TIME = {"redshiftCmdLine": "Total", "redshiftBenchmark": "Time"}
@@ -84,6 +85,54 @@ class Problem:
 
 
 @dataclass
+class BestConfig:
+    """Fastest render of a test with render option variants whose images match the references."""
+
+    run: str
+    test: str  # base test name
+    best: str | None  # test name of the fastest passing render, None if none passed
+    options: str  # options of the best render, 'plain' for the options file alone
+    time: float | None
+    speedup: float | None  # vs the references
+    vs_plain: float | None  # plain time / best time: above 1 = the options are faster than the options file alone
+    renders: int
+    passing: int
+
+
+def options_of(test: str) -> str:
+    return test.split(VARIANT_SEPARATOR, 1)[1] if VARIANT_SEPARATOR in test else "plain"
+
+
+def best_configs(column: ColumnSummary) -> list[BestConfig]:
+    groups: dict[str, list[str]] = {}
+    for test, result in column.tests.items():
+        if result.verdict != "not run":
+            groups.setdefault(base_test_name(test), []).append(test)
+    best = []
+    for base, tests in groups.items():
+        if not any(VARIANT_SEPARATOR in t for t in tests):
+            continue
+        passing = [t for t in tests if column.tests[t].verdict in ("ok", "slower") and column.tests[t].time]
+        winner = min(passing, key=lambda t: column.tests[t].time) if passing else None
+        result = column.tests[winner] if winner else TestResult("failed")
+        plain_time = column.tests[base].time if base in passing else None
+        best.append(
+            BestConfig(
+                run=column.name,
+                test=base,
+                best=winner,
+                options=options_of(winner) if winner else "-",
+                time=result.time,
+                speedup=result.speedup,
+                vs_plain=speedup(plain_time, result.time),
+                renders=len(tests),
+                passing=len(passing),
+            )
+        )
+    return best
+
+
+@dataclass
 class BatchSummary:
     name: str
     folder: Path
@@ -103,6 +152,11 @@ class BatchSummary:
     def ok(self) -> bool:
         """No failed reference render, no failed render or image mismatch of a run (pairs are informative)."""
         return not self.reference_failures and not any(c.has_failures for c in self.columns if c.kind == "run")
+
+    @property
+    def best_configs(self) -> list[BestConfig]:
+        """Per run vs references, the fastest passing render of each test with render option variants."""
+        return [best for c in self.columns if c.kind == "run" for best in best_configs(c)]
 
     def problems(self) -> list[Problem]:
         found = [Problem("reference", n, "failed", m) for n, m in self.reference_failures]
@@ -164,7 +218,9 @@ def build_column(
             result.speedup = speedup(result.against_time, result.time)
 
         outcome = outcomes.get(test)
-        baseline = baseline_outcomes.get(test) if baseline_outcomes is not None else None
+        baseline = None
+        if baseline_outcomes is not None:
+            baseline = baseline_outcomes.get(test) or baseline_outcomes.get(base_test_name(test))
         errors = [c.error for c in comparisons if c.error]
         if outcome is None or (baseline_outcomes is not None and baseline is None):
             result.verdict = "not run"

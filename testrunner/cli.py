@@ -27,7 +27,7 @@ class ExecutionParameters:
     gpus: list[str] = field(default_factory=lambda: ["0"])
     reference: bool = False
     use_rt: bool = False
-    override_features: bool = False
+    scene_options: bool = True  # render the per-scene render options of the test entries as extra variants
     timeout: float | None = DEFAULT_TIMEOUT
     threshold: float = 0.95
     min_ssim: float | None = None
@@ -50,8 +50,8 @@ class ExecutionParameters:
 
     @property
     def run_tag(self) -> str:
-        """Backend, plus '_override' with --override_features: names the results folder of a test run."""
-        return f"{self.backend}_override" if self.override_features else self.backend
+        """Backend, plus '_plain' with --no-scene-options: names the results folder of a test run."""
+        return self.backend if self.scene_options else f"{self.backend}_plain"
 
     @property
     def options_file(self) -> Path:
@@ -133,8 +133,12 @@ class ExecutionParameters:
         ]
         if self.program == "redshiftCmdLine":
             lines.append(f"options: {self.options_file.name}")
-        if self.override_features:
-            lines.append("per-scene render options: on (--override_features)")
+            if self.reference:
+                lines.append("per-scene render options: ignored for references")
+            elif self.scene_options:
+                lines.append("per-scene render options: on, every option set is rendered as an extra test")
+            else:
+                lines.append("per-scene render options: off (--no-scene-options)")
         return lines
 
 
@@ -180,12 +184,20 @@ def build_parser() -> argparse.ArgumentParser:
         f"({OPTIONS_FILES['compute']}). redshiftCmdLine only",
     )
     parser.add_argument(
+        "--no-scene-options",
+        "--no_scene_options",
+        dest="no_scene_options",
+        action="store_true",
+        help="Render only with the options file. By default a test with 'render_options' is also rendered once per "
+        "option set (a list of values is a sweep) as '<test>@<option>=<value>', compared with the references of "
+        "<test>. References always ignore them. redshiftCmdLine only",
+    )
+    parser.add_argument(  # deprecated: the per-scene render options are rendered by default
         "--override_features",
         "--override-features",
         dest="override_features",
         action="store_true",
-        help="Apply the per-scene render options ('render_options' of the test entries) on top of the options "
-        "file. redshiftCmdLine only",
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         "--timeout",
@@ -244,6 +256,8 @@ def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
         print_warning("--treshold is deprecated, use --threshold")
     if args.no_delete:
         print_warning("--no-delete is deprecated and has no effect")
+    if args.override_features:
+        print_warning("--override_features is deprecated: per-scene render options are rendered by default")
     return args
 
 
@@ -257,7 +271,7 @@ def parameters_from_args(args: argparse.Namespace, validate: bool = True) -> Exe
         gpus=args.gpu or ["0"],
         reference=args.reference,
         use_rt=args.use_rt,
-        override_features=args.override_features,
+        scene_options=not args.no_scene_options,
         timeout=args.timeout if args.timeout and args.timeout > 0 else None,
         threshold=args.threshold,
         min_ssim=args.min_ssim,

@@ -24,7 +24,7 @@
         "production/cinebench_v5/Blanket.rs": "proxy loaded by 'benchmark v5.rs'"
     },
     "overrides": {
-        "production/cinebench_2022_11/Cinebench_Nov_23_2022.rs": {"render_options": {"rt": {"BlockSize": 256}}}
+        "production/cinebench_2022_11/Cinebench_Nov_23_2022.rs": {"render_options": {"rt": {"BlockSize": [128, 256, 384]}}}
     },
     "suites": {
         "bugs_res": {

@@ -2,6 +2,11 @@
 
 from .summary import BatchSummary, ColumnSummary
 
+BEST_CONFIG_NOTE = (
+    "Per test with render option variants: the fastest render whose images match the references. "
+    "'plain' = the options file alone; speedup vs plain > 1 = the options are faster."
+)
+
 
 def fmt_speedup(value: float | None) -> str:
     return f"{value:.3f}x" if value is not None else "-"
@@ -82,6 +87,21 @@ def image_rows(summary: BatchSummary) -> list[dict]:
 
 def problem_rows(summary: BatchSummary) -> list[dict]:
     return [{"Run": p.column, "Test": p.test, "Verdict": p.verdict, "Detail": p.detail} for p in summary.problems()]
+
+
+def best_config_rows(summary: BatchSummary) -> list[dict]:
+    return [
+        {
+            "Run": b.run,
+            "Test": b.test,
+            "Best options": b.options,
+            "Time [s]": fmt_seconds(b.time),
+            "Speedup vs reference": b.speedup,
+            "Speedup vs plain": b.vs_plain,
+            "Passing renders": f"{b.passing}/{b.renders}",
+        }
+        for b in summary.best_configs
+    ]
 
 
 def settings_rows(summary: BatchSummary) -> list[dict]:
