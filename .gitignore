@@ -160,3 +160,6 @@ references/
 # Data distributed outside git (see SETUP.md): scene archive and machine-specific configuration.
 *.7z
 config/config.*.json
+
+_back*
+*.rsmap

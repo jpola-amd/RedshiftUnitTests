@@ -30,6 +30,7 @@ BATCH_KEYS = {
 SINGLE_RUN_FLAGS = (
     "reference",
     "use_rt",
+    "no_scene_options",
     "override_features",
     "performance_analysis",
     "image_analysis",
@@ -42,26 +43,28 @@ SINGLE_RUN_FLAGS = (
 class RunSpec:
     name: str
     backend: str = "compute"
-    override_features: bool = False
+    scene_options: bool = True  # also render the per-scene render option variants (never for the reference)
 
     @classmethod
     def from_dict(cls, data: dict, default_name: str | None = None) -> "RunSpec":
         if not isinstance(data, dict):
             raise RunnerError(f"Batch: a run must be an object, got {data!r}")
-        unknown = set(data) - {"name", "backend", "override_features"}
+        unknown = set(data) - {"name", "backend", "scene_options", "override_features"}
         if unknown:
             raise RunnerError(f"Batch: unknown keys {sorted(unknown)} in run {data}")
-        spec = cls(data.get("name", default_name), data.get("backend", "compute"), data.get("override_features", False))
+        # 'override_features' is the deprecated name of 'scene_options' (batch folders of older versions).
+        scene_options = data.get("scene_options", data.get("override_features", True))
+        spec = cls(data.get("name", default_name), data.get("backend", "compute"), scene_options)
         if not isinstance(spec.name, str) or not NAME_PATTERN.fullmatch(spec.name):
             raise RunnerError(f"Batch: invalid run name {spec.name!r} (letters, digits, '_' and '-')")
         if spec.backend not in OPTIONS_FILES:
             raise RunnerError(f"Batch: run {spec.name}: backend must be one of {', '.join(OPTIONS_FILES)}")
-        if not isinstance(spec.override_features, bool):
-            raise RunnerError(f"Batch: run {spec.name}: override_features must be true or false")
+        if not isinstance(spec.scene_options, bool):
+            raise RunnerError(f"Batch: run {spec.name}: scene_options must be true or false")
         return spec
 
     def describe(self) -> str:
-        return self.backend + (" + scene overrides" if self.override_features else "")
+        return self.backend + ("" if self.scene_options else " without scene options")
 
 
 @dataclass(frozen=True)
@@ -187,7 +190,7 @@ class BatchConfig:
             gpus=list(self.gpus),
             reference=is_reference,
             use_rt=step.backend == "rt",
-            override_features=step.override_features,
+            scene_options=step.scene_options,
             timeout=self.timeout,
             threshold=self.threshold,
             min_ssim=self.min_ssim,

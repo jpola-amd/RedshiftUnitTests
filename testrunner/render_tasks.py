@@ -1,18 +1,22 @@
 """Rendering the test scenes with redshiftCmdLine or redshiftBenchmark, for test runs and reference generation."""
 
+import itertools
 import json
 import os
+import re
 import shutil
 import time
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 from colorama import Fore
 
 from .cli import OPTIONS_FILES, ExecutionParameters
 from .utils import (
+    VARIANT_SEPARATOR,
     RunnerError,
+    base_test_name,
     colored,
     find_log_error,
     find_redshift_version,
@@ -25,6 +29,7 @@ from .utils import (
     redshift_log_file,
     run_process,
     timestamp,
+    variant_name,
     write_path_override_file,
 )
 
@@ -32,6 +37,16 @@ BENCHMARK_OUTPUT = "redshiftBenchmarkOutput.png"
 
 # Sections of a test entry's "render_options": "all" applies to every backend, a backend section wins over it.
 RENDER_OPTION_SECTIONS = ("all", *OPTIONS_FILES)
+# Written to the options file of every render (references included) of a test with "skipdenoise": true.
+NO_DENOISE_OPTIONS = {"DenoiseEngine": "RS_DENOISEENGINE_NONE"}
+RESOLUTION_PATTERN = re.compile(r"[1-9]\d*x[1-9]\d*")
+# Entry of fixed_options (any case) passed to redshiftCmdLine as -ores <w>x<h> instead of the options file.
+RESOLUTION_KEY = "resolution"
+
+
+def _flag(entry: dict, key: str) -> bool:
+    value = entry.get(key, False)
+    return value is True or str(value).lower() == "true"
 
 
 def _option_value(value) -> str:
@@ -52,34 +67,105 @@ def merge_render_options(base_text: str, overrides: dict[str, str]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _valid_option_value(value, allow_list: bool = True) -> bool:
+    scalar = (str, int, float, bool)
+    if isinstance(value, list):
+        return allow_list and bool(value) and all(isinstance(v, scalar) for v in value)
+    return isinstance(value, scalar)
+
+
+def _option_sections(entry: dict, key: str, allow_lists: bool) -> dict:
+    """The {section: {option: value}} of a test entry key ('render_options' or 'fixed_options'), validated."""
+    options = entry.get(key, {})
+    if not isinstance(options, dict) or any(
+        section not in RENDER_OPTION_SECTIONS
+        or not isinstance(values, dict)
+        or not all(_valid_option_value(v, allow_lists) for v in values.values())
+        for section, values in options.items()
+    ):
+        value = "value or [values]" if allow_lists else "value (a sweep belongs in render_options)"
+        raise RunnerError(
+            f"Invalid {key} of test {entry['test_name']}: {options!r}; expected "
+            f"{{section: {{option: {value}}}}} with sections {', '.join(RENDER_OPTION_SECTIONS)}"
+        )
+    for values in options.values():
+        for name, value in values.items():
+            if name.lower() != RESOLUTION_KEY:
+                continue
+            if allow_lists:
+                raise RunnerError(
+                    f"Invalid {key} of test {entry['test_name']}: '{name}' changes the image size, which then "
+                    f"differs from the reference; set it in fixed_options"
+                )
+            if not isinstance(value, str) or not RESOLUTION_PATTERN.fullmatch(value):
+                raise RunnerError(
+                    f"Invalid {key} of test {entry['test_name']}: {name} {value!r}; expected '<w>x<h>', e.g. 960x540"
+                )
+    return options
+
+
 @dataclass(frozen=True)
 class Scene:
     name: str
     path: Path
     skip_postfx: bool = False
-    render_options: dict = field(default_factory=dict, compare=False)  # {section: {option: value}}
+    render_options: dict = field(default_factory=dict, compare=False)  # {section: {option: value | [values]}}
+    options: dict = field(default_factory=dict, compare=False)  # options applied by this render: {option: value}
+    skip_denoise: bool = False
+    fixed_options: dict = field(default_factory=dict, compare=False)  # {section: {option: value}}, every render
+    skip_default: bool = False  # with render option variants: do not render the plain options file as well
 
     @classmethod
     def from_entry(cls, entry: dict, scenes_root: Path) -> "Scene":
-        skip = entry.get("skippostfx", False)
-        options = entry.get("render_options", {})
-        if not isinstance(options, dict) or any(
-            section not in RENDER_OPTION_SECTIONS or not isinstance(values, dict) for section, values in options.items()
-        ):
-            raise RunnerError(
-                f"Invalid render_options of test {entry['test_name']}: {options!r}; expected "
-                f"{{section: {{option: value}}}} with sections {', '.join(RENDER_OPTION_SECTIONS)}"
-            )
         return cls(
             entry["test_name"],
             scenes_root / entry["path_to_scene"],
-            skip is True or str(skip).lower() == "true",
-            options,
+            _flag(entry, "skippostfx"),
+            _option_sections(entry, "render_options", allow_lists=True),
+            skip_denoise=_flag(entry, "skipdenoise"),
+            fixed_options=_option_sections(entry, "fixed_options", allow_lists=False),
+            skip_default=_flag(entry, "skipdefault"),
         )
 
-    def options_for(self, backend: str) -> dict[str, str]:
+    @property
+    def base_name(self) -> str:
+        return base_test_name(self.name)
+
+    def _fixed(self, backend: str) -> dict:
+        return {**self.fixed_options.get("all", {}), **self.fixed_options.get(backend, {})}
+
+    def resolution(self, backend: str) -> str | None:
+        """'<w>x<h>' of the 'resolution' entry of fixed_options, passed to -ores instead of the options file."""
+        return next((v for k, v in self._fixed(backend).items() if k.lower() == RESOLUTION_KEY), None)
+
+    def file_options(self, backend: str) -> dict[str, str]:
+        """Options written over the options file for this render: the per-test ones of every render (skipdenoise,
+        fixed_options), then the variant's."""
+        fixed = {k: _option_value(v) for k, v in self._fixed(backend).items() if k.lower() != RESOLUTION_KEY}
+        return {**(NO_DENOISE_OPTIONS if self.skip_denoise else {}), **fixed, **self.options}
+
+    def options_for(self, backend: str) -> dict[str, list[str]]:
+        """Values of each option for this backend: a list in the test entry is a sweep, a scalar a single value."""
         merged = {**self.render_options.get("all", {}), **self.render_options.get(backend, {})}
-        return {name: _option_value(value) for name, value in merged.items()}
+        return {
+            name: [_option_value(v) for v in (value if isinstance(value, list) else [value])]
+            for name, value in merged.items()
+        }
+
+    def option_sets(self, backend: str) -> list[dict[str, str]]:
+        """Every combination of the option values for this backend; empty without render options."""
+        options = self.options_for(backend)
+        if not options:
+            return []
+        return [dict(zip(options, values, strict=True)) for values in itertools.product(*options.values())]
+
+    def variants(self, backend: str) -> list["Scene"]:
+        """This scene with the plain options file (unless skipdefault), then one render per option set."""
+        variants = [
+            replace(self, name=variant_name(self.name, options), options=options)
+            for options in self.option_sets(backend)
+        ]
+        return variants if variants and self.skip_default else [self, *variants]
 
 
 @dataclass
@@ -118,6 +204,9 @@ class RenderTask:
         self.logs_path = self.output_path / "logs"
         self.temp_path = self.output_path / "tmp"
         scenes = [Scene.from_entry(entry, params.scenes_root) for entry in load_tests(params.tests)]
+        self.ignored_options = [s for s in scenes if s.option_sets(params.backend)] if not self.expands_options else []
+        if self.expands_options:
+            scenes = [variant for scene in scenes for variant in scene.variants(params.backend)]
         self.skipped_done = [s for s in scenes if skip and s.name in skip]
         self.scenes = [s for s in scenes if not (skip and s.name in skip)]
         self.on_outcome = on_outcome
@@ -126,6 +215,11 @@ class RenderTask:
         self.outcomes: list[TestOutcome] = []
         self.redshift_version: str | None = None
         self.applied_options: dict[str, dict[str, str]] = {}
+
+    @property
+    def expands_options(self) -> bool:
+        """Per-scene render options are rendered as extra variants: test runs of redshiftCmdLine, not references."""
+        return self.params.scene_options and not self.params.reference and self.params.program == "redshiftCmdLine"
 
     @property
     def results_path(self) -> Path:
@@ -158,10 +252,6 @@ class RenderTask:
         # redshiftBenchmark writes its image to the working directory on Windows and to $HOME on Linux.
         return (self.temp_path if get_os_tag() == "win" else Path.home()) / BENCHMARK_OUTPUT
 
-    def scene_options(self, scene: Scene) -> dict[str, str]:
-        """Per-scene render options for this run's backend; only with --override_features."""
-        return scene.options_for(self.params.backend) if self.params.override_features else {}
-
     def _write_options_file(self, scene: Scene, options: dict[str, str]) -> Path:
         # Kept next to the logs so the exact options of the render can be checked afterwards.
         path = self.logs_path / f"{scene.name}.{self.suffix}.options.txt"
@@ -186,6 +276,9 @@ class RenderTask:
         ]
         if scene.skip_postfx:
             cmd.append("-skippostfx")
+        resolution = scene.resolution(self.params.backend)
+        if resolution:
+            cmd += ["-ores", resolution]
         return cmd
 
     def _clear_temp(self) -> None:
@@ -224,7 +317,7 @@ class RenderTask:
             self._benchmark_output().unlink(missing_ok=True)
 
         options_file = None
-        options = self.scene_options(scene)
+        options = scene.file_options(self.params.backend)
         if options and self.params.program == "redshiftCmdLine":
             options_file = self._write_options_file(scene, options)
             self.applied_options[scene.name] = options
@@ -262,19 +355,35 @@ class RenderTask:
 
     def execute(self) -> list[TestOutcome]:
         self._prepare_folders()
+        if self.ignored_options:
+            names = ", ".join(s.name for s in self.ignored_options)
+            reason = (
+                "references are rendered with the plain options file"
+                if self.params.reference
+                else "redshiftBenchmark has no options file"
+                if self.params.program == "redshiftBenchmark"
+                else "--no-scene-options"
+            )
+            print(f"\tPer-scene render options not applied ({reason}): {names}")
         if self.params.program == "redshiftBenchmark":
-            for scene in self.scenes:
-                if self.scene_options(scene):
-                    print_warning(
-                        f"{scene.name}: redshiftBenchmark has no options file, its render options "
-                        f"{self.scene_options(scene)} are ignored"
-                    )
+            ignored = [s.name for s in self.scenes if s.skip_denoise or s.fixed_options]
+            if ignored:
+                print_warning(
+                    "redshiftBenchmark has no options file and no -ores: skipdenoise and fixed_options "
+                    f"are ignored for {', '.join(ignored)}"
+                )
+        variants = sum(VARIANT_SEPARATOR in s.name for s in self.scenes)
+        if variants:
+            print(f"\t{len(self.scenes) - variants} tests + {variants} render option variants")
         count = len(self.scenes)
         verb = "Generating" if self.params.reference else "Running test"
         if self.skipped_done:
             print(f"\t{len(self.skipped_done)} tests already done by the interrupted run, not rendered again")
         for index, scene in enumerate(self.scenes, 1):
-            options = self.scene_options(scene) if self.params.program == "redshiftCmdLine" else {}
+            options = scene.file_options(self.params.backend) if self.params.program == "redshiftCmdLine" else {}
+            resolution = scene.resolution(self.params.backend)
+            if resolution and self.params.program == "redshiftCmdLine":
+                options = {**options, "resolution": resolution}
             extra = colored(" +" + " +".join(f"{k}={v}" for k, v in options.items()), Fore.CYAN) if options else ""
             print(
                 f"\t{verb} {colored(index, Fore.BLUE)}/{colored(count, Fore.BLUE)} [{scene.name}]{extra}: ",
@@ -316,8 +425,8 @@ class RenderTask:
         }
         if self.params.program == "redshiftCmdLine":
             info["options_file"] = self.params.options_file.name
-            info["override_features"] = self.params.override_features
-            info["scene_options"] = self.applied_options
+            info["scene_options"] = self.params.scene_options
+            info["applied_options"] = self.applied_options
         try:
             self.run_log.write_text(json.dumps(info, indent=2), encoding="utf-8")
         except OSError as err:

@@ -1,0 +1,43 @@
+{
+    "description": "HART bugs in large",
+    "tests": [
+        {
+            "path_to_scene": "feature/c4d_feature_scenes/bugs/Brians Guitar Pedal Scene 2/Brians Guitar Pedal Scene/Brians Guitar Pedal Scene.rs",
+            "test_name": "c4d_bugs_Brians_Guitar_Pedal_Scene",
+            "skipdenoise": true,
+            "skipdefault": true,
+            "fixed_options": {
+                "all": {
+                    "UnifiedMinSamples": 4,
+                    "UnifiedMaxSamples": 32,
+                    "resolution": "1920x1080"
+                }
+            },
+            "render_options": {
+                "rt": {
+                    "BlockSize": [256, 384, 512]
+                }
+            }
+        },
+        {
+            "path_to_scene": "production/ambient_occlusion/AmbientOcclusion_02.rs",
+            "test_name": "prod_ambient_occlusion_AmbientOcclusion_02",
+            "render_options": {
+                "rt": {
+                    "BlockSize": [256, 384, 512]
+                }
+            }
+        },
+        {
+            "path_to_scene": "feature/hair/Female_Groom_Example_1.rs",
+            "test_name": "hair_Female_Groom_Example_1",
+            "skipdenoise": true,
+            "skipdefault": true,
+            "render_options": {
+                "rt": {
+                    "BlockSize": [256, 384, 512]
+                }
+            }
+        }
+    ]
+}

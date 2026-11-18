@@ -8,7 +8,7 @@ from testrunner.cli import ExecutionParameters
 from testrunner.image_analysis import ImageAnalyzer, analysis_workers, compare_images, load_rgb
 from testrunner.performance_analysis import PerformanceAnalyzer, parse_benchmark_log, parse_cmdline_log, speedup
 from testrunner.render_tasks import RenderTask, Scene, merge_render_options
-from testrunner.utils import RunnerError
+from testrunner.utils import RunnerError, base_test_name
 
 
 def gradient(height=64, width=64) -> np.ndarray:
@@ -148,10 +148,56 @@ def test_scene_render_options_per_backend(tmp_path):
         "render_options": {"all": {"A": 1, "Flag": True}, "rt": {"A": 2, "BlockSize": 256}},
     }
     scene = Scene.from_entry(entry, tmp_path)
-    assert scene.options_for("rt") == {"A": "2", "Flag": "True", "BlockSize": "256"}
-    assert scene.options_for("compute") == {"A": "1", "Flag": "True"}
-    with pytest.raises(RunnerError, match="Invalid render_options"):
-        Scene.from_entry({**entry, "render_options": {"optix": {"A": 1}}}, tmp_path)
+    assert scene.option_sets("rt") == [{"A": "2", "Flag": "True", "BlockSize": "256"}]
+    assert scene.option_sets("compute") == [{"A": "1", "Flag": "True"}]
+    for invalid in ({"optix": {"A": 1}}, {"rt": {"A": []}}, {"rt": {"A": {"x": 1}}}, {"rt": {"A": [[1]]}}):
+        with pytest.raises(RunnerError, match="Invalid render_options"):
+            Scene.from_entry({**entry, "render_options": invalid}, tmp_path)
+
+
+def test_scene_variants_sweep_every_combination(tmp_path):
+    entry = {
+        "test_name": "t",
+        "path_to_scene": "a.rs",
+        "render_options": {"all": {"Flag": True}, "rt": {"BlockSize": [128, 256], "Ratio": [0.5, 1]}},
+    }
+    scene = Scene.from_entry(entry, tmp_path)
+    variants = scene.variants("rt")
+    assert [v.name for v in variants] == [
+        "t",
+        "t@Flag=True+BlockSize=128+Ratio=0p5",
+        "t@Flag=True+BlockSize=128+Ratio=1",
+        "t@Flag=True+BlockSize=256+Ratio=0p5",
+        "t@Flag=True+BlockSize=256+Ratio=1",
+    ]
+    assert variants[0].options == {}
+    assert variants[1].options == {"Flag": "True", "BlockSize": "128", "Ratio": "0.5"}
+    assert {v.base_name for v in variants} == {"t"}
+    assert {v.path for v in variants} == {scene.path}
+    assert [v.name for v in Scene.from_entry({"test_name": "u", "path_to_scene": "a.rs"}, tmp_path).variants("rt")] == [
+        "u"
+    ]
+
+
+@pytest.mark.parametrize(
+    ("backend", "expected"),
+    [("rt", ["t@BlockSize=256", "t@BlockSize=384"]), ("compute", ["t"])],
+)
+def test_skipdefault_renders_only_the_variants(tmp_path, backend, expected):
+    entry = {
+        "test_name": "t",
+        "path_to_scene": "a.rs",
+        "skipdefault": True,
+        "render_options": {"rt": {"BlockSize": [256, 384]}},
+    }
+    assert [v.name for v in Scene.from_entry(entry, tmp_path).variants(backend)] == expected
+
+
+def test_base_test_name():
+    assert base_test_name("t") == "t"
+    assert base_test_name("t@BlockSize=128") == "t"
+    assert base_test_name("t@BlockSize=128+Ratio=0p5.beauty") == "t.beauty"
+    assert base_test_name("t.beauty") == "t.beauty"
 
 
 def test_merge_render_options():
@@ -160,26 +206,125 @@ def test_merge_render_options():
     assert merged == "EnableHARTRTOnSupportedGPUs True\nBlockSize 256\nAutomaticMemoryManagement True\nNew 1\n"
 
 
-@pytest.mark.parametrize("override", [False, True])
-def test_render_task_scene_options_file(tmp_path, override):
+@pytest.mark.parametrize(
+    ("scene_options", "reference", "expected"),
+    [(True, False, ["t", "t@BlockSize=128", "t@BlockSize=256"]), (False, False, ["t"]), (True, True, ["t"])],
+)
+def test_render_task_scene_option_variants(tmp_path, scene_options, reference, expected):
     (tmp_path / "options_rt.txt").write_text("AutomaticMemoryManagement True\n")
     tests = tmp_path / "t.json"
-    entry = {"test_name": "t", "path_to_scene": "a.rs", "render_options": {"rt": {"BlockSize": 256}}}
+    entry = {"test_name": "t", "path_to_scene": "a.rs", "render_options": {"rt": {"BlockSize": [128, 256]}}}
     tests.write_text(json.dumps({"tests": [entry]}))
     params = ExecutionParameters(
-        "redshiftCmdLine", tests=[tests], use_rt=True, override_features=override, root_path=tmp_path
+        "redshiftCmdLine",
+        tests=[tests],
+        use_rt=True,
+        scene_options=scene_options,
+        reference=reference,
+        root_path=tmp_path,
     )
     task = RenderTask(params)
+    assert [s.name for s in task.scenes] == expected
+    assert bool(task.ignored_options) is (expected == ["t"])
     task.logs_path.mkdir(parents=True)
-    scene = task.scenes[0]
-    options = task.scene_options(scene)
-    options_file = task._write_options_file(scene, options) if options else None
-    used = task._command(scene, options_file)[3]
-    if override:
-        assert used == task.logs_path / "t.result.options.txt"
-        assert used.read_text() == "AutomaticMemoryManagement True\nBlockSize 256\n"
-    else:
-        assert options == {} and used == tmp_path / "options_rt.txt"
+    for scene in task.scenes:
+        options_file = task._write_options_file(scene, scene.options) if scene.options else None
+        used = task._command(scene, options_file)[3]
+        if scene.options:
+            assert used == task.logs_path / f"{scene.name}.{task.suffix}.options.txt"
+            assert used.read_text() == f"AutomaticMemoryManagement True\nBlockSize {scene.options['BlockSize']}\n"
+        else:
+            assert used == tmp_path / "options_rt.txt"
+
+
+def test_variants_are_compared_with_the_base_test(tmp_path):
+    image = gradient()
+    make_run(tmp_path / "ref", {"t.beauty": image}, "reference")
+    make_run(tmp_path / "res", {"t.beauty": image, "t@BlockSize=128.beauty": image}, "result")
+    comparisons = ImageAnalyzer(tmp_path / "ref", tmp_path / "res").analyze()
+    assert [(c.name, c.reference.name) for c in comparisons] == [
+        ("t.beauty", "t.beauty.reference.png"),
+        ("t@BlockSize=128.beauty", "t.beauty.reference.png"),
+    ]
+
+    for folder, names, total in ((tmp_path / "ref", ["t"], "4.0s"), (tmp_path / "res", ["t", "t@B=1"], "2.0s")):
+        (folder / "logs").mkdir()
+        for name in names:
+            suffix = "reference" if folder.name == "ref" else "result"
+            (folder / "logs" / f"{name}.{suffix}.html").write_text(CMDLINE_LOG.format(gpu="1.0s", total=total))
+    records = PerformanceAnalyzer("redshiftCmdLine", tmp_path / "ref", tmp_path / "res").analyze()
+    assert [(r["Name"], r["Speedup Total"]) for r in records] == [("t", 2.0), ("t@B=1", 2.0)]
+    # A failed reference render excludes its variants as well.
+    (tmp_path / "ref" / "redshiftCmdLine_REFERENCE_x.json").write_text(json.dumps({"failed": [["t", "", "x"]]}))
+    assert PerformanceAnalyzer("redshiftCmdLine", tmp_path / "ref", tmp_path / "res").analyze() == []
+
+
+@pytest.mark.parametrize("reference", [False, True])
+def test_skipdenoise_applies_to_every_render(tmp_path, reference):
+    (tmp_path / "options_rt.txt").write_text("AutomaticMemoryManagement True\n")
+    tests = tmp_path / "t.json"
+    entries = [
+        {
+            "test_name": "t",
+            "path_to_scene": "a.rs",
+            "skipdenoise": True,
+            "render_options": {"rt": {"BlockSize": [128]}},
+        },
+        {"test_name": "u", "path_to_scene": "b.rs", "skipdenoise": "false"},
+    ]
+    tests.write_text(json.dumps({"tests": entries}))
+    params = ExecutionParameters("redshiftCmdLine", tests=[tests], use_rt=True, reference=reference, root_path=tmp_path)
+    task = RenderTask(params)
+    expected = {"t": {"DenoiseEngine": "RS_DENOISEENGINE_NONE"}, "u": {}}
+    if not reference:
+        expected["t@BlockSize=128"] = {"DenoiseEngine": "RS_DENOISEENGINE_NONE", "BlockSize": "128"}
+    assert {s.name: s.file_options("rt") for s in task.scenes} == expected
+    task.logs_path.mkdir(parents=True)
+    written = task._write_options_file(task.scenes[0], task.scenes[0].file_options("rt")).read_text()
+    assert written == "AutomaticMemoryManagement True\nDenoiseEngine RS_DENOISEENGINE_NONE\n"
+
+
+@pytest.mark.parametrize("reference", [False, True])
+def test_fixed_options_and_resolution_apply_to_every_render(tmp_path, reference):
+    (tmp_path / "options_rt.txt").write_text("UnifiedMaxSamples 256\n")
+    tests = tmp_path / "t.json"
+    entry = {
+        "test_name": "t",
+        "path_to_scene": "a.rs",
+        "fixed_options": {
+            "all": {"UnifiedMinSamples": 4, "UnifiedMaxSamples": 32, "resolution": "960x540"},
+            "compute": {"X": 1},
+        },
+        "render_options": {"rt": {"BlockSize": [128]}},
+    }
+    tests.write_text(json.dumps({"tests": [entry]}))
+    params = ExecutionParameters("redshiftCmdLine", tests=[tests], use_rt=True, reference=reference, root_path=tmp_path)
+    task = RenderTask(params)
+    samples = {"UnifiedMinSamples": "4", "UnifiedMaxSamples": "32"}
+    expected = {"t": samples} if reference else {"t": samples, "t@BlockSize=128": {**samples, "BlockSize": "128"}}
+    assert {s.name: s.file_options("rt") for s in task.scenes} == expected
+    task.logs_path.mkdir(parents=True)
+    for scene in task.scenes:
+        command = task._command(scene, task._write_options_file(scene, scene.file_options("rt")))
+        assert command[command.index("-ores") + 1] == "960x540"
+        assert command[3].read_text() == "UnifiedMaxSamples 32\nUnifiedMinSamples 4\n" + (
+            "BlockSize 128\n" if scene.options else ""
+        )
+
+
+@pytest.mark.parametrize(
+    ("change", "message"),
+    [
+        ({"fixed_options": {"all": {"UnifiedMaxSamples": [16, 32]}}}, "Invalid fixed_options"),
+        ({"fixed_options": {"optix": {"A": 1}}}, "Invalid fixed_options"),
+        ({"fixed_options": {"all": {"resolution": "1920*1080"}}}, "Invalid fixed_options"),
+        ({"fixed_options": {"all": {"Resolution": 1920}}}, "Invalid fixed_options"),
+        ({"render_options": {"rt": {"resolution": ["960x540", "1920x1080"]}}}, "set it in fixed_options"),
+    ],
+)
+def test_fixed_options_and_resolution_validation(tmp_path, change, message):
+    with pytest.raises(RunnerError, match=message):
+        Scene.from_entry({"test_name": "t", "path_to_scene": "a.rs", **change}, tmp_path)
 
 
 @pytest.mark.parametrize(("cpus", "jobs", "expected"), [(192, 500, 32), (192, 5, 5), (8, 500, 8), (None, 500, 1)])

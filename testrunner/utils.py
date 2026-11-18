@@ -113,6 +113,25 @@ def load_tests(test_files: list[Path]) -> list[dict]:
     return tests
 
 
+# A render of a test with per-scene render options is named '<test>@<option>=<value>+...'; it is compared with the
+# references of '<test>'. Names contain no dots, so image/log names stay '<name>.<output>.<suffix>.png'.
+VARIANT_SEPARATOR = "@"
+
+
+def _name_part(text: str) -> str:
+    return re.sub(r"[^A-Za-z0-9_-]", lambda m: "p" if m.group() == "." else "_", text)
+
+
+def variant_name(test: str, options: dict[str, str]) -> str:
+    return test + VARIANT_SEPARATOR + "+".join(f"{_name_part(k)}={_name_part(v)}" for k, v in options.items())
+
+
+def base_test_name(name: str) -> str:
+    """'<test>@<options>[.<rest>]' -> '<test>[.<rest>]'; names without options are returned unchanged."""
+    head, dot, rest = name.partition(".")
+    return head.split(VARIANT_SEPARATOR, 1)[0] + dot + rest
+
+
 # --- processes -----------------------------------------------------------------------------------
 
 
