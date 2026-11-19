@@ -10,7 +10,7 @@ from ..analysis_tasks import ComparisonSide, run_image_analysis, run_performance
 from ..cli import ExecutionParameters, parameters_from_args
 from ..render_tasks import RenderTask
 from ..utils import PROJECT_ROOT, RunnerError, colored, print_warning, resolve_path, timestamp
-from .config import BatchConfig, RunSpec
+from .config import BatchConfig, PairSpec, RunSpec
 from .reports import print_console, write_reports
 from .state import BatchState
 from .summary import BatchSummary, ColumnSummary, build_column
@@ -33,9 +33,18 @@ class BatchRunner:
         for step in self.config.steps():
             done = " (done)" if self.state.is_complete(step.name) else ""
             target = "references/" + self.config.program if self.params[step.name].reference else step.name
-            lines.append(f"  {step.name}: {step.describe()} -> {target}{done}")
+            lines.append(f"  {step.name}: {self._describe(step)} -> {target}{done}")
         lines += [f"  compare {p.result} with {p.baseline}" for p in self.config.pairs]
         return lines
+
+    def _describe(self, step: RunSpec) -> str:
+        return f"{step.describe()} on GPU {','.join(self.params[step.name].gpus)}"
+
+    def _pair_description(self, pair: PairSpec) -> str:
+        result, baseline = self.params[pair.result].gpus, self.params[pair.baseline].gpus
+        if result == baseline:
+            return f"{pair.result} vs {pair.baseline}"
+        return f"{pair.result} (GPU {','.join(result)}) vs {pair.baseline} (GPU {','.join(baseline)})"
 
     def render(self) -> None:
         interrupted = self.state.close_interrupted()
@@ -45,7 +54,7 @@ class BatchRunner:
             if self.state.is_complete(step.name):
                 print(f"\n{colored(step.name, Fore.MAGENTA)}: already done")
                 continue
-            print(f"\n{colored(step.name, Fore.MAGENTA)}: {step.describe()}")
+            print(f"\n{colored(step.name, Fore.MAGENTA)}: {self._describe(step)}")
             self._render_step(step)
 
     def _render_step(self, step: RunSpec) -> None:
@@ -75,7 +84,7 @@ class BatchRunner:
                 run.name,
                 "run",
                 "references",
-                run.describe(),
+                self._describe(run),
                 tests,
                 self.state.outcomes(run.name),
                 images,
@@ -94,7 +103,7 @@ class BatchRunner:
                 pair.name,
                 "pair",
                 pair.baseline,
-                f"{pair.result} vs {pair.baseline}",
+                self._pair_description(pair),
                 tests,
                 self.state.outcomes(pair.result),
                 run_image_analysis(params, result_folder, side),
@@ -125,7 +134,7 @@ class BatchRunner:
             description=config.description,
             settings={
                 "tests": ", ".join(config.tests),
-                "gpus": ", ".join(config.gpus),
+                "gpus": ", ".join(f"{step.name}: {','.join(self.params[step.name].gpus)}" for step in config.steps()),
                 "timeout [s]": config.timeout or "none",
                 "image threshold (mse)": config.threshold,
                 "min ssim": config.min_ssim if config.min_ssim is not None else "off",

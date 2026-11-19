@@ -39,22 +39,35 @@ SINGLE_RUN_FLAGS = (
 )
 
 
+def parse_gpus(value, where: str) -> tuple[str, ...]:
+    """1, "1", "0,1" or [0, 1] -> ("1",) / ("0,1",) / ("0", "1"): device indices of redshiftCmdLine -listdevices."""
+    values = value if isinstance(value, list) else [value]
+    gpus = tuple(str(v).strip() for v in values if not isinstance(v, bool))
+    indices = [g.strip() for gpu in gpus for g in gpu.split(",")]
+    if not gpus or len(gpus) != len(values) or not all(i.isdigit() for i in indices):
+        raise RunnerError(f"Batch: {where}: gpu must be a GPU index or a list of them, e.g. 1 or [0, 1], got {value!r}")
+    return gpus
+
+
 @dataclass(frozen=True)
 class RunSpec:
     name: str
     backend: str = "compute"
     scene_options: bool = True  # also render the per-scene render option variants (never for the reference)
+    gpu: tuple[str, ...] | None = None  # None: the --gpu option, else the batch's 'gpus'
 
     @classmethod
     def from_dict(cls, data: dict, default_name: str | None = None) -> "RunSpec":
         if not isinstance(data, dict):
             raise RunnerError(f"Batch: a run must be an object, got {data!r}")
-        unknown = set(data) - {"name", "backend", "scene_options", "override_features"}
+        unknown = set(data) - {"name", "backend", "scene_options", "override_features", "gpu"}
         if unknown:
             raise RunnerError(f"Batch: unknown keys {sorted(unknown)} in run {data}")
         # 'override_features' is the deprecated name of 'scene_options' (batch folders of older versions).
         scene_options = data.get("scene_options", data.get("override_features", True))
-        spec = cls(data.get("name", default_name), data.get("backend", "compute"), scene_options)
+        name = data.get("name", default_name)
+        gpu = parse_gpus(data["gpu"], f"run {name}") if data.get("gpu") is not None else None
+        spec = cls(name, data.get("backend", "compute"), scene_options, gpu)
         if not isinstance(spec.name, str) or not NAME_PATTERN.fullmatch(spec.name):
             raise RunnerError(f"Batch: invalid run name {spec.name!r} (letters, digits, '_' and '-')")
         if spec.backend not in OPTIONS_FILES:
@@ -158,7 +171,7 @@ class BatchConfig:
             self.program = args.program
         if args.test:
             self.tests = list(args.test)
-        if args.gpu:
+        if args.gpu:  # does not replace the 'gpu' of a run, which names the GPU that run needs
             self.gpus = list(args.gpu)
         if args.timeout != defaults.get_default("timeout"):
             self.timeout = args.timeout if args.timeout and args.timeout > 0 else None
@@ -172,6 +185,9 @@ class BatchConfig:
         data = dataclasses.asdict(self)
         if self.reference is None:
             del data["reference"]
+        for step in data["runs"] + ([data["reference"]] if self.reference else []):
+            if step["gpu"] is None:
+                del step["gpu"]
         return data
 
     def save(self, path: Path) -> None:
@@ -181,13 +197,16 @@ class BatchConfig:
         """Render steps in order: the references (if any), then the runs."""
         return ([self.reference] if self.reference else []) + self.runs
 
+    def step_gpus(self, step: RunSpec) -> list[str]:
+        return list(step.gpu) if step.gpu else list(self.gpus)
+
     def parameters(self, base: ExecutionParameters, step: RunSpec, batch_folder: Path) -> ExecutionParameters:
         is_reference = self.reference is not None and step.name == self.reference.name
         return dataclasses.replace(
             base,
             program=self.program,
             tests=[resolve_path(t) for t in self.tests],
-            gpus=list(self.gpus),
+            gpus=self.step_gpus(step),
             reference=is_reference,
             use_rt=step.backend == "rt",
             scene_options=step.scene_options,
