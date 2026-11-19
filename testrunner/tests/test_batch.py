@@ -162,6 +162,8 @@ def test_batch_resume_skips_done_and_interrupted_tests(batch, monkeypatch):
         ({"runs": [{"name": "reference"}]}, "unique"),
         ({"runs": [{"name": "x", "backend": "optix"}]}, "backend"),
         ({"runs": [{"name": "x", "scene_options": "yes"}]}, "scene_options"),
+        ({"runs": [{"name": "x", "gpu": "first"}]}, "gpu"),
+        ({"runs": [{"name": "x", "gpu": []}]}, "gpu"),
         ({"pairs": [{"baseline": "rt", "result": "nope"}]}, "pair"),
         ({"program": "maya"}, "program"),
     ],
@@ -185,3 +187,29 @@ def test_batch_command_line_overrides():
 def test_batch_run_scene_options_default_and_deprecated_key():
     assert RunSpec.from_dict({"name": "rt"}).scene_options is True
     assert RunSpec.from_dict({"name": "rt", "override_features": False}).scene_options is False
+
+
+def test_batch_gpu_per_step(batch, tmp_path):
+    """A step's 'gpu' wins over --gpu, which wins over the batch's 'gpus'; it survives the save for --resume."""
+    _, base, folder = batch
+    data = {
+        **CONFIG,
+        "gpus": ["2"],
+        "reference": {"backend": "compute", "gpu": 3},
+        "runs": [
+            {"name": "hart", "backend": "rt", "gpu": 1},
+            {"name": "optix", "backend": "rt", "gpu": [0, 1]},
+            {"name": "compute"},
+        ],
+    }
+    config = BatchConfig.from_dict(data, "x")
+
+    def gpus(c):
+        return {s.name: c.parameters(base, s, folder).gpus for s in c.steps()}
+
+    assert gpus(config) == {"reference": ["3"], "hart": ["1"], "optix": ["0", "1"], "compute": ["2"]}
+    config.apply_cli(parse_arguments(["--batch", "b.json", "--gpu", "5"]))
+    assert gpus(config) == {"reference": ["3"], "hart": ["1"], "optix": ["0", "1"], "compute": ["5"]}
+    config.save(tmp_path / "saved.json")
+    assert gpus(BatchConfig.load(tmp_path / "saved.json")) == gpus(config)
+    assert "gpu" not in json.loads((tmp_path / "saved.json").read_text())["runs"][2]

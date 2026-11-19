@@ -256,8 +256,8 @@ and selected runs with each other, and writes one summary report. It is describe
 | Key | Meaning |
 |---|---|
 | `program`, `tests`, `gpus`, `timeout`, `threshold`, `min_ssim` | as the command line options; `--program`, `--test`, `--gpu`, `--timeout`, `--threshold`, `--min-ssim` given on the command line override them |
-| `reference` | optional: regenerate `references/<program>` first, with this `backend` (per-scene render options are never applied to references). Without it the runs are compared with the existing references |
-| `runs` | the test runs: `name` (folder name), `backend` (`compute`/`rt`), `scene_options` (default `true`: also render the [render option variants](#per-scene-render-options); `false` = plain tests only, like `--no-scene-options`) |
+| `reference` | optional: regenerate `references/<program>` first, with this `backend` (per-scene render options are never applied to references) and optionally `gpu`. Without it the runs are compared with the existing references |
+| `runs` | the test runs: `name` (folder name), `backend` (`compute`/`rt`), `scene_options` (default `true`: also render the [render option variants](#per-scene-render-options); `false` = plain tests only, like `--no-scene-options`), `gpu` (optional, see below) |
 | `pairs` | optional: also compare run `result` with run `baseline` (images and times, speedup > 1 = `result` is faster) |
 | `slowdown` | a test whose speedup is below this value is reported as slower (default 0.9) |
 | `name`, `description` | optional: batch name (default: file name) and a description for the report |
@@ -266,6 +266,24 @@ and selected runs with each other, and writes one summary report. It is describe
 uv run run_tests.py --batch batches/production.json --gpu 1
 uv run run_tests.py --resume results/batch_2026-11-12_184215_production
 ```
+
+The reference and each run can render on their own GPU with `gpu`: an index as `redshiftCmdLine -listdevices`
+prints it, or a list (`[0, 1]`) for several GPUs. A step without `gpu` uses `--gpu`, else the batch's `gpus`, else 0;
+`--gpu` does not replace a `gpu` set in the file. This compares two GPUs of one machine in one batch, e.g. HART on the
+AMD card against OptiX on the NVIDIA card:
+
+```json
+    "reference": {"backend": "compute", "gpu": 0},
+    "runs": [
+        {"name": "HART_X64", "backend": "rt", "gpu": 1},
+        {"name": "OPTIX", "backend": "rt", "gpu": 0}
+    ],
+    "pairs": [
+        {"baseline": "OPTIX", "result": "HART_X64"}
+    ]
+```
+
+The report lists the GPU of every step, and a pair whose runs used different GPUs names them in its column.
 
 Everything goes to `results/batch_<date>_<name>/`: `batch.json` (the batch as run), `state.json` (progress),
 one folder per run (a normal results folder with its `analysis/`) and `summary/`:
